@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import activate_view_middleware from './middlewares/view.mdw.js';
 import activate_route_middleware from './middlewares/routes.mdw.js'
+import asyncErrors from 'express-async-errors'
 //expressjs declare
 const app = express()
 const port = 3000
