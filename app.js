@@ -5,11 +5,13 @@ import activate_route_middleware from './middlewares/routes.mdw.js'
 //expressjs declare
 const app = express()
 const port = 3000
+app.use('/public',express.static('public'))
 //morgan
 app.use(morgan('dev'));
 //middleware declare for post method
 app.use(express.urlencoded({extended:true}));
 //view
+app.use('/public',express.static('public'))
 activate_view_middleware(app);
 //routes
 activate_route_middleware(app);

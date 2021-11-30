@@ -6,6 +6,6 @@ const __dirname=dirname(fileURLToPath(import.meta.url))
 //routes
 export default function(app) {
     app.get('/', (req, res) => {
-        res.render('home')
+        res.render('Guest/home')
     })
 }

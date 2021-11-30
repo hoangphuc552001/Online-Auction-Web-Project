@@ -4,7 +4,7 @@ import numeral from "numeral";
 
 export default function (app) {
     app.engine('hbs', engine(
-        {defaultLayout:'main.hbs',
+        {defaultLayout:'layout.hbs',
             helpers:{
                 format_number(val){
                     return numeral(val).format('0,0');}
