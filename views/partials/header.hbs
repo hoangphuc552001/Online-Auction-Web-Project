@@ -1,0 +1,128 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+    <div class="d-flex flex-grow-1">
+        <a class="navbar-brand" href="/"><i class="fa fa-legal"></i> Online Auction</a>
+    </div>
+
+    <button class="navbar-toggler order-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse collapse flex-shrink-1 flex-grow-0 order-0" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <li class="nav-item" role="presentation"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item" role="presentation">
+                <div class="dropdown">
+                    <a class="btn btn-primary dropdown-toggle bg-transparent border-0" style="margin-top: 2px;"
+                        role="button" id="dropdownCategory" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">Category</a>
+                    <ul class="dropdown-menu mt-2" role="menu" aria-labelledby="dropdownCategory">
+                        {{#each categories}}
+                        {{#unless parent}}
+                        <li class="dropdown-item dropdown-submenu">
+                            <a href="/search/category/{{id}}">{{name}}</a>
+                            <ul class="dropdown-menu">
+                                {{#each ../categories}}
+                                {{#if (equal ../id parent)}}
+                                <li class="dropdown-item"><a href="/search/category/{{id}}">{{name}}</a></li>
+                                {{/if}}
+                                {{/each}}
+                            </ul>
+                        </li>
+                        {{/unless}}
+                        {{/each}}
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <form class="mr-2 my-auto w-100 d-inline-block order-1" onsubmit="return Search()" id="searchform" method="POST">
+        <div class="input-group">
+            <input type="text" class="form-control border border-right-0" placeholder="Search..." id="search">
+            <span class="input-group-append">
+                <button class="btn btn-outline-light border border-left-0" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+
+    <div class="btn-group-toggle navbar-collapse collapse flex-shrink-1 flex-grow-0 order-2"
+        id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"
+                    type="button"><i class="fas fa-user"></i></button>
+                <div class="dropdown-menu dropdown-menu-right" role="menu">
+
+                    {{#if session.authenticated}}
+                    {{#if (equal session.user.privilege "admin")}}
+                    <a class="dropdown-item" role="presentation" href="/account/admin">My Profile</a>
+                    <a class="dropdown-item" role="presentation" href="/">Homepage</a>
+                    <a class="dropdown-item" role="presentation" href="/logout">Sign out</a>
+                    {{else}}
+
+                    {{#if (equal session.user.privilege "bidder")}}
+
+                    <a class="dropdown-item" role="presentation" href="/account/profile">My Profile</a>
+                    <a class="dropdown-item" role="presentation" data-toggle="modal"
+                        data-target="#upgrade-modal">Upgrade
+                        to Seller</a>
+                    <div class="modal fade" id="upgrade-modal" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form class="form-horizontal">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Upgrade</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="upgrade_form" action="/account/upgrade" method="POST">
+                                            <p>Upgrade to Seller for 7 days?</p>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-secondary" data-dismiss="modal" readonly
+                                            value="upgrade">Cancel</button>
+                                        <button type="button" class="btn btn-primary">Upgrade</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                    <a class="dropdown-item" role="presentation" href="/logout">Sign out</a>
+                    {{else}}
+
+                    {{#if (equal session.user.privilege "seller")}}
+                    <a class="dropdown-item" role="presentation" href="/account/seller">My Profile</a>
+                    <a class="dropdown-item" role="presentation" href="/logout">Sign out</a>
+                    {{else}}
+
+                    <a class="dropdown-item" role="presentation" href="/logout">Sign out</a>
+                    {{/if}}
+                    {{/if}}
+                    {{/if}}
+                    {{else}}
+                    <a class="dropdown-item" role="presentation" href="/login">Sign in</a>
+                    {{/if}}
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<script>
+    function Search() {
+        var input = document.getElementById('search').value;
+        if (input) {
+            var url = '/search/product/' + input;
+            document.getElementById("searchform").setAttribute("action", url);
+            return true;
+        }
+        return false;
+    }
+</script>
