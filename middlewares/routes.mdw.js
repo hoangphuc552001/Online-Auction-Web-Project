@@ -8,12 +8,14 @@ import userModel from "../models/usermodel.js";
 //routes
 export default function(app) {
     app.get('/', async function (req, res)  {
-        const list=await productmodel.findTop5ProHighest();
-        const test=await productmodel.find();
-        console.log(new Date(test[0].end).getTime());
+        const highestprice=await productmodel.findTop5ProHighest();
+        const mostbids=await productmodel.findTop5ProMostBids();
+        const instance=await productmodel.findTop5ProInstance();
        res.render('index',{
-           products:list,
-           empty:list.length===0,
+           highestprice,
+           mostbids,
+           instance,
+           empty:mostbids.length===0 || highestprice.length===0 ,
        });
     })
 
