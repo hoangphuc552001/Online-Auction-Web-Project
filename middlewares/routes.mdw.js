@@ -37,11 +37,7 @@ export default function(app) {
         });
     });
     app.use('/user',userRoute);
-=======
-
     app.use('/',userRoute);
->>>>>>> 39b70c0a3dc74a9a231ec8fb3efbb8f89c56bce8
-
     app.use(function (req,res)
     {
         res.render('Error/404',{layout:false})
