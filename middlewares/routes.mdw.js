@@ -19,7 +19,7 @@ export default function(app) {
        });
     })
 
-    app.use('/user',userRoute);
+    app.use('/',userRoute);
 
 
     app.use(function (req,res)
