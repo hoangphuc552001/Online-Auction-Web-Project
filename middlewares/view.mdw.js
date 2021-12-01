@@ -7,7 +7,7 @@ export default function (app) {
         {defaultLayout:'layout.hbs',
             helpers:{
                 format_number(val){
-                    return numeral(val).format('0,0');}
+                    return numeral(val).format('0,0')+" đ";}
             }}
     ));
     app.set('view engine', 'hbs');

@@ -1,111 +1,108 @@
-<main>
-    <div class="row bg-white w-100 m-0">
-        <div style="width:175px;" class="border-right border-dark shadow-sm">
-            <ul>
-                {{#each categories}}
-                {{#unless parent}}
-                <li class="dropdown-item dropdown-submenu">
-                    <a href="/search/category/{{id}}">{{name}}</a>
-                    <ul class="dropdown-menu">
-                        {{#each ../categories}}
-                        {{#if (equal ../id parent)}}
-                        <li class="dropdown-item"><a href="/search/category/{{id}}">{{name}}</a></li>
-                        {{/if}}
-                        {{/each}}
+<!-- Page Content -->
+<div class="page-heading products-heading header-text">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-content">
+                    <h4>new arrivals</h4>
+                    <h2>Best Offer</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="products">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="filters">
+                    <ul>
+                        <li class="active" data-filter=".des">Highest Price</li>
+                        <li data-filter=".dev">Most Bid</li>
+                        <li data-filter=".gra">Last Minute</li>
                     </ul>
-                </li>
-                {{/unless}}
+                </div>
+            </div>
+            {{#if this.empty}}
+                <h5 class="card-title">Empty data</h5>
+                <p class="card-text">With support text below as a natural lead-in
+                    to additional content</p>
+            {{else}}
+                {{#each this.products}}
+                    <div class="col-sm-4 mb-3">
+                        <div class="card h-100">
+                            <img src="{{image}}" title="{{name}}" width="250px" height="250px">
+                            <div class="card-body">
+                                <h4 class="card-title">{{name}}</h4>
+                                <h5 class="card-title text-danger">Current Price: {{format_number current}}</h5>
+                                <p class="card-text">Bidder: {{info}}</p>
+                                <p class="card-text">Date Post: {{start}}</p>
+                                <script>
+                                    // Set the date we're counting down to
+                                    var countDownDate = new Date("Jan 5, 2022 15:37:25").getTime();// Update the count down every 1 second
+                                    var x = setInterval(function () {
+
+                                        // Get today's date and time
+                                        var now = new Date().getTime();
+
+                                        // Find the distance between now and the count down date
+                                        var distance = countDownDate - now;
+
+                                        // Time calculations for days, hours, minutes and seconds
+                                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                                        // Display the result in the element with id="demo"
+                                        document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+                                                + minutes + "m " + seconds + "s";
+
+                                        // If the count down is finished, write some text
+                                        if (distance < 0) {
+                                            clearInterval(x);
+                                            document.getElementById("demo").innerHTML = "EXPIRED";
+                                        }
+                                    }, 1000);
+                                </script>
+                                <p class="card-text">Time Remaining: <span style="font-weight: bold;font-size: 20px" id="demo"></span> </p>
+                                <p class="card-text">Bids: </p>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <a class="btn btn-sm btn-outline-primary"
+                                   href="#" role="button">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 {{/each}}
-            </ul>
-        </div>
-
-        <div style="width: calc(100% - 200px);text-shadow: 2px 3px darkolivegreen; color:slategray;display: flex;">
-            <h1 style="margin: auto;text-align: center;">WELCOME TO ONLINE AUCTION</h1>
+            {{/if}}
         </div>
     </div>
+</div>
+</div>
+<!-- Bootstrap core JavaScript -->
+<script src="/public/vendor/jquery/jquery.min.js"></script>
+<script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <br>
+<!-- Additional Scripts -->
+<script src="/public/assets_layout/js/custom.js"></script>
+<script src="/public/assets_layout/js/owl.js"></script>
+<script src="/public/assets_layout/js/slick.js"></script>
+<script src="/public/assets_layout/js/isotope.js"></script>
+<script src="/public/assets_layout/js/accordions.js"></script>
 
-    <div class="container-xl m-auto bg-white">
-        <h4 class="m-0 font-italic">Almost Finished</h4>
-        <hr class="m-0">
-        <div class="row justify-content-center">
-            {{#each this.end}}
-            <div class="col-4 col-sm-3 col-lg-2 product">
-                <a href="/detail/{{id}}">
-                    <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
-                    <h5 class="text-center">{{name}} {{{new start}}}{{#unless (equal status "bidding")}} <b>({{status}})</b> {{/unless}}</i></h5>
-                    <p class="text-center m-0">{{{masked info}}}</p>
-                    <div class="clearfix">
-                        <p class="float-left m-0">{{cap}}$</p>
-                        <p class="float-right m-0">{{bids}} Bids</p>
-                    </div>
-                    <div class="clearfix">
-                        <p class="float-left m-0">{{{time start}}}</p>
-                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
-                    </div>
-                    <p class="text-center text-info font-weight-bold">{{current}}$</p>
-                </a>
-            </div>
-            {{/each}}
-        </div>
-    </div>
-
-    <br>
-
-    <div class="container-xl m-auto bg-white">
-        <h4 class="m-0 font-italic">Most Bids</h4>
-        <hr class="m-0">
-        <div class="row justify-content-center">
-            {{#each this.bids}}
-            <div class="col-4 col-sm-3 col-lg-2 product">
-                <a href="/detail/{{id}}">
-                    <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
-                    <h5 class="text-center">{{name}} {{{new start}}} {{#unless (equal status "bidding")}} <b>({{status}})</b> {{/unless}}</h5>
-                    {{#if info }}
-                        <p class="text-center m-0">{{{masked info}}}</p>
-                    {{else}}
-                        <p class="text-center m-0">&nbsp; &nbsp;</p>
-                    {{/if}}                   
-                    <div class="clearfix">
-                        <p class="float-left m-0">{{cap}}$</p>
-                        <p class="float-right m-0">{{bids}} Bids</p>
-                    </div>
-                    <div class="clearfix">
-                        <p class="float-left m-0">{{{time start}}}</p>
-                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
-                    </div>
-                    <p class="text-center text-info font-weight-bold">{{current}}$</p>
-                </a>
-            </div>
-            {{/each}}
-        </div>
-    </div>
-
-    <br>
-
-    <div class="container-xl m-auto bg-white">
-        <h4 class="m-0 font-italic">Highest Price</h4>
-        <hr class="m-0">
-        <div class="row justify-content-center">
-            {{#each this.price}}
-            <div class="col-4 col-sm-3 col-lg-2 product">
-                <a href="/detail//{{id}}">
-                    <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
-                    <h5 class="text-center">{{name}} {{{new start}}} {{#unless (equal status "bidding")}} <b>({{status}})</b> {{/unless}}</h5>
-                    <p class="text-center m-0">{{{masked info}}}</p>
-                    <div class="clearfix">
-                        <p class="float-left m-0">{{cap}}$</p>
-                        <p class="float-right m-0">{{bids}} Bids</p>
-                    </div>
-                    <div class="clearfix">
-                        <p class="float-left m-0">{{{time start}}}</p>
-                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
-                    </div>
-                    <p class="text-center text-info font-weight-bold">{{current}}$</p>
-                </a>
-            </div>
-            {{/each}}
-        </div>
-    </div>
-</main>
+<script language="text/Javascript">
+    cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+    function clearField(t) {
+        //declaring the array outside of the
+        if (!cleared[t.id]) {
+            // function makes it static and global
+            cleared[t.id] = 1; // you could use true and false, but that's more typing
+            t.value = ""; // with more chance of typos
+            t.style.color = "#fff";
+        }
+    }
+</script>

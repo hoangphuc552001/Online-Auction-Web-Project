@@ -6,5 +6,8 @@ export default {
     },
     async check(email){
         return db('user').where('email',email);
+    },
+    findCatById(catID) {
+        return db('product').where('category',catID);
     }
 }
