@@ -9,7 +9,7 @@ export default function(app) {
         res.render('index')
     })
 
-    app.use('/user',userRoute);
+    app.use('/',userRoute);
 
 
     app.use(function (req,res)
