@@ -6,8 +6,8 @@ import bcrypt from 'bcryptjs';
 import mailgun from "mailgun-js" ;
 
 
-mailgun({ apiKey: '30230c892f3d670b5957c523c7fb037f-7b8c9ba8-fcf28394',
-                domain: 'sandbox2346e4faa4df430a8cb353490a16fde3.mailgun.org' +
+mailgun({ apiKey: '',
+                domain: '' +
                 '' });
 
 
