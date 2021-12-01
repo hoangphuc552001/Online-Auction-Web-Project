@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/hoangphuc552001/Online-Auction-Project#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "mailgun": "^0.5.0"
   },
   "devDependencies": {
     "express-async-errors": "^3.1.1",
