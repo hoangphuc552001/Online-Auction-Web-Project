@@ -1,0 +1,8 @@
+{
+  "pagination": {
+    "limit": 24
+  },
+  "authentication": {
+    "saltRounds": 10
+  }
+}
