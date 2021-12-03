@@ -21,8 +21,8 @@ export default{
     findTop5ProInstance(){
         return db('product').limit(5).offset(0).orderBy('cap','DESC');
     },
-        async find(){
-            const ob= await db('product').where('id',1);
-            return ob;
-        }
+    async find(){
+        const ob= await db('product').where('id',1);
+        return ob;
+    }
 };
