@@ -75,30 +75,30 @@
                         </div>
                     </div>
                 {{/each}}
-                <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-end">
-                          <li class="page-item {{#unless can_go_prev}} disable {{/unless}}">
-                            <a class="page-link" href="?page={{prev_val}}">Previous</a>
-                          </li>
-                          {{#each this.pageNumbers}}
-                            {{#if isCurrent}}
-                              <li class="page-item active">
-                                <a class="page-link" href="javascript:;">{{value}}</a>
-                              </li>
-                            {{else}}
-                              <li class="page-item">
-                                <a class="page-link" href="?page={{value}}">{{value}}</a>
-                              </li>
-                            {{/if}}
-                          {{/each}}
-                          <li class="page-item {{#unless can_go_next}} disable {{/unless}}">
-                            <a class="page-link" href="?page={{next_val}}">Next</a>
-                          </li>
-                        </ul>
-                      </nav>
             {{/if}}
         </div>
     </div>
+                    <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                              <li class="page-item {{#unless can_go_prev}} disabled {{/unless}}">
+                                <a class="page-link" href="?page={{prev_val}}">Previous</a>
+                              </li>
+                              {{#each this.pageNumbers}}
+                                {{#if isCurrent}}
+                                  <li class="page-item active">
+                                    <a class="page-link" href="javascript:;">{{value}}</a>
+                                  </li>
+                                {{else}}
+                                  <li class="page-item">
+                                    <a class="page-link" href="?page={{value}}">{{value}}</a>
+                                  </li>
+                                {{/if}}
+                              {{/each}}
+                              <li class="page-item {{#unless can_go_next}} disabled {{/unless}}">
+                                <a class="page-link" href="?page={{next_val}}">Next</a>
+                              </li>
+                            </ul>
+                          </nav>
 </div>
 </div>
 <!-- Bootstrap core JavaScript -->
