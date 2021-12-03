@@ -1,7 +1,7 @@
 //template engine
 import { engine } from "express-handlebars";
 import numeral from "numeral";
-
+import moment from "moment";
 export default function (app) {
   app.engine(
     "hbs",
