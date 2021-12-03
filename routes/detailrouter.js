@@ -1,7 +1,4 @@
 
-
-
-
 import express from "express";
 import moment from "moment";
 import productmodel from "../models/productmodel.js";

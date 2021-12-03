@@ -1,10 +1,11 @@
 import db from '../utils/db.js'
-export default{
+
+export default {
     findCatById(catID) {
-        return db('product').where('category',catID);
+        return db('product').where('category', catID);
     },
-    findTop5ProHighest(){
-        return db('product').limit(5).offset(0).orderBy('current','DESC');
+    findTop5ProHighest() {
+        return db('product').limit(5).offset(0).orderBy('current', 'DESC');
     },
     findAll() {
         return db('product');
@@ -15,27 +16,27 @@ export default{
     findLaptop() {
         return db('product').where('category', 2);
     },
-    findTop5ProMostBids(){
-        return db('product').limit(5).offset(0).orderBy('bids','DESC');
+    findTop5ProMostBids() {
+        return db('product').limit(5).offset(0).orderBy('bids', 'DESC');
     },
-    findTop5ProInstance(){
-        return db('product').limit(5).offset(0).orderBy('end','ASC');
+    findTop5ProInstance() {
+        return db('product').limit(5).offset(0).orderBy('end', 'ASC');
     },
-    async find(){
-            const ob= await db('product').where('id',1);
-            return ob;
-        },
-    detail(id){
-        const list = db('product').where('id',id);
+    async find() {
+        const ob = await db('product').where('id', 1);
+        return ob;
+    },
+    detail(id) {
+        const list = db('product').where('id', id);
         return list;
     },
-        related(category) {
-        return db('product').limit(5).where('category',category).offset(0).orderBy('start','DESC');
+    related(category) {
+        return db('product').limit(5).where('category', category).offset(0).orderBy('start', 'DESC');
 
     },
-    product(product){
-        return db('image').where('product',product);
-        const ob= await db('product').where('id',1);
+    async product(product) {
+        return db('image').where('product', product);
+        const ob = await db('product').where('id', 1);
         return ob;
     }
 };

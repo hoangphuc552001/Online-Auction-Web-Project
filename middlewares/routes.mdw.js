@@ -5,6 +5,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 import userRoute from "../routes/indexrouter.js";
 import userModel from "../models/usermodel.js";
 import router from "../routes/indexrouter.js";
+import accountrouter from "../routes/accountrouter.js";
+import detailrouter from "../routes/detailrouter.js";
 //routes
 export default function (app) {
   app.get("/", async function (req, res) {
@@ -39,8 +41,8 @@ export default function (app) {
   app.use("/user", userRoute);
   app.use("/", userRoute);
 
-  app.use("/account", accountRoute);
-  app.use("/detail", detailRoute);
+  app.use("/account", accountrouter);
+  app.use("/detail", detailrouter);
   app.use(function (req, res) {
     res.render("Error/404", { layout: false });
   });
