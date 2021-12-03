@@ -28,10 +28,10 @@ export default {
 
     },
     async update(entity ) {
-        console.log(entity);
+
         const id = entity.id;
         delete entity.id;
-        console.log(entity);
+
         return db('user')
             .where('id', id)
             .update(entity);

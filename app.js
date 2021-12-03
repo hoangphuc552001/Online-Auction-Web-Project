@@ -13,6 +13,8 @@ app.use(morgan('dev'));
 //middleware declare for post method
 app.use(express.urlencoded({extended:true}));
 //view
+
+
 app.use('/public',express.static('public'))
 activate_session_middleware(app);
 activate_view_middleware(app);

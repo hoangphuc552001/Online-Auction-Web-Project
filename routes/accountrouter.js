@@ -70,7 +70,7 @@ router.get('/active/:id', async function (req, res) {
     var user = await usermodel.id(req.params.id);
 
 
-    console.log(user)
+
     if (!user || user.privilege != null){
         console.log('some thing wrong ')
         return res.redirect("Error/404");

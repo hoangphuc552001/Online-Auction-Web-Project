@@ -6,6 +6,7 @@ const __dirname=dirname(fileURLToPath(import.meta.url))
 import userRoute from '../routes/indexrouter.js'
 import usermodel from "../models/usermodel.js";
 import accountRoute from "../routes/accountrouter.js";
+import detailRoute from "../routes/detailrouter.js";
 
 //routes
 export default function(app) {
@@ -22,6 +23,7 @@ export default function(app) {
     app.use('/',userRoute);
 
     app.use('/account',accountRoute)
+    app.use('/detail',detailRoute)
     app.use(function (req,res)
     {
         res.render('Error/404',{layout:false})

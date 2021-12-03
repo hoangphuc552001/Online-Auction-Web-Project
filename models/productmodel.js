@@ -21,8 +21,19 @@ export default{
     findTop5ProInstance(){
         return db('product').limit(5).offset(0).orderBy('cap','DESC');
     },
-        async find(){
+    async find(){
             const ob= await db('product').where('id',1);
             return ob;
-        }
+        },
+    detail(id){
+        const list = db('product').where('id',id);
+        return list;
+    },
+        related(category) {
+        return db('product').limit(5).where('category',category).offset(0).orderBy('start','DESC');
+
+    },
+    product(product){
+        return db('image').where('product',product);
+    }
 };
