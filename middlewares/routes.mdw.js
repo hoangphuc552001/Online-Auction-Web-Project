@@ -40,11 +40,15 @@ export default function (app) {
       });
     }
     const list_p= await productmodel.findPageById(1, limit, offset);
-
+    console.log(parseInt(page)+1);
     res.render("productType/mobilephone", {
       products: list_p,
       empty: list_p.length === 0,
-      pageNumbers
+      pageNumbers,
+      prev_val: parseInt(page) - 1,
+      next_val: parseInt(page) + 1,
+      can_go_prev: parseInt(page) > 1,
+      can_go_next: parseInt(page)<nPages,
     });
   });
   app.get("/product/laptop", async function (req, res) {
@@ -67,7 +71,11 @@ export default function (app) {
     res.render("productType/laptop", {
       products: list_p,
       empty: list_p.length === 0,
-      pageNumbers
+      pageNumbers,
+      prev_val: parseInt(page) - 1,
+      next_val: parseInt(page) + 1,
+      can_go_prev: parseInt(page) > 1,
+      can_go_next: parseInt(page)<nPages,
     });
 
   });

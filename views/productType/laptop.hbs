@@ -77,8 +77,8 @@
                 {{/each}}
                 <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-end">
-                          <li class="page-item">
-                            <a class="page-link" href="#">Previous</a>
+                          <li class="page-item {{#unless can_go_prev}} disable {{/unless}}">
+                            <a class="page-link" href="?page={{prev_val}}">Previous</a>
                           </li>
                           {{#each this.pageNumbers}}
                             {{#if isCurrent}}
@@ -91,8 +91,8 @@
                               </li>
                             {{/if}}
                           {{/each}}
-                          <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
+                          <li class="page-item {{#unless can_go_next}} disable {{/unless}}">
+                            <a class="page-link" href="?page={{next_val}}">Next</a>
                           </li>
                         </ul>
                       </nav>
