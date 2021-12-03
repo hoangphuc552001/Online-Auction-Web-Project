@@ -4,17 +4,18 @@ export default {
     findCatById(catID) {
         return db('product').where('category', catID);
     },
+    async countCatById(catID) {
+        const list =await  db('product').where('category', catID).count({amount: 'id'});
+        return list[0].amount;
+    },
+    findPageById(catID, limit, offset) {
+        return db('product').where('category', catID).limit(limit).offset(offset);
+    },
     findTop5ProHighest() {
         return db('product').limit(5).offset(0).orderBy('current', 'DESC');
     },
     findAll() {
         return db('product');
-    },
-    findMobile() {
-        return db('product').where('category', 1);
-    },
-    findLaptop() {
-        return db('product').where('category', 2);
     },
     findTop5ProMostBids() {
         return db('product').limit(5).offset(0).orderBy('bids', 'DESC');

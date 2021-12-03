@@ -25,18 +25,51 @@ export default function (app) {
   });
 
   app.get("/product/mobilephone", async function (req, res) {
-    const list_1 = await productmodel.findMobile();
+    const page = req.query.page || 1;
+    const limit = 6;
+    const offset = (page -1) * limit;
+    const total = await productmodel.countCatById(1);
+    let nPages = Math.floor(total / limit);
+    if (total % limit > 0) nPages++;
+
+    const pageNumbers = [];
+    for (let i = 1; i <= nPages; i++) {
+      pageNumbers.push({
+        value: i,
+        isCurrent: +page === i
+      });
+    }
+    const list_p= await productmodel.findPageById(1, limit, offset);
+
     res.render("productType/mobilephone", {
-      products: list_1,
-      empty: list_1.length === 0,
+      products: list_p,
+      empty: list_p.length === 0,
+      pageNumbers
     });
   });
   app.get("/product/laptop", async function (req, res) {
-    const list_2 = await productmodel.findLaptop();
+    const page = req.query.page || 1;
+    const limit = 6;
+    const offset = (page -1) * limit;
+    const total = await productmodel.countCatById(2);
+    let nPages = Math.floor(total / limit);
+    if (total % limit > 0) nPages++;
+
+    const pageNumbers = [];
+    for (let i = 1; i <= nPages; i++) {
+      pageNumbers.push({
+        value: i,
+        isCurrent: +page === i
+      });
+    }
+    const list_p= await productmodel.findPageById(2, limit, offset);
+
     res.render("productType/laptop", {
-      products: list_2,
-      empty: list_2.length === 0,
+      products: list_p,
+      empty: list_p.length === 0,
+      pageNumbers
     });
+
   });
   app.use("/user", userRoute);
   app.use("/", userRoute);

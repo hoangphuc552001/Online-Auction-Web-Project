@@ -20,7 +20,7 @@
                     to additional content</p>
             {{else}}
                 {{#each this.products}}
-                    <div class="col-sm-4 mb-3">
+                    <div class="col-sm-4 mb-3 des popular">
                         <div class="card h-100">
                             <img src="{{image}}" title="{{name}}" width="250px" height="250px">
                             <div class="card-body">
@@ -28,9 +28,13 @@
                                 <h5 class="card-title text-danger">Current Price: {{format_number current}}</h5>
                                 <p class="card-text">Bidder: {{info}}</p>
                                 <p class="card-text">Date Post: {{start}}</p>
+                                <p class="card-text">Time Remaining: <span style="font-weight: bold;font-size: 20px"
+                                                                           id={{id}}></span></p>
                                 <script>
                                     // Set the date we're counting down to
-                                    var countDownDate = new Date("Jan 5, 2022 15:37:25").getTime();// Update the count down every 1 second
+                                    var countDownDate = new Date("{{end}}").getTime();
+
+                                    // Update the count down every 1 second
                                     var x = setInterval(function () {
 
                                         // Get today's date and time
@@ -46,18 +50,20 @@
                                         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
                                         // Display the result in the element with id="demo"
-                                        document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-                                                + minutes + "m " + seconds + "s";
+                                        document.getElementById({{id}}).innerHTML = days + "d " + hours + "h "
+                                                + minutes + "m " + seconds + "s ";
 
                                         // If the count down is finished, write some text
                                         if (distance < 0) {
                                             clearInterval(x);
-                                            document.getElementById("demo").innerHTML = "EXPIRED";
+                                            document.getElementById({{id}}).innerHTML = "EXPIRED";
                                         }
                                     }, 1000);
                                 </script>
-                                <p class="card-text">Time Remaining: <span style="font-weight: bold;font-size: 20px" id="demo"></span> </p>
-                                <p class="card-text">Bids: </p>
+                                <p class="card-text">Bids: {{bids}}</p>
+                                {{#if cap}}
+                                    <p class="card-text">Buy now:{{format_number cap}}</p>
+                                {{/if}}
                             </div>
                             <div class="card-footer text-muted">
                                 <a class="btn btn-sm btn-outline-primary"
@@ -69,6 +75,27 @@
                         </div>
                     </div>
                 {{/each}}
+                <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-end">
+                          <li class="page-item">
+                            <a class="page-link" href="#">Previous</a>
+                          </li>
+                          {{#each this.pageNumbers}}
+                            {{#if isCurrent}}
+                              <li class="page-item active">
+                                <a class="page-link" href="javascript:;">{{value}}</a>
+                              </li>
+                            {{else}}
+                              <li class="page-item">
+                                <a class="page-link" href="?page={{value}}">{{value}}</a>
+                              </li>
+                            {{/if}}
+                          {{/each}}
+                          <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                          </li>
+                        </ul>
+                      </nav>
             {{/if}}
         </div>
     </div>
