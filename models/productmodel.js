@@ -1,5 +1,5 @@
-import db from '../utils/db.js'
-export default{
+const db= require('../utils/db.js')
+module.exports= {
     findCatById(catID) {
         return db('product').where('category',catID);
     },
@@ -19,7 +19,7 @@ export default{
         return db('product').limit(5).offset(0).orderBy('bids','DESC');
     },
     findTop5ProInstance(){
-        return db('product').limit(5).offset(0).orderBy('cap','DESC');
+        return db('product').limit(5).offset(0).orderBy('end','ASC');
     },
     async find(){
         const ob= await db('product').where('id',1);
