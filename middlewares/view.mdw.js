@@ -3,6 +3,10 @@ import {engine} from "express-handlebars";
 import numeral from "numeral";
 import moment from "moment";
 export default function (app) {
+const {engine} = require('express-handlebars');
+const numeral = require("numeral");
+
+module.exports=function (app) {
     app.engine('hbs', engine(
         {defaultLayout:'layout.hbs',
             helpers:{

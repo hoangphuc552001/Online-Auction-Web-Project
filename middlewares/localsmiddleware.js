@@ -5,10 +5,13 @@ module.exports = function (app) {
         res.locals.session = req.session;
         next();
     })
-
     app.use(async function (req, res, next) {
-        const category = await categorymodel.all();
-        res.locals.categories = category;
+        // const category = await categorymodel.all();
+        // res.locals.categories = category;
+        // next();
+        res.locals.lcCategories = await categorymodel.findAllWithDetails();
         next();
     })
+
 };
+
