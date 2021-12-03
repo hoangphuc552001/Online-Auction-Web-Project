@@ -13,6 +13,8 @@ app.use(morgan('dev'));
 //middleware declare for post method
 app.use(express.urlencoded({extended:true}));
 //view
+
+
 app.use('/public',express.static('public'))
 
 activate_locals_middleware(app)

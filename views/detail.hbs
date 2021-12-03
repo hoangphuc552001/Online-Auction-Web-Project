@@ -1,0 +1,339 @@
+
+<style>
+    .carousel-indicators li,
+    .carousel-indicators li.active {
+        position: relative;
+    }
+
+    .carousel-indicators img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+    .high-light{
+        color: black;
+    }
+    .carousel-indicators li {
+        height: 100%;
+        background-color: transparent;
+        position: absolute;
+    }
+
+    .carousel-indicators {
+        bottom: -25%;
+    }
+
+</style>
+
+
+
+<main>
+    <hr class="m-0">
+
+    <div class="mt-4 mb-2 bg-white container-xl clearfix justify-content-center row mx-auto">
+
+        <div class="col-10 col-md-4 col-sm-8 m-0 p-0">
+            <div id="carousel" class="carousel slide  mr-4" data-ride="carousel">
+
+                <div class="carousel-inner p-0 " onchange="Check()">
+                    {{#each image}}
+                        <div class="carousel-item {{{imageactive @index}}}" onclick="Change()">
+                            <img class="w-100" src="{{image}}" alt="{{image}}">
+                        </div>
+                    {{/each}}
+                </div>
+                <a class="carousel-control-prev  ml-20" href="#carousel" data-slide="prev">
+                    <i class="fa fa-arrow-left high-light  " aria-hidden="true"></i>
+
+                </a>
+                <a class="carousel-control-next mr-20" href="#carousel" data-slide="next">
+                    <i class="fa fa-arrow-right high-light mt-2 " aria-hidden="true"></i>
+
+                </a>
+
+            </div>
+
+            <div style="height: 20vh;">
+
+            </div>
+        </div>
+
+        <div class="col-7 col-md-5 col-sm-7 m-0 ">
+            {{#with product}}
+                <h2 class="m-0 mb-2 " id="name">{{name}} {{{new start}}} {{#unless (equal status "bidding")}} <b>({{status}})</b>
+                {{/unless}}</h2>
+                <p class="m-1">End in: <b class="text-danger">{{remain end}}</b></p>
+                <p class="m-1">Current: <b class="text-info">{{current}}$</b></p>
+                <p class="m-1">Deal: {{cap}}$</p>
+                {{#if (equal ../session.user.id ../seller.id)}}
+                    <p class="m-1" data-toggle="modal" data-target="#bidder-modal">Bidder: {{{masked ../holder.name}}} (<a
+                            class="text-primary">{{../holder.rating}} <i class='fa fa-star text-warning'></i></a>)</p>
+
+                    <div class="modal fade" id="bidder-modal" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form class="form-horizontal" id="announce-form">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title">WNT Online Auction: {{name}} - Bidders</h6>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body py-0">
+                                        <table class="table border my-1">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th>User</th>
+                                                <th>Rating</th>
+                                                <th>Rator</th>
+                                                <th>Comment</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {{#each ../ratinglist}}
+                                                <tr>
+                                                    <td>{{masked username}}</td>
+                                                    <td>{{rating}}</td>
+                                                    <td>{{masked ratorname}}</td>
+                                                    <td>{{comment}}</td>
+                                                </tr>
+                                            {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer py-0">
+                                        <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm</button>
+                                        <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {{else}}
+                    <p class="m-1 d-inline-block">Bidder: {{{masked ../holder.name}}} (<p class="text-primary m-0 d-inline-block">{{../holder.rating}} <i
+                        class='fa fa-star text-warning'></i></p>)</p>
+                {{/if}}
+
+                <p class="m-1">Bids: {{bids}} Times</p>
+                <p class="m-1">Start: {{time start}}</p>
+                {{#if ../session.authenticated}}
+                    <form class="row m-0" method="POST" id="detail">
+                        <div class="custom-control custom-switch col-12">
+                            <input type="checkbox" class="custom-control-input" name="mode" id="mode">
+                            <label class="custom-control-label" for="mode">Automated bid</label>
+                        </div>
+
+                        <input class="col-9 col-md-6" type="text" placeholder="{{{sum current increment}}}$" name="offer" id="offer"
+                            {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}}>
+                        <button class="col-3" style="background-color: lightcyan; border-radius: 15px; width: 50px;"
+                                value="{{{sum current increment}}}" {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}} type="button"
+                                data-toggle="modal" id="minimum" data-target="#announce-modal">Bid</button>
+                        <div class="modal fade" id="announce-modal" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form class="form-horizontal" id="announce-form">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title">WNT Online Auction</h6>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body py-0" id="announce" style="white-space: pre;">
+                                        </div>
+                                        <div class="modal-footer py-0">
+                                            <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm</button>
+                                            <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="error-modal" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form class="form-horizontal">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title">WNT Online Auction</h6>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body py-0">
+                                            <p class="my-0" id="error" style="white-space: pre-line;">{{{ ../announce}}}</p>
+                                        </div>
+                                        <div class="modal-footer py-0">
+                                            <button data-dismiss="modal" class="btn btn-danger btn-sm">Confirm</button>
+                                            <button data-dismiss="modal" class="btn btn-default btn-sm border">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                {{/if}}
+            {{/with}}
+        </div>
+
+        <div class="col-5 col-md-3 col-sm-5 m-0 border-left">
+            <h4 style="margin: 0;">Seller Information</h4>
+            {{#if (equal session.user.id seller.id)}}
+                <p class="m-0">{{masked seller.name}} <p class="text-primary m-0">
+                ({{seller.rating}} <i class='fa fa-star text-warning'></i>)</p>
+                </p>
+            {{else}}
+                <p class="m-0" data-toggle="modal" data-target="#seller-modal">{{masked seller.name}} <a
+                        class="text-primary">({{seller.rating}} <i class='fa fa-star text-warning'></i>)</a></p>
+
+                <div class="modal fade" id="seller-modal" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form class="form-horizontal" id="announce-form">
+                                <div class="modal-header">
+                                    <h6 class="modal-title">WNT Online Auction: {{masked seller.name}}</h6>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body py-0">
+                                    <table class="table border my-1">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Rating</th>
+                                            <th>Comment</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {{#each ratinglist}}
+                                            <tr>
+                                                <td>{{masked ratorname}}</td>
+                                                <td>{{rating}}</td>
+                                                <td>{{comment}}</td>
+                                            </tr>
+                                        {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer py-0">
+                                    <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm</button>
+                                    <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+            <hr style="border: 0.1px solid slategray;border-style:dashed;">
+            <a class="d-block text-primary small">Save This Seller</a>
+            <a class="d-block text-primary small" href="">Contact Seller</a>
+            <a class="d-block text-primary small" href="">Visit Store</a>
+            <a class="d-block text-primary small" href="">See other Items</a>
+            <a class="d-block text-primary small" {{{disable status}}} {{{disable ../session.user.rating}}}
+               data-toggle="modal" data-target="#history-modal">Bid history</a>
+            <div class="modal fade" id="history-modal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form class="form-horizontal" id="announce-form">
+                            <div class="modal-header">
+                                <h6 class="modal-title">WNT Online Auction: {{product.name}}</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body py-0">
+                                <table class="table border my-1">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Offer</th>
+                                        <th>Time</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {{#each history}}
+                                        <tr>
+                                            <td>{{masked name}}</td>
+                                            <td>{{offer}}$</td>
+                                            <td>{{timestamp time}}</td>
+                                        </tr>
+                                    {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer py-0">
+                                <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm</button>
+                                <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="container-xl mx-auto bg-white border py-1" style="border-radius: 25px;">
+        <h3 class="pb-1">Description</h3>
+        {{{product.description}}}
+    </div>
+
+    <div class="container-xl mx-auto bg-white mt-2">
+        <h4 class="m-0 font-italic">Related</h4>
+        <hr class="m-0">
+        <div class="row">
+            {{#each related}}
+                <div class="col-4 col-sm-3 col-lg-2 product">
+                    <a href="/detail/{{id}}">
+                        <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
+                        <h5 class="text-center">{{name}} {{{new start}}} {{#unless (equal status "bidding")}} <b>({{status}})</b>
+                        {{/unless}} </h5>
+                        {{#if info}}
+                            <p class="text-center m-0">{{{masked info}}}</p>
+                        {{else}}
+                            <p class="text-center m-0">&nbsp; &nbsp;</p>
+                        {{/if}}
+
+                        <div class="clearfix">
+                            <p class="float-left m-0">{{cap}}$</p>
+                            <p class="float-right m-0">{{bids}} Bids</p>
+                        </div>
+                        <div class="clearfix">
+                            <p class="float-left m-0">{{{time start}}}</p>
+                            <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                        </div>
+                        <p class="text-center text-info font-weight-bold">{{current}}$</p>
+                    </a>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</main>
+
+<script>
+    if (document.getElementById('error').innerHTML.length != 0)
+        $('#error-modal').modal('show');
+    var minimum = parseFloat(document.getElementById('minimum').value);
+    $('#announce-modal').on('hide.bs.modal show.bs.modal', function (event) {
+        var $activeElement = $(document.activeElement);
+        if ($activeElement.is('[data-toggle], [data-dismiss]')) {
+            var input = parseFloat(document.getElementById('offer').value);
+            if (event.type === 'hide') {
+                if ($activeElement[0].id === "confirm") {
+                    if (input < minimum) {
+                        $('#error').html("Invalid offer!\nOffer: " + input + '$');
+                        $('#error-modal').modal('show');
+                    }
+                    else if (input >= 0) {
+                        document.getElementById('detail').submit();
+                    }
+                }
+            }
+            if (event.type === 'show') {
+                $('#announce').html("Are you sure to continue?\nOffer: " + input + '$');
+            }
+        }
+    });
+</script>

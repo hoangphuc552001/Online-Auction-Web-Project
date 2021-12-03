@@ -22,6 +22,19 @@ export default{
         return db('product').limit(5).offset(0).orderBy('end','ASC');
     },
     async find(){
+            const ob= await db('product').where('id',1);
+            return ob;
+        },
+    detail(id){
+        const list = db('product').where('id',id);
+        return list;
+    },
+        related(category) {
+        return db('product').limit(5).where('category',category).offset(0).orderBy('start','DESC');
+
+    },
+    product(product){
+        return db('image').where('product',product);
         const ob= await db('product').where('id',1);
         return ob;
     }
