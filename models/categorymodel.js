@@ -1,5 +1,6 @@
-const db = require('../utils/db.js')
-module.exports={
+import db from '../utils/db.js'
+
+export default {
     async findAllWithDetails() {
         // const sql = `select c.*, count(p.ProID) as ProductCount
         //              from categories c

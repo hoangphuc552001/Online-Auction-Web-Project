@@ -1,8 +1,8 @@
 //template engine
-const {engine} = require('express-handlebars');
-const numeral = require("numeral");
+import {engine} from "express-handlebars";
+import numeral from "numeral";
 
-module.exports=function (app) {
+export default function (app) {
     app.engine('hbs', engine(
         {defaultLayout:'layout.hbs',
             helpers:{

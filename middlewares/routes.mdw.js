@@ -1,7 +1,13 @@
-const productmodel = require("../models/productmodel.js");
-const userRoute = require('../routes/indexrouter.js');
+
+import {dirname} from "path";
+import {fileURLToPath} from "url";
+import productmodel from "../models/productmodel.js";
+const __dirname=dirname(fileURLToPath(import.meta.url))
+import userRoute from '../routes/indexrouter.js'
+import userModel from "../models/usermodel.js";
+import router from "../routes/indexrouter.js";
 //routes
-module.exports=function(app) {
+export default function(app) {
     app.get('/', async function (req, res)  {
         const highestprice=await productmodel.findTop5ProHighest();
         const mostbids=await productmodel.findTop5ProMostBids();
@@ -38,4 +44,7 @@ module.exports=function(app) {
         console.error(err.stack)
         res.render('Error/500',{layout:false})
     })
+
+
+
 }

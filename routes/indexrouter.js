@@ -1,8 +1,8 @@
-const express =require("express");
+import express from "express";
 const router = express.Router();
-const usermodel = require("../models/usermodel.js");
-const bcrypt =require('bcryptjs');
-const mailgun =require('mailgun');
+import userModel from "../models/usermodel.js";
+import bcrypt from 'bcryptjs';
+import mailgun from 'mailgun';
 router.get('/register',function(req,res){
     res.render('register');
 });
@@ -51,4 +51,4 @@ router.post('/',async function (req,res){
 })
 
 
-module.exports= router;
+export default router;

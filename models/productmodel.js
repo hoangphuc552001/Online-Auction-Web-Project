@@ -1,5 +1,5 @@
-const db= require('../utils/db.js')
-module.exports= {
+import db from '../utils/db.js'
+export default{
     findCatById(catID) {
         return db('product').where('category',catID);
     },

@@ -1,9 +1,9 @@
-const express =require('express');
-const morgan = require('morgan');
-const activate_view_middleware = require('./middlewares/view.mdw.js');
-const activate_route_middleware= require('./middlewares/routes.mdw.js')
-const activate_locals_middleware= require('./middlewares/localsmiddleware.js');
-const asyncErrors = require('express-async-errors')
+import express from 'express';
+import morgan from 'morgan';
+import activate_view_middleware from './middlewares/view.mdw.js';
+import activate_route_middleware from './middlewares/routes.mdw.js'
+import activate_locals_middleware from './middlewares/localsmiddleware.js';
+import asyncErrors from 'express-async-errors'
 //expressjs declare
 const app = express()
 const port = 3000

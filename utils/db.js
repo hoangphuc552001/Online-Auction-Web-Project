@@ -1,4 +1,4 @@
-const fn = require("knex");
+import fn from "knex";
 
 const knex = fn({
     client: 'mysql2',
@@ -11,4 +11,4 @@ const knex = fn({
     },
     pool: { min: 0, max: 10 }
 });
-module.exports= knex;
+export default knex;
