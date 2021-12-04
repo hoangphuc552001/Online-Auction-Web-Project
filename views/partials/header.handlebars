@@ -1055,25 +1055,23 @@
 
                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
-<!--            <li class="nav-item dropdown mr-3">-->
-<!--                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                    Category-->
-<!--                </a>-->
-<!--                <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--                    <a class="dropdown-item" href="#">Mobile Phone</a>-->
-<!--                    <a class="dropdown-item" href="#">Laptop</a>-->
-<!--                </div>-->
-<!--            </li>-->
-            <div class="dropdown nav-item">
-                <a class="nav-link" href="/product/mobilephone" type="button" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">
-                    Category
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="/product" type="button" id="dropdownMenuButton"
+                   aria-haspopup="true" aria-expanded="false">
+                Category
                 </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-                    <a class="dropdown-item" href="/product/mobilephone">Mobile Phone</a>
-                    <a class="dropdown-item" href="/product/laptop">Laptop</a>
-                </div>
-            </div>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="/product">Electronic</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/product/byCat/1">Mobile Phone</a></li>
+                            <li><a class="dropdown-item" href="/product/byCat/2">Laptop</a></li>
+                            <li><a class="dropdown-item" href="/product/byCat/3">Tablet</a></li>
+                            <li><a class="dropdown-item" href="/product/byCat/4">Smart Watch</a></li>
+                            <li><a class="dropdown-item" href="/product/byCat/5">E-Reader</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item mr-3">
                 <a class="nav-link" href="#">About Us</a>
             </li>
@@ -1100,6 +1098,18 @@
         </ul>
     </div>
 </nav>
+<div class="page-heading products-heading header-text">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-content">
+                    <h4>new arrivals</h4>
+                    <h2>Best Offer</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     function Search() {
         var input = document.getElementById('search').value;
