@@ -71,6 +71,7 @@
         <div class="col-sm-9">
             {{{body}}}
             <!--            pagination-->
+<!--            <div style="font-size: 50px">{{searchpro}}</div>-->
             <div class="col-sm-3"></div>
             <div class="col-sm-9">
                 <nav aria-label="Page navigation example">
@@ -88,13 +89,10 @@
                                 </li>
                             {{else}}
                                 <li class="page-item {{#if isDisabled}}disabled{{/if}}"><a class="page-link"
-                                                                                           href="?page={{value}}">
+                                                                                           href="?page={{value}}&name={{searchpro}}">
                                         {{"value"}}</a></li>
                             {{/if}}
                         {{/each}}
-                        <!--                    <li class="page-item"><a class="page-link" href="#">1</a></li>-->
-                        <!--                    <li class="page-item"><a class="page-link" href="#">2</a></li>-->
-                        <!--                    <li class="page-item"><a class="page-link" href="#">3</a></li>-->
                         <li class="page-item {{#unless can_go_next}}disabled{{/unless}}">
                             <a class="page-link" href="?page={{next_value}}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>

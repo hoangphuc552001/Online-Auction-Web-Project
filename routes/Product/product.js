@@ -1,5 +1,6 @@
 import productmodel from "../../models/productmodel.js";
 import express from "express";
+import hbs from "handlebars"
 const app = express.Router();
 app.get("/byCat/:id", async function (req, res) {
     const catID=req.params.id || 0;
@@ -129,8 +130,8 @@ app.get("/searchTime", async function (req, res) {
         can_go_next:page<nPages
     })
 })
-app.get("/search", async function (req, res) {
-    var searchpro=req.query.nameSearch;
+app.get("/search",async function (req, res) {
+    var searchpro=req.query.name;
     var page=+req.query.page||1;
     if (page<0) page=1;
     const offset=(page-1)*9;
@@ -155,7 +156,7 @@ app.get("/search", async function (req, res) {
     for (let i=1;i<=nPages;i++){
         const item={
             value:i,
-            isActive:i===page
+            isActive:i===page,searchpro
         }
         page_items.push(item)
     }
@@ -167,8 +168,9 @@ app.get("/search", async function (req, res) {
         prev_value:page-1,
         next_value:page+1,
         can_go_prev:page>1,
-        can_go_next:page<nPages
-    })
-})
+        can_go_next:page<nPages,
 
+    })
+
+})
 export default app;
