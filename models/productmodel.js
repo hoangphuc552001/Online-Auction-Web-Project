@@ -62,7 +62,8 @@ export default {
     return ob;
   },
   pageByCat(catID, limit, offset) {
-    return db
+    if (catID==+0) return db.select("*").from("product").limit(limit).offset(offset);
+    else return db
       .select("*")
       .from("product")
       .where("category", catID)
@@ -70,12 +71,29 @@ export default {
       .offset(offset);
   },
   totalOfCat(catID) {
-    return db("product").count().where("category", catID);
+    if (catID==+0) return db("product").count();
+    else return db("product").count().where("category", catID);
   },
-  pageAll(limit, offset) {
-    return db.select("*").from("product").limit(limit).offset(offset);
+  searchProduct(name,limit,offset){
+    return db('product').where('name', 'like', `%${name}%`)
+        .limit(limit)
+        .offset(offset);
   },
-  totalAll() {
+  totalofSearchProduct(name) {
+    return db('product').count().where('name', 'like', `%${name}%`)
+  },
+  orderedByPrice(limit,offset){
+    return db("product").orderBy('current').limit(limit)
+        .offset(offset);
+  },
+  totalorderByPrice(){
     return db("product").count();
   },
+  orderedByTime(limit,offset){
+    return db("product").orderBy('end').limit(limit)
+        .offset(offset);
+  },
+  totalorderByTime(){
+    return db("product").count();
+  }
 };
