@@ -54,7 +54,7 @@ router.get('/login', async function (req, res) {
 router.post('/login', async function (req, res) {
     var user = await usermodel.check(req.body.email);
     user = user[0];
-    if (user == undefined)
+    if (typeof(user) === 'undefined')
         return res.render('./login', {
             announce: 'Invalid username or password.'
         });
@@ -93,21 +93,25 @@ router.post('/login', async function (req, res) {
 router.get('/logout', async function (req, res) {
     req.session.authenticated = false;
     req.session.user = null;
-    if (req.headers.referer)
-        if (req.headers.referer.indexOf("account") != -1)
-            return req.session.save(function () {
-                return res.redirect('/');
-            });
+  // if (req.headers.referer){
+  //    //if(typeof (req.headers.referer)==='undefined')
+  //    //     req.headers.referer='/';
+  //     if (req.headers.referer.indexOf("account") != -1)
+  //         return req.session.save(function () {
+  //             return res.redirect('/');
+  //         });
+
+  // }
 
     req.session.save(function () {
-        return res.redirect(req.headers.referer);
+        return res.redirect(req.headers.referer)||'/';
     });
 });
 
 router.post('/validateemail', async function (req, res) {
     var user = await usermodel.check(req.body.resetEmail);
     user = user[0];
-    if (user == undefined)
+    if (typeof(user) === 'undefined')
         return res.render('./login', {
             announce: "Email isn't registered."
         });
@@ -219,7 +223,6 @@ router.get('/404', async function (req, res) {
 router.get('/otp', async function (req, res) {
     if (req.headers.referer.indexOf("/login") == -1 && req.headers.referer.indexOf("/registers") == -1 && req.headers.referer.indexOf('/otp') == -1)
         req.session.previous = req.headers.referer;
-
     res.render('./otp');
 });
 
@@ -246,18 +249,17 @@ router.post('/otp', async function (req, res) {
             }
 
 
-            console.log('verified');
+         //   console.log('verified');
 
-
+            req.session.authenticated = true;
             const url = req.session.previous;
             delete req.session.previous;
-            console.log(url)
             if (req.session.user.privilege == null)
                 return req.session.save(function () {
                     return res.redirect('/account/reminder');
                 });
 
-            else if (req.session.user.privilege == "admin")
+            else if (req.session.user.privilege === "admin")
                 return req.session.save(function () {
                     return res.redirect('/account/admin');
                 });

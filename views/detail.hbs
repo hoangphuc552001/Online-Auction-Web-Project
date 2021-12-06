@@ -65,8 +65,8 @@
                 <h2 class="m-0 mb-2 " id="name">{{name}} {{{new start}}} {{#unless (equal status "bidding")}} <b>({{status}})</b>
                 {{/unless}}</h2>
                 <p class="m-1">End in: <b class="text-danger">{{remain end}}</b></p>
-                <p class="m-1">Current: <b class="text-info">{{current}}$</b></p>
-                <p class="m-1">Deal: {{cap}}$</p>
+                <p class="m-1">Current: <b class="text-info">{{ format_number current}}</b></p>
+                <p class="m-1">Deal: {{ format_number cap}}</p>
                 {{#if (equal ../session.user.id ../seller.id)}}
                     <p class="m-1" data-toggle="modal" data-target="#bidder-modal">Bidder: {{{masked ../holder.name}}} (<a
                             class="text-primary">{{../holder.rating}} <i class='fa fa-star text-warning'></i></a>)</p>
@@ -125,7 +125,7 @@
                             <label class="custom-control-label" for="mode">Automated bid</label>
                         </div>
 
-                        <input class="col-9 col-md-6" type="text" placeholder="{{{sum current increment}}}$" name="offer" id="offer"
+                        <input class="col-9 col-md-6" type="text" placeholder="{{{format_number sum current increment}}}" name="offer" id="offer"
                             {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}}>
                         <button class="col-3" style="background-color: lightcyan; border-radius: 15px; width: 50px;"
                                 value="{{{sum current increment}}}" {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}} type="button"
@@ -297,14 +297,14 @@
                         {{/if}}
 
                         <div class="clearfix">
-                            <p class="float-left m-0">{{cap}}$</p>
+                            <p class="float-left m-0">{{ format_number cap}}</p>
                             <p class="float-right m-0">{{bids}} Bids</p>
                         </div>
                         <div class="clearfix">
                             <p class="float-left m-0">{{{time start}}}</p>
                             <p class="float-right text-danger m-0">{{{remain end}}}</p>
                         </div>
-                        <p class="text-center text-info font-weight-bold">{{current}}$</p>
+                        <p class="text-center text-info font-weight-bold">{{format_number current}}</p>
                     </a>
                 </div>
             {{/each}}
