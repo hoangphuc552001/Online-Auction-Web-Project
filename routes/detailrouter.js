@@ -28,7 +28,7 @@ router.get('/:id', async function (req, res) {
     }
     image.unshift(mainimage);
     //let announce;
-    //let history = await productmodel.history(req.params.id);
+    let history = await productmodel.history(req.params.id);
 //
     //if (req.session.announce) {
     //    announce = req.session.announce;
@@ -44,7 +44,6 @@ router.get('/:id', async function (req, res) {
            }
         }
     }
-    console.log(product)
     req.session.save(function () {
         return res.render('./detail', {
             product: product,
@@ -57,7 +56,7 @@ router.get('/:id', async function (req, res) {
             //image: image,
             //announce: announce,
             //ratinglist: ratinglist,
-            //history: history
+            history: history
         });
 
         /* await productmodel.refresh();

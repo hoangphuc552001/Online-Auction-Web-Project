@@ -116,5 +116,9 @@ export default {
     return db('watchlist')
         .where({'product':id,'user':user})
         .del();
+  },
+  history(id){
+    return db('history').select('user.name','history.offer','history.time').where('history.product',id).orderBy('time','asc')
+        .join('user','user.id','=','history.user')
   }
 };

@@ -66,7 +66,11 @@
                 {{/unless}}</h2>
                 <p class="m-1">End in: <b class="text-danger">{{remain end}}</b></p>
                 <p class="m-1">Current: <b class="text-info">{{ format_number current}}</b></p>
-                <p class="m-1">Deal: {{ format_number cap}}</p>
+                <p class="m-1">Deal:
+                    {{#if cap}}
+                        {{ format_number cap}}
+                    {{/if}}
+                </p>
                 {{#if (equal ../session.user.id ../seller.id)}}
                     <p class="m-1" data-toggle="modal" data-target="#bidder-modal">Bidder: {{{masked ../holder.name}}} (<a
                             class="text-primary">{{../holder.rating}} <i class='fa fa-star text-warning'></i></a>)</p>
@@ -243,14 +247,16 @@
             <a class="d-block text-primary small" href="">Contact Seller</a>
             <a class="d-block text-primary small" href="">Visit Store</a>
             <a class="d-block text-primary small" href="">See other Items</a>
-            <a class="d-block text-primary small" {{{disable status}}} {{{disable ../session.user.rating}}}
-               data-toggle="modal" data-target="#history-modal">Bid history</a>
+            {{#if authenticated}}
+                <a class="d-block text-primary small" {{{disable status}}} {{{disable ../session.user.rating}}}
+                   data-toggle="modal" data-target="#history-modal">Bid history</a>
+            {{/if}}
             <div class="modal fade" id="history-modal" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <form class="form-horizontal" id="announce-form">
                             <div class="modal-header">
-                                <h6 class="modal-title">WNT Online Auction: {{product.name}}</h6>
+                                <h6 class="modal-title">GPA Online Auction: {{product.name}}</h6>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -268,7 +274,7 @@
                                     {{#each history}}
                                         <tr>
                                             <td>{{masked name}}</td>
-                                            <td>{{offer}}$</td>
+                                            <td>{{format_number offer}}</td>
                                             <td>{{timestamp time}}</td>
                                         </tr>
                                     {{/each}}
