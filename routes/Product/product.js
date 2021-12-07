@@ -88,6 +88,7 @@ app.get("/searchPrice", async function (req, res) {
         }
         page_items.push(item)
     }
+
     if (req.session.authenticated!==false){
         const listProductUser=await productmodel.getProductwithUser(req.session.user.id);
         for (let i=0;i<list.length;i++){
@@ -107,7 +108,8 @@ app.get("/searchPrice", async function (req, res) {
         prev_value:page-1,
         next_value:page+1,
         can_go_prev:page>1,
-        can_go_next:page<nPages
+        can_go_next:page<nPages,
+        activePrice:true
     })
 })
 app.get("/searchTime", async function (req, res) {
@@ -158,7 +160,9 @@ app.get("/searchTime", async function (req, res) {
         prev_value:page-1,
         next_value:page+1,
         can_go_prev:page>1,
-        can_go_next:page<nPages
+        can_go_next:page<nPages,
+        activeTime:true
+
     })
 })
 app.get("/search",async function (req, res) {
@@ -210,7 +214,7 @@ app.get("/search",async function (req, res) {
         prev_value:page-1,
         next_value:page+1,
         can_go_prev:page>1,
-        can_go_next:page<nPages,
+        can_go_next:page<nPages
     })
 })
 app.post("/byCat/watchlist",async function (req, res) {
@@ -275,6 +279,7 @@ app.get("/watchList",auth,async function (req,res){
         next_value:page+1,
         can_go_prev:page>1,
         can_go_next:page<nPages,
+        activeWatchlist:true
     })
 })
 export default app;
