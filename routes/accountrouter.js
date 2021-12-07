@@ -83,15 +83,13 @@ router.get('/active/:id', async function (req, res) {
     }
 
 
-
     const it = await usermodel.update(entity);
-
-
 
     user = await usermodel.id(user.id)
     req.session.authenticated = true;
     req.session.user = user;
-    res.render("./accept");
+
+    res.render("accept");
 });
 
 router.get('/reminder', async function (req, res) {
@@ -99,6 +97,7 @@ router.get('/reminder', async function (req, res) {
 });
 
 router.get('/accept', async function (req, res) {
+    req.session.authenticated = true;
     res.render("./accept");
 });
 

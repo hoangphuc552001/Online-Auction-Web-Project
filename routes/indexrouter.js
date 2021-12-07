@@ -77,7 +77,7 @@ router.post('/login', async function (req, res) {
     await usermodel.otp(entity)
 
     const data = {
-        from: 'Web Nerdy Team <Zerd@WNT.com>',
+        from: 'GPA Team <HCMUS@fit.com>',
         to: req.session.user.email,
         subject: 'Online Auction',
         text: `Here is your one-time-passcode\n${otp}\nTo complete your process, enter the code in the web page when you requested it.\nNOTE: This one-time-passcode expires 15 minutes after it was requested.`
@@ -129,7 +129,7 @@ router.post('/validateemail', async function (req, res) {
     await usermodel.otp(entity)
 
     const data = {
-        from: 'Web Nerdy Team <Zerd@WNT.com>',
+        from: 'GPA Team <HCMUS@fit.com>',
         to: req.session.user.email,
         subject: 'Online Auction',
         text: `Here is your one-time-passcode\n${otp}\nTo complete your process, enter the code in the web page when you requested it.\nNOTE: This one-time-passcode expires 15 minutes after it was requested.`
@@ -158,7 +158,7 @@ router.post('/reset', async function (req, res) {
 
     await usermodel.update(entity, condition);
     const data = {
-        from: 'Web Nerdy Team <Zerd@WNT.com>',
+        from: 'GPA <HCMUS@fit.com>',
         to: req.session.user.email,
         subject: 'Online Auction',
         text: `Hi,\nYour password has been changed successfully!\nThank you for joining WNT Online Auction\nSent: ${moment()}`
@@ -193,7 +193,7 @@ router.post('/register', async function (req, res) {
         var user = await usermodel.check(entity.email);
         user = user[0];
         const data = {
-            from: 'Web Nerdy Team <Zerd@WNT.com>',
+            from: 'GPA Team<HCMUS@fit.com>',
             to: user.email,
             subject: 'Online Auction',
             text: `Hi,\nThanks for joining WNT Online Auction! Please confirm your email address by clicking on the link below. We'll communicate with you from time to time via email so it's important that we have an up-to-date email address on file.\nhttp://localhost:3000/account/active/${user.id}\nIf you did not sign up for a WNT account please disregard this email.\nHappy emailing!\nAdministrators`
@@ -288,7 +288,7 @@ router.post('/otp', async function (req, res) {
     await usermodel.otp(entity)
 
     const data = {
-        from: 'Web Nerdy Team <Zerd@WNT.com>',
+        from: 'GPA Team<HCMUS@fit.com>',
         to: req.session.user.email,
         subject: 'Online Auction',
         text: `Here is your one-time-passcode\n${otp}\nTo complete your process, enter the code in the web page when you requested it.\nNOTE: This one-time-passcode expires 15 minutes after it was requested.`
