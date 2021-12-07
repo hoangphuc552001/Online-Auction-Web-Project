@@ -76,7 +76,7 @@
                             <div class="modal-content">
                                 <form class="form-horizontal" id="announce-form">
                                     <div class="modal-header">
-                                        <h6 class="modal-title">WNT Online Auction: {{name}} - Bidders</h6>
+                                        <h6 class="modal-title">GPA Online Auction: {{name}} - Bidders</h6>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -115,9 +115,21 @@
                     <p class="m-1 d-inline-block">Bidder: {{{masked ../holder.name}}} (<p class="text-primary m-0 d-inline-block">{{../holder.rating}} <i
                         class='fa fa-star text-warning'></i></p>)</p>
                 {{/if}}
-
                 <p class="m-1">Bids: {{bids}} Times</p>
                 <p class="m-1">Start: {{time start}}</p>
+                {{#if ../session.authenticated}}
+                    <div>
+                        <form method="post">
+                            <button type="submit" name="id" value={{id}}
+                                    class="btn btn-primary" {{#if ../product.checkwl}}
+                                    disabled
+                            {{/if}} formaction="/product/byCat/watchlist">
+                                Watch List
+                            </button>
+                        </form>
+                    </div>
+                {{/if}}
+
                 {{#if ../session.authenticated}}
                     <form class="row m-0" method="POST" id="detail">
                         <div class="custom-control custom-switch col-12">

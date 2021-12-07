@@ -27,7 +27,6 @@ router.get('/:id', async function (req, res) {
         image: product.image,
     }
     image.unshift(mainimage);
-    console.log(image)
     //let announce;
     //let history = await productmodel.history(req.params.id);
 //
@@ -37,7 +36,15 @@ router.get('/:id', async function (req, res) {
     //}
     //else
     //    announce = null;
-
+    if (req.session.authenticated!==false){
+        const listProductUser=await productmodel.getProductwithUser(req.session.user.id);
+        for (let i=0;i<listProductUser.length;i++){
+           if (listProductUser[i].product===product.id){
+               product.checkwl=true;
+           }
+        }
+    }
+    console.log(product)
     req.session.save(function () {
         return res.render('./detail', {
             product: product,

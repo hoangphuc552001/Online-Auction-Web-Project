@@ -49,6 +49,21 @@ export default function (app) {
         Math.floor((diffMsMostInstance % 86400000) / 3600000) * 60; // minutes
       instance[i].minute = checkMinuteMostInstance <= 15 ? 1 : 0;
     }
+    if (req.session.authenticated !==false){
+      const listProductUser=await productmodel.getProductwithUser(req.session.user.id);
+      for (let i=0;i<highestprice.length;i++){
+        highestprice[i].authenticated=req.session.authenticated;
+        mostbids[i].authenticated=req.session.authenticated;
+        instance[i].authenticated=req.session.authenticated;
+        for (let j=0;j<listProductUser.length;j++){
+          if (listProductUser[j].product===highestprice[i].id){
+            highestprice[i].checkwl=true;
+            mostbids[i].checkwl=true;
+            instance[i].checkwl=true;
+          }
+        }
+      }
+    }
     res.render("index", {
       highestprice,
       mostbids,

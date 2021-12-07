@@ -19,7 +19,6 @@ export default function (app){
         if(typeof (req.session.login )==='undefined'){
             req.session.login=false;
         }
-
         res.locals.authenticated = req.session.authenticated;
         res.locals.user = req.session.user;
         next();

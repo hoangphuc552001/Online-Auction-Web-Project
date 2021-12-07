@@ -95,5 +95,26 @@ export default {
   },
   totalorderByTime(){
     return db("product").count();
+  },
+  addProtoWL(id, user) {
+    return db('watchlist').insert({'user': user, 'product': id});
+  },
+  getProductwithUser(user) {
+    return db('watchlist').select('product').where('user',user);
+  },
+  getProductInforwithUser(user,limit,offset) {
+    return db('product').join('watchlist','product.id','=',
+        'watchlist.product').where('watchlist.user',user)
+        .limit(limit).offset(offset);
+  },
+  totalProductInforwithUser(user,limit,offset) {
+    return db('product').count().join('watchlist','product.id','=',
+        'watchlist.product').where('watchlist.user',user)
+        .limit(limit).offset(offset);
+  },
+  delProWL(id,user){
+    return db('watchlist')
+        .where({'product':id,'user':user})
+        .del();
   }
 };
