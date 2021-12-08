@@ -34,5 +34,15 @@ export default {
         return db('user')
             .where('id', id)
             .update(entity);
+    },
+    async findBidder(){
+        return db('user').where('privilege','bidder');
+    },
+    async findSeller(){
+        return db('user').where('privilege','seller');
+    },
+
+    async findRequest(){
+        return db('user').where('privilege','bidder').where('request','1');
     }
 }

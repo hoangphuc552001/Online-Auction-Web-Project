@@ -6,6 +6,9 @@ import productRoute from "../routes/Product/product.js";
 import userRoute from "../routes/indexrouter.js";
 import accountrouter from "../routes/accountrouter.js";
 import detailrouter from "../routes/detailrouter.js";
+import adminUserRoute from "../routes/admin.user.router.js"
+import adminCategoryRoute from "../routes/admin.category.router.js"
+import adminProductRoute from "../routes/admin.product.router.js"
 //routes
 export default function (app) {
   app.get("/", async function (req, res) {
@@ -65,6 +68,9 @@ export default function (app) {
   app.use("/", userRoute);
   app.use("/account", accountrouter);
   app.use("/detail", detailrouter);
+  app.use("/admin/user",adminUserRoute)
+  app.use("/admin/category",adminCategoryRoute)
+  app.use("/admin/product",adminProductRoute)
   app.use(function (req, res) {
     res.render("Error/404", { layout: false });
   });

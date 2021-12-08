@@ -1090,6 +1090,10 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {{#if authenticated}}
                         <a class="dropdown-item" href="javascript:">Profile</a>
+                        {{#if admin}}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/account/admin">See List</a>
+                        {{/if}}
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/logout">Logout</a>
                         {{else}}

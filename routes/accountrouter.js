@@ -5,16 +5,16 @@ import express from "express";
 import productmodel from '../models/productmodel.js'
 
 import usermodel from "../models/usermodel.js";
+import admin from "../middlewares/admin.mdw.js"
 const router = express.Router();
 
 
 
-router.get('/admin', async function (req, res) {
-    if (req.session.user) {
-        if (req.session.user.privilege != "admin")
-            return res.redirect("/Error/404");
-    }
-    else return res.redirect("/Error/404");
+//
+router.get('/admin',admin,async function (req, res) {
+    if (!req.session.user)
+        return res.redirect("/Error/404");
+    req.session.admin=true;
 
     res.render('./admin');
 });
@@ -33,7 +33,7 @@ router.get('/profile', async function (req, res) {
     var participate = await productmodel.participate(req.session.user.id);
     var wonlist = await productmodel.wonlist(req.session.user.id);
 
-    if (req.session.user.privilege == "bidder")
+    if (req.session.user.privilege === "bidder")
         return res.render('./profile', {
             user: req.session.user,
             name: req.session.user.name,

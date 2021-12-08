@@ -95,5 +95,19 @@ export default {
   },
   totalorderByTime(){
     return db("product").count();
-  }
+  },
+  async refresh(_) {
+   return db.Refresh()
+  },
+  async page(offset) {
+    return db('product').limit(24).offset(offset);
+  },
+  // total: async _ => {
+  //   const row = await db.select( `select * from product`);
+  //   return row.length;
+  // },
+  async total(_) {
+    const row = await db('product');
+    return row.length;
+  },
 };

@@ -16,10 +16,13 @@ export default function (app){
             req.session.authenticated=false;
 
         }
+        if(typeof (req.session.admin)==='undefined'){
+            req.session.admin=false;
+        }
         if(typeof (req.session.login )==='undefined'){
             req.session.login=false;
         }
-
+        res.locals.admin = req.session.admin
         res.locals.authenticated = req.session.authenticated;
         res.locals.user = req.session.user;
         next();
