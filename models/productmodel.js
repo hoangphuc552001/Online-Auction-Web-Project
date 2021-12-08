@@ -110,4 +110,29 @@ export default {
     const row = await db('product');
     return row.length;
   },
+  addProtoWL(id, user) {
+    return db('watchlist').insert({'user': user, 'product': id});
+  },
+  getProductwithUser(user) {
+    return db('watchlist').select('product').where('user',user);
+  },
+  getProductInforwithUser(user,limit,offset) {
+    return db('product').join('watchlist','product.id','=',
+        'watchlist.product').where('watchlist.user',user)
+        .limit(limit).offset(offset);
+  },
+  totalProductInforwithUser(user,limit,offset) {
+    return db('product').count().join('watchlist','product.id','=',
+        'watchlist.product').where('watchlist.user',user)
+        .limit(limit).offset(offset);
+  },
+  delProWL(id,user){
+    return db('watchlist')
+        .where({'product':id,'user':user})
+        .del();
+  },
+  history(id){
+    return db('history').select('user.name','history.offer','history.time').where('history.product',id).orderBy('time','asc')
+        .join('user','user.id','=','history.user')
+  }
 };

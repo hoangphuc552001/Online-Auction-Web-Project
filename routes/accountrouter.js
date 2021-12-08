@@ -19,9 +19,14 @@ router.get('/admin',admin,async function (req, res) {
     res.render('./admin');
 });
 
-
-
-router.get('/profile', async function (req, res) {
+function auth(req,res,next){
+    if (req.session.authenticated===false){
+        req.session.login=false;
+        return res.redirect('/login');
+    }
+    next();
+}
+router.get('/profile',auth, async function (req, res) {
     if (req.session.user) {
         if (req.session.user.privilege != "bidder" && req.session.user.privilege != "seller")
             return res.redirect("/404");
@@ -29,9 +34,8 @@ router.get('/profile', async function (req, res) {
     else
         return res.redirect("/404");
 
-    var watchlist = await productmodel.watchlist(req.session.user.id);
-    var participate = await productmodel.participate(req.session.user.id);
-    var wonlist = await productmodel.wonlist(req.session.user.id);
+    // var participate = await productmodel.participate(req.session.user.id);
+    // var wonlist = await productmodel.wonlist(req.session.user.id);
 
     if (req.session.user.privilege === "bidder")
         return res.render('./profile', {
@@ -41,9 +45,8 @@ router.get('/profile', async function (req, res) {
             dob: req.session.user.dob,
             priviledge: req.session.user.priviledge,
             address: req.session.user.address,
-            watchlist: watchlist,
-            participate: participate,
-            wonlist: wonlist
+            // participate: participate,
+            // wonlist: wonlist
         });
 
     var ongoing = await productmodel.ongoing(req.session.user.id);
@@ -56,7 +59,6 @@ router.get('/profile', async function (req, res) {
         dob: req.session.user.dob,
         priviledge: req.session.user.priviledge,
         address: req.session.user.address,
-        watchlist: watchlist,
         participate: participate,
         wonlist: wonlist,
         ongoing: ongoing,

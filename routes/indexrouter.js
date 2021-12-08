@@ -42,9 +42,12 @@ router.get('/login', async function (req, res) {
   //  if (req.headers.referer.indexOf("/login") == -1 && req.headers.referer.indexOf("/registers") == -1 && req.headers.referer.indexOf('/otp') == -1)
    //     req.session.previous = req.headers.referer;
 
+    if (req.headers.referer) {
+        if (req.headers.referer.indexOf("/login") == -1 && req.headers.referer.indexOf("/registers") == -1 && req.headers.referer.indexOf('/otp') == -1)
+            req.session.previous = req.headers.referer;
+    }
     var announce = req.session.announce;
     delete req.session.announce;
-
     req.session.save(function () {
         return res.render('./login', {
             announce: announce
@@ -105,10 +108,11 @@ router.get('/logout', async function (req, res) {
   //         });
 
   // }
+    return res.redirect(req.headers.referer)||'/';
 
-    req.session.save(function () {
-        return res.redirect(req.headers.referer)||'/';
-    });
+    // req.session.save(function () {
+    //     return res.redirect(req.headers.referer)||'/';
+    // });
 });
 
 router.post('/validateemail', async function (req, res) {

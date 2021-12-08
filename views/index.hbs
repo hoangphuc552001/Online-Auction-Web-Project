@@ -40,6 +40,17 @@
                                 {{#if cap}}
                                     <p class="card-text">Buy now:{{format_number cap}}</p>
                                 {{/if}}
+                                {{#if authenticated}}
+                                    <div>
+                                        <form method="post">
+                                            <button type="submit" name="id" value={{id}} class="btn btn-primary" {{#if checkwl}}
+                                                    disabled
+                                            {{/if}} formaction="product/byCat/watchlist">
+                                                Watch List
+                                            </button>
+                                        </form>
+                                    </div>
+                                {{/if}}
                             </div>
                             <div class="card-footer text-muted">
                                 <a class="btn btn-sm btn-outline-primary"
@@ -76,7 +87,17 @@
                                 {{#if cap}}
                                     <p class="card-text">Buy now:{{cap}}</p>
                                 {{/if}}
-
+                                {{#if authenticated}}
+                                    <div>
+                                        <form method="post">
+                                            <button type="submit" name="id" value={{id}} class="btn btn-primary" {{#if checkwl}}
+                                                    disabled
+                                            {{/if}} formaction="product/byCat/watchlist">
+                                                Watch List
+                                            </button>
+                                        </form>
+                                    </div>
+                                {{/if}}
                             </div>
                             <div class="card-footer text-muted">
                                 <a class="btn btn-sm btn-outline-primary"
@@ -114,6 +135,17 @@
                                 <p class="card-text">Bids: {{bids}}</p>
                                 {{#if cap}}
                                     <p class="card-text">Buy now:{{format_number cap}}</p>
+                                {{/if}}
+                                {{#if authenticated}}
+                                    <div>
+                                        <form method="post">
+                                            <button type="submit" name="id" value={{id}} class="btn btn-primary" {{#if checkwl}}
+                                                    disabled
+                                            {{/if}} formaction="product/byCat/watchlist">
+                                                Watch List
+                                            </button>
+                                        </form>
+                                    </div>
                                 {{/if}}
                             </div>
                             <div class="card-footer text-muted">

@@ -1,11 +1,17 @@
 <form method="GET">
     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group mr-2" role="group" aria-label="First group">
-            <button type="submit" formaction="/product/searchPrice" class="btn btn-light">Best Price</button>
+            <button type="submit" formaction="/product/searchPrice"
+                    class="btn btn-light {{#if this.activePrice}}active{{/if}}">Best Price</button>
         </div>
         <div class="btn-group mr-2" role="group" aria-label="Second group">
-            <button type="submit" formaction="/product/searchTime"  class="btn btn-light">Last Minute</button>
+            <button type="submit" formaction="/product/searchTime"  class="btn btn-light {{#if this.activeTime}}active{{/if}}">Last Minute</button>
         </div>
+        {{#if authenticated}}
+            <div class="btn-group mr-2" role="group" aria-label="Second group">
+                <button type="submit" formaction="/product/watchList" class="btn btn-light {{#if this.activeWatchlist}}active{{/if}}">Watch List</button>
+            </div>
+        {{/if}}
     </div>
 </form>
 
@@ -37,7 +43,30 @@
                                 {{#if cap}}
                                     <p class="card-text">Buy now:{{format_number cap}}</p>
                                 {{/if}}
+                                {{#if authenticated}}
+                                    {{#if removewl}}
+                                        <div>
+                                            <form method="post">
+                                                <button type="submit" name="id" value={{id}} formaction="watchlist" class="btn btn-danger">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
 
+                                        </div>
+                                    {{else}}
+                                        <div>
+                                            <form method="post">
+                                                <button type="submit"  name="id" value={{id}}
+                                                        class="btn btn-primary" {{#if checkwl}}
+                                                        disabled
+                                                {{/if}} formaction="/product/byCat/watchlist">
+                                                    Watch List
+                                                </button>
+                                            </form>
+                                        </div>
+                                    {{/if}}
+
+                                {{/if}}
                             </div>
                             <div class="card-footer text-muted">
                                 <a class="btn btn-sm btn-outline-primary"
