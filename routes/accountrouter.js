@@ -4,6 +4,8 @@ import productmodel from '../models/productmodel.js'
 
 import usermodel from "../models/usermodel.js";
 import bcrypt from "bcryptjs";
+import admin from "../middlewares/admin.mdw.js"
+const router = express.Router();
 
 const router = express.Router();
 
@@ -13,6 +15,11 @@ router.get('/admin', async function (req, res) {
         if (req.session.user.privilege != "admin")
             return res.redirect("/Error/404");
     } else return res.redirect("/Error/404");
+//
+router.get('/admin',admin,async function (req, res) {
+    if (!req.session.user)
+        return res.redirect("/Error/404");
+    req.session.admin=true;
 
     res.render('./admin');
 });
@@ -33,10 +40,12 @@ router.get('/profile', auth, async function (req, res) {
         return res.redirect("/404");
 
     var participate = await productmodel.participate(req.session.user.id);
-    console.log(participate)
     var wonlist = await productmodel.wonlist(req.session.user.id);
     var watchlist = await productmodel.watchlist(req.session.user.id);
-    if (req.session.user.privilege == "bidder")
+    // var participate = await productmodel.participate(req.session.user.id);
+    // var wonlist = await productmodel.wonlist(req.session.user.id);
+
+    if (req.session.user.privilege === "bidder")
         return res.render('./profile', {
             user: req.session.user,
             name: req.session.user.name,
