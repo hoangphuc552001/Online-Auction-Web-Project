@@ -1051,11 +1051,15 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active mr-3">
+            <li class="nav-item mr-3  {{#if activeHome}}
+                active
+            {{/if}}">
 
                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown {{#unless activeHome}}
+                active
+            {{/unless}}">
                 <a class="nav-link" href="/product/byCat/0" type="button" id="dropdownMenuButton"
                    aria-haspopup="true" aria-expanded="false">
                 Category
@@ -1089,7 +1093,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {{#if authenticated}}
-                        <a class="dropdown-item" href="javascript:">Profile</a>
+                        <a class="dropdown-item" href="/account/profile">Profile</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/logout">Logout</a>
                         {{else}}

@@ -449,5 +449,95 @@ router.get('/logout', async function (req, res) {
     res.redirect('login');
 });
 */
+router.post('/profile/:name/edit-name', (req, res, next) => {
+    usermodel.singleByUserName(req.body.newusername)
+        .then(user => {
+            if (user) {
+                alert("Username exist!");
+                return res.redirect('/user/profile/' + req.session.user.name);
+            } else {
+                usermodel
+                    .updateName({
+                        name: req.body.newusername
+                    }, {
+                        where: { name: req.session.user.name }
+                    })
+                    .then(function() {
+                        usermodel
+                            .singleByUserName(req.body.newusername)
+                            .then(user => {
+                                req.session.user = user;
+                                res.locals.user = req.session.user;
+                                res.redirect('/');
+                            })
+                            .catch(error => next(error));
+                    })
+                    .catch(function(error) {
+                        res.json(error);
+                        console.log("update profile failed!");
+                    });
+            }
+        })
+});
+
+router.post('/profile/:name/edit-email', (req, res, next) => {
+    usermodel.singleByEmail(req.body.newemail)
+        .then(user => {
+            if (user) {
+                alert("Email exist!");
+                return res.redirect('/user/profile/' + req.session.user.name);
+            } else {
+                usermodel
+                    .update({
+                        email: req.body.newemail
+                    }, {
+                        where: { name: req.session.user.email }
+                    })
+                    .then(function() {
+                        usermodel
+                            .singleByEmail(req.body.newemail)
+                            .then(user => {
+                                req.session.user = user;
+                                res.locals.user = req.session.user;
+                                res.redirect('/');
+                            })
+                            .catch(error => next(error));
+                    })
+                    .catch(function(error) {
+                        res.json(error);
+                        console.log("update profile failed!");
+                    });
+            }
+        })
+});
+
+router.post('/profile/:name/edit-dob', (req, res, next) => {
+    usermodel.singleByUserName(req.params.name)
+        .then(function() {
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(req.body.newdob, salt);
+            usermodel
+                .updatePassword({
+                    dob: hash
+                }, {
+                    where: { name: req.session.user.name }
+                })
+                .then(function() {
+                    usermodel
+                        .singleByUserName(req.params.name)
+                        .then(user => {
+                            req.session.user = user;
+                            res.locals.user = req.session.user;
+                            res.redirect('/');
+                        })
+                        .catch(error => next(error));
+                })
+                .catch(function(error) {
+                    res.json(error);
+                    console.log("update profile failed!");
+                });
+        })
+});
+
 export default router;
 

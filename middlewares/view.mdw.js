@@ -2,6 +2,7 @@
 import { engine } from "express-handlebars";
 import numeral from "numeral";
 import moment from "moment";
+import express_handlebars_sections from 'express-handlebars-sections';
 export default function (app) {
   app.engine(
     "hbs",
@@ -11,6 +12,7 @@ export default function (app) {
         format_number(val) {
           return numeral(val).format("0,0") + " đ";
         },
+        section: express_handlebars_sections(),  // CONFIGURE 'express_handlebars_sections'
         remain(end) {
           if (moment(end).diff(moment(), "days") > 0)
             return moment(end).diff(moment(), "days") + "d";
