@@ -5,21 +5,15 @@ import productmodel from '../models/productmodel.js'
 import usermodel from "../models/usermodel.js";
 import bcrypt from "bcryptjs";
 import admin from "../middlewares/admin.mdw.js"
-const router = express.Router();
 
 const router = express.Router();
 
 
-router.get('/admin', async function (req, res) {
-    if (req.session.user) {
-        if (req.session.user.privilege != "admin")
-            return res.redirect("/Error/404");
-    } else return res.redirect("/Error/404");
 //
-router.get('/admin',admin,async function (req, res) {
+router.get('/admin', admin, async function (req, res) {
     if (!req.session.user)
         return res.redirect("/Error/404");
-    req.session.admin=true;
+    req.session.admin = true;
 
     res.render('./admin');
 });
@@ -132,7 +126,7 @@ router.get('/editprofile', auth, async function (req, res) {
 router.get('/changepassword', auth, async function (req, res) {
     res.render('./changepassword');
 });
-router.post('/changepassword', auth, async function (req, res,next) {
+router.post('/changepassword', auth, async function (req, res, next) {
     const user = await usermodel.findById(req.session.user.id);
     const currentpassword = req.body.currentpassword;
     const newpassword = req.body.newpassword;
@@ -140,7 +134,7 @@ router.post('/changepassword', auth, async function (req, res,next) {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(newpassword, salt);
     const rs = bcrypt.compareSync(currentpassword, user.password);
-    if (rs===true){
+    if (rs === true) {
         usermodel
             .updatePassword({
                 password: hash,
@@ -153,10 +147,10 @@ router.post('/changepassword', auth, async function (req, res,next) {
                     .then(user => {
                         req.session.user = user;
                         res.locals.user = req.session.user;
-                        res.render('./changepassword',{
-                            success:true,
-                            newpassword:newpassword,
-                            confirmpassword:confirmpassword
+                        res.render('./changepassword', {
+                            success: true,
+                            newpassword: newpassword,
+                            confirmpassword: confirmpassword
                         });
                     })
                     .catch(error => next(error));
@@ -165,12 +159,11 @@ router.post('/changepassword', auth, async function (req, res,next) {
                 res.json(error);
                 console.log("update profile failed!");
             });
-    }
-    else {
-        res.render('./changepassword',{
-            err:true,
-            newpassword:newpassword,
-            confirmpassword:confirmpassword
+    } else {
+        res.render('./changepassword', {
+            err: true,
+            newpassword: newpassword,
+            confirmpassword: confirmpassword
         });
     }
 
@@ -198,7 +191,6 @@ router.post('/editprofile', auth, async function (req, res) {
             res.json(error);
             console.log("update profile failed!");
         });
-
 })
 ;
 export default router;

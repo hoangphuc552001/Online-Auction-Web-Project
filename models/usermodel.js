@@ -79,7 +79,7 @@ export default {
         return db('history').insert(entity)
     },
     automated(entity){
-        return db('automation').insert(entity),
+        return db('automation').insert(entity)},
     async findBidder(){
         return db('user').where('privilege','bidder');
     },
