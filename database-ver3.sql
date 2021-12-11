@@ -404,7 +404,7 @@ DELIMITER ;;
                 SET MESSAGE_TEXT = 'Bidding expires!';
         END;
     END IF;
-    IF new.current >= old.cap THEN
+    IF new.current >= old.cap and old.cap <> 0 THEN
         BEGIN
             set new.current = old.cap;
             set new.status = 'sold';

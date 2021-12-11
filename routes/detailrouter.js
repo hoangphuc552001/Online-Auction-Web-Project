@@ -147,7 +147,6 @@ router.post('/:id', async function (req, res) {
              await usermodel.automated(entity);
          else
              await usermodel.bid(entity);
-         console.log(product)
          entity = {
              product: req.params.id,
              user: req.session.user.id

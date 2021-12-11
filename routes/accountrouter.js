@@ -82,14 +82,17 @@ router.get('/active/:id', async function (req, res) {
 
     user = user[0]
     const entity = {
-        id: user.id,
-        privilege: 'bidder'
+        privilege: "bidder",
+        rating:5
+    }
+    const condition = {
+        id: user.id
     }
 
-
-    const it = await usermodel.update(entity);
+    await usermodel.update(entity, condition);
 
     user = await usermodel.id(user.id)
+    user=user[0]
     req.session.authenticated = true;
     req.session.user = user;
 
