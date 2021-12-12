@@ -1,505 +1,421 @@
 <link rel="stylesheet" href="/assets/css/profile.css">
 <link rel="stylesheet" href="/assets/css/profile-edit-form.css">
 <link rel="stylesheet" href="/assets/css/projects-horizontal.css">
-
-
 <main>
-    <div href="/assets/css/Profile.css" class="container bootstrap snippets" style="margin-top:2%">
-        <div class="row" id="user-profile">
-            {{#with session.user}}
-            <div class="col-lg-3 col-md-4 col-sm-4">
-                <div class="main-box clearfix">
-                    <h2>{{name}}</h2>
-                    <img src="#" class="profile-img img-responsive center-block">
-                    <div class="profile-label">
-                        <span class="label label-danger">{{priviledge}}</span>
+<div href="/assets/css/Profile.css" class="container bootstrap snippets" style="margin-top:2%">
+<div class="row" id="user-profile">
+    {{#with session.user}}
+        <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+            <div class="card p-4">
+                <div
+                        class="
+            image
+            d-flex
+            flex-column
+            justify-content-center
+            align-items-center
+          "
+                >
+                    <button class="btn">
+                        <img
+                                src="https://cdn-icons-png.flaticon.com/512/147/147144.png"
+                                height="100"
+                                width="100"
+                        />
+                    </button>
+                    <span class="name mt-3">{{name}}</span>
+                    <span class="idd">{{email}}</span>
+                    <div
+                            class="
+              d-flex
+              flex-row
+              justify-content-center
+              align-items-center
+              gap-2
+            "
+                    >
+                        <span class="idd1">{{privilege}}</span>
+                    </div>
+                    <div>{{address}}</div>
+                    <div
+                            class="
+              d-flex
+              flex-row
+              justify-content-center
+              align-items-center
+              mt-3
+            "
+                    >
+            <span class="number"
+            >{{rating}}</span
+            >
+                    </div>
+                    <span>
+                         <i class="fa fa-star" style="color: #d0d01b" aria-hidden="true"></i>
+                        <i class="fa fa-star" style="color: #d0d01b" aria-hidden="true"></i>
+                         <i class="fa fa-star" style="color: #d0d01b" aria-hidden="true"></i>
+                    <i class="fa fa-star" style="color: #d0d01b" aria-hidden="true"></i>
+                         <i class="fa fa-star" aria-hidden="true"></i>
+                    </span>
+                    <div class="d-flex mt-2">
+                        <a class="btn btn-sm btn-outline-success"
+                           href="/account/editprofile" role="button">
+                            Edit Profile
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="d-flex mt-2">
+                        <a class="btn btn-sm btn-outline-success"
+                           href="/account/changepassword" role="button">
+                            Change Password
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
                     </div>
 
-                    <div class="profile-stars">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                        <span>{{rating}}</span>
+                    <div class="text mt-3">
+            <span
+            >GPA.com, Inc. is an Viet Name multinational technology company.<br/><br/>
+              E-commerce, cloud computing, digital streaming, and artificial intelligence
+            </span>
                     </div>
-
-                    <div class="profile-details">
-                        <ul class="fa-ul">
-                            <li><i class="fa-li fa fa-cubes"></i>Sales: <span>{{sales}}</span></li>
-                            <li><i class="fa-li fa fa-gavel"></i>Auctions: <span>{{auctions}}</span></li>
-                        </ul>
+                    <div
+                            class="
+              gap-3
+              mt-3
+              icons
+              d-flex
+              flex-row
+              justify-content-center
+              align-items-center
+            "
+                    >
+                        <span><i class="fa fa-twitter"></i></span>
+                        <span><i class="fa fa-facebook-f"></i></span>
+                        <span><i class="fa fa-instagram"></i></span>
+                        <span><i class="fa fa-linkedin"></i></span>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-lg-9 col-md-8 col-sm-8">
-                <div class="main-box clearfix">
-                    <div class="profile-header">
-                        <h3><span>User info</span></h3>
-                    </div>
-
-                    <div class="row profile-user-info">
-                        <div class="col-sm-8">
-                            <div class="profile-user-details clearfix">
-                                <div class="profile-user-details-label">
-                                    Full Name:
-                                </div>
-                                <div class="profile-user-details-value">
-                                    {{name}}
-                                </div>
-                                <button id="nameBtn" type="button" class="btn btn-primary edit-profile"
-                                    data-toggle="modal" data-target="#nameModal"><i
-                                        class="fa fa-pencil-square fa-lg"></i></button>
-                                <div class="modal fade" id="nameModal" role="dialog">
-                                    <div class="modal-dialog">
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Edit user name</h4>
-                                                <button type="button" class="close"
-                                                    data-dismiss="modal">&times;</button>
-                                            </div>
-                                            <form action="/user/profile/{{name}}/edit-name">
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-md-12 alert-col relative">
-                                                            <div class="alert alert-info absolue center" role="alert">
-                                                                <button type="button" class="close" data-dismiss="alert"
-                                                                    aria-label="Close"><span
-                                                                        aria-hidden="true">×</span></button><span>Profile
-                                                                    save with
-                                                                    success</span></div>
-                                                        </div>
-                                                    </div>
-                                                    New name:<br>
-                                                    <input class="inputnewname" type="text" name="newusername"
-                                                        placeholder="New user name here"><br>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default"
-                                                        data-dismiss="modal">Cancel</button>
-                                                    <button type="submit" class="btn btn-default">Save</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-user-details clearfix">
-                                <div class="profile-user-details-label">
-                                    Email:
-                                </div>
-                                <div class="profile-user-details-value">
-                                    {{email}}
-                                </div>
-                                <button id="emailBtn" type="button" class="btn btn-primary edit-profile"
-                                    data-toggle="modal" data-target="#emailModal"><i
-                                        class="fa fa-pencil-square fa-lg"></i></button>
-                                <div class="modal fade" id="emailModal" role="dialog">
-                                    <div class="modal-dialog">
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Edit email</h4>
-                                                <button type="button" class="close"
-                                                    data-dismiss="modal">&times;</button>
-                                            </div>
-                                            <form action="/user/profile/{{name}}/edit-email">
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-md-12 alert-col relative">
-                                                            <div class="alert alert-info absolue center" role="alert">
-                                                                <button type="button" class="close" data-dismiss="alert"
-                                                                    aria-label="Close"><span
-                                                                        aria-hidden="true">×</span></button><span>Profile
-                                                                    save with
-                                                                    success</span></div>
-                                                        </div>
-                                                    </div>
-                                                    New name:<br>
-                                                    <input class="inputnewemail" type="text" name="newemail"
-                                                        placeholder="New email here"><br>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default"
-                                                        data-dismiss="modal">Cancel</button>
-                                                    <button type="submit" class="btn btn-default">Save</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-user-details clearfix">
-                                <div class="profile-user-details-label">
-                                    Birthday:
-                                </div>
-                                <div class="profile-user-details-value">
-                                    {{time dob}}
-                                </div>
-                                <button id="dobBtn" type="button" class="btn btn-primary edit-profile"
-                                    data-toggle="modal" data-target="#dobModal"><i
-                                        class="fa fa-pencil-square fa-lg"></i></button>
-                                <div class="modal fade" id="dobModal" role="dialog">
-                                    <div class="modal-dialog">
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Edit birthday</h4>
-                                                <button type="button" class="close"
-                                                    data-dismiss="modal">&times;</button>
-                                            </div>
-                                            <form action="/user/profile/{{name}}/edit-dob">
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-md-12 alert-col relative">
-                                                            <div class="alert alert-info absolue center" role="alert">
-                                                                <button type="button" class="close" data-dismiss="alert"
-                                                                    aria-label="Close"><span
-                                                                        aria-hidden="true">×</span></button><span>Profile
-                                                                    save with
-                                                                    success</span></div>
-                                                        </div>
-                                                    </div>
-                                                    Day of birth:<br>
-                                                    <input type="date" id="dobInput" name="newdob">
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <div class="form-row">
-                                                        <div class="col-md-12 content-right">
-                                                            <button class="btn btn-danger form-btn" type="reset"
-                                                                data-dismiss="modal">Cancel</button>
-                                                            <button class="btn btn-primary form-btn"
-                                                                type="submit">Save</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-user-details clearfix">
-                                <div class="profile-user-details-label">
-                                    Address:
-                                </div>
-                                <div class="profile-user-details-value">
-                                    {{address}}
-                                </div>
-                            </div>
-                        </div>
-                        <div style="margin-top:2%; margin-left:2%;margin-right:2%">
-                            <ul class="nav nav-tabs">
-                                {{#if ../session.authenticated}}
-                                {{#if (equal ../session.user.privilege "bidder")}}
-                                <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab"
-                                        href="#tab-1">Watchlist</a></li>
-                                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab"
-                                        href="#tab-2">Participating Auctions</a></li>
-                                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3">Won
-                                        Auctions</a></li>
-
-
-                                {{#if (equal ../session.user.request  null)}}
-                                    <li>
-                                        <form method="POST">
-                                            <button class="btn btn-outline-warning" type="submit" formaction="/account/upgrade/{{id}}">Upgrade to
-                                                Seller</button>
-                                        </form>
-                                    </li>
-                                {{/if}}
-
-
-                                {{else}}
-                                {{#if (equal ../session.user.privilege "seller")}}
-                                <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab"
-                                        href="#tab-1">Watchlist</a></li>
-                                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab"
-                                        href="#tab-2">Participating Auctions</a></li>
-                                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab"
-                                        href="#tab-3">WonAuctions</a></li>
-                                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab"
-                                        href="#tab-4">Ongoing Listed Items</a></li>
-                                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab"
-                                        href="#tab-5">Ended Listed Items</a></li>
-                                {{/if}}
-                                {{/if}}
-                                {{/if}}
-                            </ul>
-                            <div class="tab-content">
-                                {{#if (equal ../session.user.privilege "bidder")}}
-
-                                    <div class="tab-pane active" role="tabpanel" id="tab-1">
-                                        <div class="projects-horizontal">
-                                            <div class="container">
-                                                <div id="watchList" class="row projects">
-                                                    {{#each ../watchlist}}
-                                                    <div class="col-6 col-sm-6 col-lg-3">
-                                                        <a href="/detail/{{id}}">
-                                                            <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
-                                                            <h5 class="text-center">{{name}} {{{new start}}}
-                                                                {{#unless (equal status "bidding")}} <b>({{status}})</b>
-                                                                {{/unless}}</h5>
-                                                            {{#if info }}
-                                                            <p class="text-center m-0">{{{masked info}}}</p>
-                                                            {{else}}
-                                                            <p class="text-center m-0">&nbsp; &nbsp;</p>
-                                                            {{/if}}
-                                                            <div class="clearfix">
-                                                                <p class="float-left m-0">{{cap}}$</p>
-                                                                <p class="float-right m-0">{{bids}} Bids</p>
-                                                            </div>
-                                                            <div class="clearfix">
-                                                                <p class="float-left m-0">{{{time start}}}</p>
-                                                                <p class="float-right text-danger m-0">{{{remain end}}}</p>
-                                                            </div>
-                                                            <p class="text-center text-info font-weight-bold">{{current}}$
-                                                            </p>
-                                                        </a>
-                                                    </div>
-                                                    {{/each}}
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane" role="tabpanel" id="tab-2">
-                                        <div class="projects-horizontal">
-                                            <div class="container">
-                                                <div id="participatingAuctions" class="projects row">
-                                                    {{#each ../participate}}
-                                                    <div class="col-6 col-sm-6 col-lg-3">
-                                                        <a href="/detail/{{id}}">
-                                                            <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
-                                                            <h5 class="text-center">{{name}} {{{new start}}}
-                                                                {{#unless (equal status "bidding")}} <b>({{status}})</b>
-                                                                {{/unless}}</h5>
-                                                            {{#if info }}
-                                                            <p class="text-center m-0">{{{masked info}}}</p>
-                                                            {{else}}
-                                                            <p class="text-center m-0">&nbsp; &nbsp;</p>
-                                                            {{/if}}
-                                                            <div class="clearfix">
-                                                                <p class="float-left m-0">{{cap}}$</p>
-                                                                <p class="float-right m-0">{{bids}} Bids</p>
-                                                            </div>
-                                                            <div class="clearfix">
-                                                                <p class="float-left m-0">{{{time start}}}</p>
-                                                                <p class="float-right text-danger m-0">{{{remain end}}}</p>
-                                                            </div>
-                                                            <p class="text-center text-info font-weight-bold">{{current}}$
-                                                            </p>
-                                                        </a>
-                                                    </div>
-                                                    {{/each}}
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane" role="tabpanel" id="wonAuctions">
-                                        <div class="projects-horizontal">
-                                            <div class="container">
-                                                <div id="wonAuctions" class="row projects">
-                                                    {{#each ../wonlist}}
-                                                    <div class="col-6 col-sm-6 col-lg-3">
-                                                        <a href="/detail/{{id}}">
-                                                            <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
-                                                            <h5 class="text-center">{{name}}
-                                                                {{{new start}}}{{#unless (equal status "bidding")}}
-                                                                <b>({{status}})</b> {{/unless}}</i></h5>
-                                                            <p class="text-center m-0">{{{masked info}}}</p>
-                                                            <div class="clearfix">
-                                                                <p class="float-left m-0">{{cap}}$</p>
-                                                                <p class="float-right m-0">{{bids}} Bids</p>
-                                                            </div>
-                                                            <div class="clearfix">
-                                                                <p class="float-left m-0">{{{time start}}}</p>
-                                                                <p class="float-right text-danger m-0">{{{remain end}}}</p>
-                                                            </div>
-                                                            <p class="text-center text-info font-weight-bold">{{current}}$
-                                                            </p>
-                                                        </a>
-                                                    </div>
-                                                    {{/each}}
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {{else}}
-
-                                    {{#if (equal ../session.user.privilege "seller")}}
-                                        <div class="tab-pane active" role="tabpanel" id="tab-1">
-                                            <div class="projects-horizontal">
-                                                <div class="container">
-                                                    <div id="watchList" class="row projects">
-                                                        {{#each ../watchlist}}
-                                                        <div class="col-6 col-sm-6 col-lg-3">
-                                                            <a href="/detail/{{id}}">
-                                                                <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
-                                                                <h5 class="text-center">{{name}} {{{new start}}}
-                                                                    {{#unless (equal status "bidding")}} <b>({{status}})</b>
-                                                                    {{/unless}}</h5>
-                                                                {{#if info }}
-                                                                <p class="text-center m-0">{{{masked info}}}</p>
-                                                                {{else}}
-                                                                <p class="text-center m-0">&nbsp; &nbsp;</p>
-                                                                {{/if}}
-                                                                <div class="clearfix">
-                                                                    <p class="float-left m-0">{{cap}}$</p>
-                                                                    <p class="float-right m-0">{{bids}} Bids</p>
-                                                                </div>
-                                                                <div class="clearfix">
-                                                                    <p class="float-left m-0">{{{time start}}}</p>
-                                                                    <p class="float-right text-danger m-0">{{{remain end}}}</p>
-                                                                </div>
-                                                                <p class="text-center text-info font-weight-bold">{{current}}$
-                                                                </p>
-                                                            </a>
-                                                        </div>
-                                                        {{/each}}
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="tab-pane" role="tabpanel" id="tab-2">
-                                            <div class="projects-horizontal">
-                                                <div class="container">
-                                                    <div id="participatingAuctions" class="row projects">
-                                                        {{#each ../participate}}
-                                                        <div class="col-6 col-sm-6 col-lg-3">
-                                                            <a href="/detail/{{id}}">
-                                                                <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
-                                                                <h5 class="text-center">{{name}} {{{new start}}}
-                                                                    {{#unless (equal status "bidding")}} <b>({{status}})</b>
-                                                                    {{/unless}}</h5>
-                                                                {{#if info }}
-                                                                <p class="text-center m-0">{{{masked info}}}</p>
-                                                                {{else}}
-                                                                <p class="text-center m-0">&nbsp; &nbsp;</p>
-                                                                {{/if}}
-                                                                <div class="clearfix">
-                                                                    <p class="float-left m-0">{{cap}}$</p>
-                                                                    <p class="float-right m-0">{{bids}} Bids</p>
-                                                                </div>
-                                                                <div class="clearfix">
-                                                                    <p class="float-left m-0">{{{time start}}}</p>
-                                                                    <p class="float-right text-danger m-0">{{{remain end}}}</p>
-                                                                </div>
-                                                                <p class="text-center text-info font-weight-bold">{{current}}$
-                                                                </p>
-                                                            </a>
-                                                        </div>
-                                                        {{/each}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="tab-pane" role="tabpanel" id="tab-3">
-                                            <div class="projects-horizontal">
-                                                <div class="container">
-                                                    <div id="wonAuctions" class="row projects">
-                                                        {{#each ../wonlist}}
-                                                        <div class="col-6 col-sm-6 col-lg-3">
-                                                            <a href="/detail/{{id}}">
-                                                                <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
-                                                                <h5 class="text-center">{{name}}
-                                                                    {{{new start}}}{{#unless (equal status "bidding")}}
-                                                                    <b>({{status}})</b> {{/unless}}</i></h5>
-                                                                <p class="text-center m-0">{{{masked info}}}</p>
-                                                                <div class="clearfix">
-                                                                    <p class="float-left m-0">{{cap}}$</p>
-                                                                    <p class="float-right m-0">{{bids}} Bids</p>
-                                                                </div>
-                                                                <div class="clearfix">
-                                                                    <p class="float-left m-0">{{{time start}}}</p>
-                                                                    <p class="float-right text-danger m-0">{{{remain end}}}</p>
-                                                                </div>
-                                                                <p class="text-center text-info font-weight-bold">{{current}}$
-                                                                </p>
-                                                            </a>
-                                                        </div>
-                                                        {{/each}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="tab-pane" role="tabpanel" id="tab-4">
-                                            <div class="projects-horizontal">
-                                                <div class="container">
-                                                    <div id="ongoingListed" class="row projects">
-                                                        {{#each ../ongoing}}
-                                                        <div class="col-6 col-sm-6 col-lg-3">
-                                                            <a href="/detail/{{id}}">
-                                                                <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
-                                                                <h5 class="text-center">{{name}}
-                                                                    {{{new start}}}{{#unless (equal status "bidding")}}
-                                                                    <b>({{status}})</b> {{/unless}}</i></h5>
-                                                                <p class="text-center m-0">{{{masked info}}}</p>
-                                                                <div class="clearfix">
-                                                                    <p class="float-left m-0">{{cap}}$</p>
-                                                                    <p class="float-right m-0">{{bids}} Bids</p>
-                                                                </div>
-                                                                <div class="clearfix">
-                                                                    <p class="float-left m-0">{{{time start}}}</p>
-                                                                    <p class="float-right text-danger m-0">{{{remain end}}}</p>
-                                                                </div>
-                                                                <p class="text-center text-info font-weight-bold">{{current}}$
-                                                                </p>
-                                                            </a>
-                                                        </div>
-                                                        {{/each}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="tab-pane" role="tabpanel" id="tab-5">
-                                            <div class="projects-horizontal">
-                                                <div class="container">
-                                                    <div id="endedListed" class="row projects">
-                                                        {{#each ../soldlist}}
-                                                        <div class="col-6 col-sm-6 col-lg-3">
-                                                            <a href="/detail/{{id}}">
-                                                                <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
-                                                                <h5 class="text-center">{{name}}
-                                                                    {{{new start}}}{{#unless (equal status "bidding")}}
-                                                                    <b>({{status}})</b> {{/unless}}</i></h5>
-                                                                <p class="text-center m-0">{{{masked info}}}</p>
-                                                                <div class="clearfix">
-                                                                    <p class="float-left m-0">{{cap}}$</p>
-                                                                    <p class="float-right m-0">{{bids}} Bids</p>
-                                                                </div>
-                                                                <div class="clearfix">
-                                                                    <p class="float-left m-0">{{{time start}}}</p>
-                                                                    <p class="float-right text-danger m-0">{{{remain end}}}</p>
-                                                                </div>
-                                                                <p class="text-center text-info font-weight-bold">{{current}}$
-                                                                </p>
-                                                            </a>
-                                                        </div>
-                                                        {{/each}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {{/if}}
-                                {{/if}}
-                            </div>
-                        </div>
+                    <div class="px-2 rounded mt-4 date">
+                        <span class="join">Joined Dec,2021</span>
                     </div>
                 </div>
             </div>
-            {{/with}}
         </div>
+        <div style="margin-top:2%; margin-left:2%;margin-right:2%">
+            <ul class="nav nav-tabs">
+                {{#if ../session.authenticated}}
+                    {{#if (equal ../session.user.privilege "bidder")}}
+                        <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab"
+                                                href="#tab-1">Watch List</a></li>
+                        <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab"
+                                                href="#tab-2">Bidding Product</a></li>
+                        <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3">Won
+                            Product</a></li>
+
+
+                        {{#if (equal ../session.user.request  null)}}
+                            <li>
+                                <form method="POST">
+                                    <button class="btn btn-outline-warning" type="submit"
+                                            formaction="/account/upgrade/{{id}}">Upgrade to
+                                        Seller
+                                    </button>
+                                </form>
+                            </li>
+                        {{/if}}
+
+
+                    {{else}}
+                        {{#if (equal ../session.user.privilege "seller")}}
+                            <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab"
+                                                    href="#tab-1">Watch List</a></li>
+                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab"
+                                                    href="#tab-2">Bidding Product</a></li>
+                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab"
+                                                    href="#tab-3">Won Product</a></li>
+                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab"
+                                                    href="#tab-4">Ongoing Listed Items</a></li>
+                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab"
+                                                    href="#tab-5">Ended Listed Items</a></li>
+                        {{/if}}
+                    {{/if}}
+                {{/if}}
+            </ul>
+            <div class="tab-content">
+                {{#if (equal ../session.user.privilege "bidder")}}
+
+                    <div class="tab-pane active" role="tabpanel" id="tab-1">
+                        <div class="projects-horizontal">
+                            <div class="container">
+                                <div id="watchList" class="row projects">
+                                    {{#each ../watchlist}}
+                                        <div class="col-6 col-sm-6 col-lg-3">
+                                            <a href="/detail/{{id}}">
+                                                <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
+                                                <h5 class="text-center">{{name}} {{{new start}}}
+                                                    {{#unless (equal status "bidding")}} <b>({{status}})</b>
+                                                    {{/unless}}</h5>
+                                                {{#if info }}
+                                                    <p class="text-center m-0">{{{masked info}}}</p>
+                                                {{else}}
+                                                    <p class="text-center m-0">&nbsp; &nbsp;</p>
+                                                {{/if}}
+                                                <div class="clearfix">
+                                                    <p class="float-left m-0">{{format_number cap}}</p>
+                                                    <p class="float-right m-0">{{bids}} Bids</p>
+                                                </div>
+                                                <div class="clearfix">
+                                                    <p class="float-left m-0">{{{time start}}}</p>
+                                                    <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                </div>
+                                                <p class="text-center text-info font-weight-bold">{{format_number
+                                                        current}}đ
+                                                </p>
+                                            </a>
+                                        </div>
+                                    {{/each}}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" role="tabpanel" id="tab-2">
+                        <div class="projects-horizontal">
+                            <div class="container">
+                                <div id="participatingAuctions" class="projects row">
+                                    {{#each ../participate}}
+                                        <div class="col-6 col-sm-6 col-lg-3">
+                                            <a href="/detail/{{product}}">
+                                                <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
+                                                <h5 class="text-center">{{name}} {{{new start}}}
+                                                    {{#unless (equal status "bidding")}} <b>({{status}})</b>
+                                                    {{/unless}}</h5>
+                                                {{#if info }}
+                                                    <p class="text-center m-0">{{{masked info}}}</p>
+                                                {{else}}
+                                                    <p class="text-center m-0">&nbsp; &nbsp;</p>
+                                                {{/if}}
+                                                <div class="clearfix">
+                                                    <p class="float-left m-0">{{format_number cap}}</p>
+                                                    <p class="float-right m-0">{{bids}} Bids</p>
+                                                </div>
+                                                <div class="clearfix">
+                                                    <p class="float-left m-0">{{{time start}}}</p>
+                                                    <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                </div>
+                                                <p class="text-center text-info font-weight-bold">{{format_number
+                                                        current}}
+                                                </p>
+                                            </a>
+                                        </div>
+                                    {{/each}}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" role="tabpanel" id="tab-3">
+                        <div class="projects-horizontal">
+                            <div class="container">
+                                <div id="wonAuctions" class="row projects">
+                                    {{#each ../wonlist}}
+                                        <div class="col-6 col-sm-6 col-lg-3">
+                                            <a href="/detail/{{id}}">
+                                                <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
+                                                <h5 class="text-center">{{name}}
+                                                    {{{new start}}}{{#unless (equal status "bidding")}}
+                                                        <b>({{status}})</b> {{/unless}}</i></h5>
+                                                <p class="text-center m-0">{{{masked info}}}</p>
+                                                <div class="clearfix">
+                                                    <p class="float-left m-0">{{format_number cap}}</p>
+                                                    <p class="float-right m-0">{{bids}} Bids</p>
+                                                </div>
+                                                <div class="clearfix">
+                                                    <p class="float-left m-0">{{{time start}}}</p>
+                                                    <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                </div>
+                                                <p class="text-center text-info font-weight-bold">{{format_number
+                                                        current}}
+                                                </p>
+                                            </a>
+                                        </div>
+                                    {{/each}}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{else}}
+
+                    {{#if (equal ../session.user.privilege "seller")}}
+                        <div class="tab-pane active" role="tabpanel" id="tab-1">
+                            <div class="projects-horizontal">
+                                <div class="container">
+                                    <div id="watchList" class="row projects">
+                                        {{#each ../watchlist}}
+                                            <div class="col-6 col-sm-6 col-lg-3">
+                                                <a href="/detail/{{id}}">
+                                                    <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
+                                                    <h5 class="text-center">{{name}} {{{new start}}}
+                                                        {{#unless (equal status "bidding")}} <b>({{status}})</b>
+                                                        {{/unless}}</h5>
+                                                    {{#if info }}
+                                                        <p class="text-center m-0">{{{masked info}}}</p>
+                                                    {{else}}
+                                                        <p class="text-center m-0">&nbsp; &nbsp;</p>
+                                                    {{/if}}
+                                                    <div class="clearfix">
+                                                        <p class="float-left m-0">{{cap}}$</p>
+                                                        <p class="float-right m-0">{{bids}} Bids</p>
+                                                    </div>
+                                                    <div class="clearfix">
+                                                        <p class="float-left m-0">{{{time start}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                    </div>
+                                                    <p class="text-center text-info font-weight-bold">{{current}}$
+                                                    </p>
+                                                </a>
+                                            </div>
+                                        {{/each}}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" role="tabpanel" id="tab-2">
+                            <div class="projects-horizontal">
+                                <div class="container">
+                                    <div id="participatingAuctions" class="row projects">
+                                        {{#each ../participate}}
+                                            <div class="col-6 col-sm-6 col-lg-3">
+                                                <a href="/detail/{{id}}">
+                                                    <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
+                                                    <h5 class="text-center">{{name}} {{{new start}}}
+                                                        {{#unless (equal status "bidding")}} <b>({{status}})</b>
+                                                        {{/unless}}</h5>
+                                                    {{#if info }}
+                                                        <p class="text-center m-0">{{{masked info}}}</p>
+                                                    {{else}}
+                                                        <p class="text-center m-0">&nbsp; &nbsp;</p>
+                                                    {{/if}}
+                                                    <div class="clearfix">
+                                                        <p class="float-left m-0">{{cap}}$</p>
+                                                        <p class="float-right m-0">{{bids}} Bids</p>
+                                                    </div>
+                                                    <div class="clearfix">
+                                                        <p class="float-left m-0">{{{time start}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                    </div>
+                                                    <p class="text-center text-info font-weight-bold">{{current}}$
+                                                    </p>
+                                                </a>
+                                            </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" role="tabpanel" id="tab-3">
+                            <div class="projects-horizontal">
+                                <div class="container">
+                                    <div id="wonAuctions" class="row projects">
+                                        {{#each ../wonlist}}
+                                            <div class="col-6 col-sm-6 col-lg-3">
+                                                <a href="/detail/{{id}}">
+                                                    <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
+                                                    <h5 class="text-center">{{name}}
+                                                        {{{new start}}}{{#unless (equal status "bidding")}}
+                                                            <b>({{status}})</b> {{/unless}}</i></h5>
+                                                    <p class="text-center m-0">{{{masked info}}}</p>
+                                                    <div class="clearfix">
+                                                        <p class="float-left m-0">{{cap}}$</p>
+                                                        <p class="float-right m-0">{{bids}} Bids</p>
+                                                    </div>
+                                                    <div class="clearfix">
+                                                        <p class="float-left m-0">{{{time start}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                    </div>
+                                                    <p class="text-center text-info font-weight-bold">{{current}}$
+                                                    </p>
+                                                </a>
+                                            </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" role="tabpanel" id="tab-4">
+                            <div class="projects-horizontal">
+                                <div class="container">
+                                    <div id="ongoingListed" class="row projects">
+                                        {{#each ../ongoing}}
+                                            <div class="col-6 col-sm-6 col-lg-3">
+                                                <a href="/detail/{{id}}">
+                                                    <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
+                                                    <h5 class="text-center">{{name}}
+                                                        {{{new start}}}{{#unless (equal status "bidding")}}
+                                                            <b>({{status}})</b> {{/unless}}</i></h5>
+                                                    <p class="text-center m-0">{{{masked info}}}</p>
+                                                    <div class="clearfix">
+                                                        <p class="float-left m-0">{{cap}}$</p>
+                                                        <p class="float-right m-0">{{bids}} Bids</p>
+                                                    </div>
+                                                    <div class="clearfix">
+                                                        <p class="float-left m-0">{{{time start}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                    </div>
+                                                    <p class="text-center text-info font-weight-bold">{{current}}$
+                                                    </p>
+                                                </a>
+                                            </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" role="tabpanel" id="tab-5">
+                            <div class="projects-horizontal">
+                                <div class="container">
+                                    <div id="endedListed" class="row projects">
+                                        {{#each ../soldlist}}
+                                            <div class="col-6 col-sm-6 col-lg-3">
+                                                <a href="/detail/{{id}}">
+                                                    <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
+                                                    <h5 class="text-center">{{name}}
+                                                        {{{new start}}}{{#unless (equal status "bidding")}}
+                                                            <b>({{status}})</b> {{/unless}}</i></h5>
+                                                    <p class="text-center m-0">{{{masked info}}}</p>
+                                                    <div class="clearfix">
+                                                        <p class="float-left m-0">{{cap}}$</p>
+                                                        <p class="float-right m-0">{{bids}} Bids</p>
+                                                    </div>
+                                                    <div class="clearfix">
+                                                        <p class="float-left m-0">{{{time start}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                    </div>
+                                                    <p class="text-center text-info font-weight-bold">{{current}}$
+                                                    </p>
+                                                </a>
+                                            </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    </div>
+        </div>
+    {{/with}}
+    </div>
     </div>
 </main>
 <script src="/public/assets/js/Profile-Edit-Form.js"></script>

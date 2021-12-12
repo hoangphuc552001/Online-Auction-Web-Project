@@ -1,5 +1,4 @@
 import fn from "knex";
-
 const knex = fn({
     client: 'mysql2',
     connection: {
@@ -9,6 +8,7 @@ const knex = fn({
         password : '',
         database : 'auction'
     },
-    pool: { min: 0, max: 10 }
+    pool: { min: 0, max: 10 },
 });
+
 export default knex;
