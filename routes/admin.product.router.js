@@ -6,7 +6,8 @@
 import express from "express";
 
 import productmodel from "../models/productmodel.js";
-//import imagemodel from "../models/imagemodel.js"
+import imagemodel from "../models/imagemodel.js"
+import admin from "../middlewares/admin.mdw.js"
 const router = express.Router();
 import categorymodel from "../models/categorymodel.js";
 // router.get('/', async function (req, res) {
@@ -24,7 +25,7 @@ import categorymodel from "../models/categorymodel.js";
 //     });
 // });
 
-router.get('/', async function (req, res) {
+router.get('/', admin,async function (req, res) {
   
     let page = +req.query.page || 1;
     if (page < 0)
@@ -32,7 +33,7 @@ router.get('/', async function (req, res) {
     const offset = (page - 1) * 24;
     const total = await productmodel.total();
     const rows = await productmodel.page(offset);
-  
+
     const nPages = Math.ceil(total / 24);
     const page_items = [];
     for (let i = 1; i <= nPages; i++) {
@@ -57,7 +58,7 @@ router.get('/', async function (req, res) {
 
 
 // delete product by id
-router.post('/del/:ProdId',async function (req, res) {
+router.post('/del/:ProdId',admin,async function (req, res) {
     const rss = await imagemodel.delete(req.params.ProdId);
     const rs = await productmodel.delete(req.params.ProdId);
     res.redirect('/admin/product');

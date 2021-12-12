@@ -253,7 +253,7 @@ router.post('/otp',async function (req, res) {
                 req.session.authenticated = true;
     //       }
 
-            req.session.authenticated = true;
+            //req.session.authenticated = true;
             const url = req.session.previous;
             delete req.session.previous;
             if (req.session.user.privilege == null)
@@ -264,7 +264,8 @@ router.post('/otp',async function (req, res) {
             else if (req.session.user.privilege === "admin"){
                 req.session.admin=true;
                 return req.session.save(function () {
-                    return res.redirect('/account/admin');
+                    const retUrl = req.session.retUrl||'/account/admin';
+                    return res.redirect(retUrl);
                 });
             }
 

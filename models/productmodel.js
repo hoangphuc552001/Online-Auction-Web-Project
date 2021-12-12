@@ -135,6 +135,16 @@ export default {
     return db('history').select('user.name','history.offer','history.time').where('history.product',id).orderBy('time','asc')
         .join('user','user.id','=','history.user')
   },
+  async countByCat(category){
+    const row = await db('product').where('category',category);
+    return row.length;
+  },
+  delete(id){
+    return db('product').where('id',id).del();
+  },
+  async countByUser(id){
+    const row = await db('product').where('seller',id);
+    return row.length;
   watchlist(id){
     return db('product').join('watchlist','product.id','=','watchlist.product')
         .where('watchlist.user',id);
