@@ -36,7 +36,7 @@
                         <td>{{start}}</td>
                         <td>{{end}}</td>
                         <td>
-                             <button type="submit" class="btn btn-outline-danger" name="btn-remove"  formaction="/product/view/del/{{id}}"><i class="far fa-trash-alt"></i></button>
+                             <button type="submit" class="btn btn-outline-danger" name="btn-remove"  formaction="product/del/{{id}}"><i class="far fa-trash-alt"></i></button>
                         </td>
                     </tr>
                     {{/each}}
@@ -45,7 +45,7 @@
             <nav class="nav-page" >
                 <ul class="pagination" >
                     <li class="page-item {{#unless this.can_go_prev}}disabled{{/unless}}">
-                        <a class="page-link"  role="button" href="/product/view/?page={{prev_value}}" tabindex="-1" aria-disabled="true">
+                        <a class="page-link"  role="button" href="/admin/product/?page={{prev_value}}" tabindex="-1" aria-disabled="true">
                             <i class="fa fa-backward" aria-hidden="true"></i>
                         </a>
                     </li>
@@ -56,12 +56,12 @@
                     </li>
                     {{else}}
                     <li class="page-item">
-                        <a class="page-link"  role="button" href="/product/view/?page={{value}}">{{value}}</a>
+                        <a class="page-link"  role="button" href="/admin/product/?page={{value}}">{{value}}</a>
                     </li>
                     {{/if}}
                     {{/each}}
                     <li class="page-item {{#unless this.can_go_next}}disabled{{/unless}}">
-                        <a class="page-link"  role="button" href="/product/view/?page={{next_value}}">
+                        <a class="page-link"  role="button" href="/admin/product/?page={{next_value}}">
                             <i class="fa fa-forward" aria-hidden="true"></i>
                         </a>
                     </li>

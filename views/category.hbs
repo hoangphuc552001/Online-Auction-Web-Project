@@ -1,5 +1,5 @@
 
-    <link rel="stylesheet" href="/assets/css/category.css">
+    <link rel="stylesheet" href="/public/assets/css/category.css">
     <main>
       <form method="POST">
         <div class="container-category">
@@ -25,7 +25,7 @@
                     {{#each category}}
                     <tr>
                       <th scope="row">{{id}}</th>
-                      <td style="text-align: left;">{{name}}</td>
+                      <td style="text-align: center;">{{name}}</td>
                       <td>
                         <a role="button" href="category/category-view/{{id}}" class="btn btn-primary" name="btn-view-cat"><i class="far fa-eye"></i></a>
                         <a role="button" href="category/category-edit/{{id}}" class="btn btn-success" name="btn-edit-cat"><i class="fas fa-edit"></i></a>

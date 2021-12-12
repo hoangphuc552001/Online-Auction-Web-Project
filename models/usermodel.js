@@ -44,5 +44,13 @@ export default {
 
     async findRequest(){
         return db('user').where('privilege','bidder').where('request','1');
+    },
+    changeType(entity){
+        const id = entity.id;
+        delete entity.id;
+        return db('user').where('id',id).update(entity);
+    },
+    async delete(id){
+        return db('user').where('id',id).del();
     }
 }

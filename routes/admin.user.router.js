@@ -3,9 +3,10 @@ import express, {request} from "express";
 import productmodel from "../models/productmodel.js";
 import categorymodel from "../models/categorymodel.js";
 import usermodel from "../models/usermodel.js";
+import admin from "../middlewares/admin.mdw.js"
 const router = express.Router();
 
-router.get('/', async function (req, res) {
+router.get('/',admin, async function (req, res) {
 
     const bidder = await usermodel.findBidder();
     const seller = await usermodel.findSeller();
@@ -18,14 +19,47 @@ router.get('/', async function (req, res) {
     });
 });
 
-router.get('/user-view/:UserId',async function (req, res){
-    await usermodel.refresh();
+
+router.get('/user-view/:UserId',admin,async function (req, res){
+  //  await usermodel.refresh();
     const user = await usermodel.id(req.params.UserId);
     res.render('./user-view', {
         user: user[0],
     });
 });
 
+router.post('/down-seller/:UserId',admin,async function (req, res) {
+    const entity = {
+        id: req.params.UserId,
+        request: "0",
+        privilege: "bidder"
+    }
+    const rs = await usermodel.changeType(entity);
+    res.redirect('/admin/user');
+});
+
+router.post('/del-user/:UserId',admin,async function (req, res) {
+    const product = await productmodel.countByUser(req.params.UserId);
+    if(product === 0){
+        console.log("can delete this user");
+        const rs = await usermodel.delete(req.params.UserId);
+    }
+    else{
+        console.log("canot delete this user");
+    }
+    res.redirect('/admin/user');
+});
+
+router.post('/up-bidder/:UserId',admin,async function (req, res) {
+    const entity = {
+        id: req.params.UserId,
+        request: "0",
+        privilege: "seller"
+    }
+    // console.log(req.params.UserId);
+    const rs = await usermodel.changeType(entity);
+    res.redirect('/admin/user');
+});
 //add user
 // router.get('/user-add',async function (req, res) {
 //     res.render('./user-add');

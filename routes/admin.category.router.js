@@ -7,7 +7,9 @@ import productmodel from "../models/productmodel.js";
 import categorymodel from "../models/categorymodel.js";
 
 
-router.get('/', async function (req, res) {
+import admin from "../middlewares/admin.mdw.js"
+
+router.get('/', admin ,async function (req, res) {
     //await productmodel.refresh();
     const category = await categorymodel.findAllWithDetails();
     res.render('./category', {
@@ -15,8 +17,8 @@ router.get('/', async function (req, res) {
     });
 });
 
-router.get('/category-add',async function (req, res) {
-    var category = await categorymodel.all();
+router.get('/category-add',admin,async function (req, res) {
+    const category = await categorymodel.all();
 
     res.render('./category-add', {
         category: category
@@ -25,9 +27,9 @@ router.get('/category-add',async function (req, res) {
 });
 
 //submit new category to database
-router.post('/category-add',async function (req, res) {
+router.post('/category-add',admin,async function (req, res) {
     //if high level category
-    if(req.body.txtcategoryParent != '-1'){
+    if(req.body.txtcategoryParent !== '-1'){
         const entity = {
             name : req.body.txtCatName,
             parent : req.body.txtcategoryParent,
@@ -54,7 +56,7 @@ router.post('/category-add',async function (req, res) {
 });
 
 // get category info by id
-router.get('/category-view/:CatId',async function (req, res) {
+router.get('/category-view/:CatId',admin,async function (req, res) {
     //queried entity
     const category = await categorymodel.getById(req.params.CatId);
     if(category === null) 
@@ -73,7 +75,7 @@ router.get('/category-view/:CatId',async function (req, res) {
 });
 
 // get info and edit category by id
-router.get('/category-edit/:CatId',async function (req, res) {
+router.get('/category-edit/:CatId',admin,async function (req, res) {
     //queried entity
     const category = await categorymodel.getById(req.params.CatId);
     if(category === null) 
@@ -104,7 +106,7 @@ router.get('/category-edit/:CatId',async function (req, res) {
 });
 
 //post
-router.post('/category-edit/:catid', async function(req, res){
+router.post('/category-edit/:catid',admin, async function(req, res){
     const entity = {
         id: req.body.txtCatId,
         name: req.body.txtCatName,
@@ -113,18 +115,20 @@ router.post('/category-edit/:catid', async function(req, res){
     if(entity.parent === '' || entity.parent===entity.id){
         entity.parent = null;
     }
-    // console.log(entity.id);
-    // console.log(entity.parent);
     const rs = await categorymodel.update(entity);
+
 
     res.redirect('/admin/category');
 })
 
 
 // delete category by id
-router.post('/del/:CatId',async function (req, res) {
+router.post('/del/:CatId',admin,async function (req, res) {
     const isParent = await categorymodel.isParent(req.params.CatId);
-    const quantity = await productmodel.countByCat(req.params.CatId);   
+    const quantity = await productmodel.countByCat(req.params.CatId);
+  //  console.log(req.params.CatId);
+  //  console.log(isParent);
+ //   console.log(quantity);
     var message = "Can not delete category contains product";
     if(quantity === 0 && isParent !== true){
         const rs = await categorymodel.delete(req.params.CatId);
