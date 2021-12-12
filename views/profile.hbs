@@ -155,7 +155,8 @@
                                                     {{#unless (equal status "bidding")}} <b>({{status}})</b>
                                                     {{/unless}}</h5>
                                                 {{#if info }}
-                                                    <p class="text-center m-0">{{{masked info}}}</p>
+                                                    <p class="text-center m-0">Bidder:{{{masked info}}}</p>
+                                                    <p class="text-center m-0">Seller:{{{masked sellername}}}</p>
                                                 {{else}}
                                                     <p class="text-center m-0">&nbsp; &nbsp;</p>
                                                 {{/if}}
@@ -164,11 +165,11 @@
                                                     <p class="float-right m-0">{{bids}} Bids</p>
                                                 </div>
                                                 <div class="clearfix">
-                                                    <p class="float-left m-0">{{{time start}}}</p>
+                                                    <p class="float-left m-0">{{{timestamp_ start}}}</p>
                                                     <p class="float-right text-danger m-0">{{{remain end}}}</p>
                                                 </div>
                                                 <p class="text-center text-info font-weight-bold">{{format_number
-                                                        current}}đ
+                                                        current}}
                                                 </p>
                                             </a>
                                         </div>
@@ -191,7 +192,8 @@
                                                     {{#unless (equal status "bidding")}} <b>({{status}})</b>
                                                     {{/unless}}</h5>
                                                 {{#if info }}
-                                                    <p class="text-center m-0">{{{masked info}}}</p>
+                                                    <p class="text-center m-0">Bidder:{{{masked info}}}</p>
+                                                    <p class="text-center m-0">Seller:{{{masked sellername}}}</p>
                                                 {{else}}
                                                     <p class="text-center m-0">&nbsp; &nbsp;</p>
                                                 {{/if}}
@@ -200,8 +202,11 @@
                                                     <p class="float-right m-0">{{bids}} Bids</p>
                                                 </div>
                                                 <div class="clearfix">
-                                                    <p class="float-left m-0">{{{time start}}}</p>
+                                                    <p class="float-left m-0">{{{timestamp_ start}}}</p>
                                                     <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                </div>
+                                                <div class="clearfix">
+                                                    <p class="float-left m-0">Bid time: {{{timestamp_ time}}}</p>
                                                 </div>
                                                 <p class="text-center text-info font-weight-bold">{{format_number
                                                         current}}
@@ -226,22 +231,90 @@
                                                 <h5 class="text-center">{{name}}
                                                     {{{new start}}}{{#unless (equal status "bidding")}}
                                                         <b>({{status}})</b> {{/unless}}</i></h5>
-                                                <p class="text-center m-0">{{{masked info}}}</p>
+                                                <p class="text-center m-0">Seller: {{{masked sellername}}}</p>
                                                 <div class="clearfix">
                                                     <p class="float-left m-0">{{format_number cap}}</p>
                                                     <p class="float-right m-0">{{bids}} Bids</p>
                                                 </div>
                                                 <div class="clearfix">
-                                                    <p class="float-left m-0">{{{time start}}}</p>
+                                                    <p class="float-left m-0">{{{timestamp_ start}}}</p>
                                                     <p class="float-right text-danger m-0">{{{remain end}}}</p>
                                                 </div>
                                                 <p class="text-center text-info font-weight-bold">{{format_number
                                                         current}}
                                                 </p>
                                             </a>
+                                            <p class="text-center mt-2">
+                                                <button type="button" class="btn btn-light" data-toggle="modal"
+                                                        data-target="#like{{id}}">
+                                                    <i class="fa fa-thumbs-o-up fa-2x" style="color: blue"
+                                                       aria-hidden="true"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-light" data-toggle="modal"
+                                                        data-target="#dis{{id}}">
+                                                    <i class="fa fa-thumbs-o-down fa-2x" style="color:red;"
+                                                       aria-hidden="true"></i>
+                                                </button>
+                                            </p>
+                                            <!-- Like Modal -->
+                                            <div class="modal fade" id="like{{id}}" tabindex="-1" role="dialog"
+                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Review
+                                                                Post</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Do you want to review post
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close
+                                                            </button>
+                                                            <form action="/account/reviewpost/{{seller}}/{{id}}/like">
+                                                                <button type="submit" class="btn btn-primary">Yes
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Dislike Modal -->
+                                            <div class="modal fade" id="dis{{id}}" tabindex="-1" role="dialog"
+                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Review
+                                                                Post</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Do you want to review post
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close
+                                                            </button>
+                                                            <form action="/account/reviewpost/{{seller}}/{{id}}/dislike">
+                                                                <button type="submit" class="btn btn-primary">Yes
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     {{/each}}
-
                                 </div>
                             </div>
                         </div>
@@ -270,7 +343,7 @@
                                                         <p class="float-right m-0">{{bids}} Bids</p>
                                                     </div>
                                                     <div class="clearfix">
-                                                        <p class="float-left m-0">{{{time start}}}</p>
+                                                        <p class="float-left m-0">{{{timestamp_ start}}}</p>
                                                         <p class="float-right text-danger m-0">{{{remain end}}}</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
@@ -305,7 +378,7 @@
                                                         <p class="float-right m-0">{{bids}} Bids</p>
                                                     </div>
                                                     <div class="clearfix">
-                                                        <p class="float-left m-0">{{{time start}}}</p>
+                                                        <p class="float-left m-0">{{{timestamp_ start}}}</p>
                                                         <p class="float-right text-danger m-0">{{{remain end}}}</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
@@ -335,7 +408,7 @@
                                                         <p class="float-right m-0">{{bids}} Bids</p>
                                                     </div>
                                                     <div class="clearfix">
-                                                        <p class="float-left m-0">{{{time start}}}</p>
+                                                        <p class="float-left m-0">{{{timestamp_ start}}}</p>
                                                         <p class="float-right text-danger m-0">{{{remain end}}}</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
@@ -365,7 +438,7 @@
                                                         <p class="float-right m-0">{{bids}} Bids</p>
                                                     </div>
                                                     <div class="clearfix">
-                                                        <p class="float-left m-0">{{{time start}}}</p>
+                                                        <p class="float-left m-0">{{{timestamp_ start}}}</p>
                                                         <p class="float-right text-danger m-0">{{{remain end}}}</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
@@ -395,7 +468,7 @@
                                                         <p class="float-right m-0">{{bids}} Bids</p>
                                                     </div>
                                                     <div class="clearfix">
-                                                        <p class="float-left m-0">{{{time start}}}</p>
+                                                        <p class="float-left m-0">{{{timestamp_ start}}}</p>
                                                         <p class="float-right text-danger m-0">{{{remain end}}}</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$

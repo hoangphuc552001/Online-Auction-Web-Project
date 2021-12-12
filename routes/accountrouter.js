@@ -36,9 +36,21 @@ router.get('/profile', auth, async function (req, res) {
     var participate = await productmodel.participate(req.session.user.id);
     var wonlist = await productmodel.wonlist(req.session.user.id);
     var watchlist = await productmodel.watchlist(req.session.user.id);
-    // var participate = await productmodel.participate(req.session.user.id);
-    // var wonlist = await productmodel.wonlist(req.session.user.id);
-
+    for (let i=0;i<participate.length;i++){
+        var user1=await productmodel.findSellerInfor(participate[i].product)
+        participate[i].sellername=user1[0].name
+        participate[i].selleremail=user1[0].email
+    }
+    for (let i=0;i<wonlist.length;i++){
+        var user2=await productmodel.findSellerInfor(wonlist[i].id)
+        wonlist[i].sellername=user2[0].name
+        wonlist[i].selleremail=user2[0].email
+    }
+    for (let i=0;i<watchlist.length;i++){
+        var user3=await productmodel.findSellerInfor(watchlist[i].id)
+        watchlist[i].sellername=user3[0].name
+        watchlist[i].selleremail=user3[0].email
+    }
     if (req.session.user.privilege === "bidder")
         return res.render('./profile', {
             user: req.session.user,
@@ -114,7 +126,6 @@ router.post('/upgrade/:id', async function (req, res) {
         request: "upgrade"
     }
     const condition = {id: req.params.id};
-    console.log(condition)
     const rs = await usermodel.update(entity, condition);
     res.redirect('/account/profile');
 });
@@ -194,6 +205,58 @@ router.post('/editprofile', auth, async function (req, res) {
             res.json(error);
             console.log("update profile failed!");
         });
+});
+router.get('/reviewpost/:seller/:productid/:like',auth,async function (req,res) {
+    let rating=await productmodel.getRating(req.params.seller);
+    rating=rating[0].rating
+    let countLikeBidder=await productmodel.countLikeBidder(req.params.seller,1)
+    countLikeBidder=countLikeBidder[0].count
+    let countDisLikeBidder=await productmodel.countLikeBidder(req.params.seller,0)
+    countDisLikeBidder=countDisLikeBidder[0].count
+    let percentLike=countLikeBidder/parseFloat(countLikeBidder+countDisLikeBidder)
+    let percentDisLike=countDisLikeBidder/parseFloat(countLikeBidder+countDisLikeBidder)
+    let u_ser=await productmodel.findSellerInfor(req.params.productid)
+    let name=u_ser[0].name
+    var today = new Date();
+    res.render("reviewpost",{
+        rating,
+        countLikeBidder,
+        countDisLikeBidder,
+        percentLike:percentLike*100,
+        percentDisLike:percentDisLike*100,
+        name,
+        today,
+        seller:req.params.seller,
+        productid:req.params.productid,
+        like:req.params.like
+    });
 })
-;
+router.post('/reviewpost/:seller/:productid/:like', auth, async function (req, res) {
+    const sellerid=req.params.seller
+    const productid=req.params.productid
+    const like=req.params.like==="like"?1:0
+    const comment=req.body.comment
+    const bidderid=req.session.user.id
+    var entity={
+        product:productid,
+        bidder:bidderid,
+        seller:sellerid,
+        like:like,
+        comment:comment,
+        sender:"bidder",
+        time:new Date()
+    }
+    await productmodel.insertRatingBidder(entity)
+    let likeseller=await productmodel.countLikeBidder(sellerid,1)
+    let totalrating=await productmodel.countRateBidder(sellerid)
+    likeseller=likeseller[0].count
+    totalrating=totalrating[0].count
+    const score=(likeseller/parseFloat(totalrating))*10
+    entity={
+        rating:score.toFixed(2)
+    }
+    await usermodel.updateRating(sellerid,entity)
+    res.redirect("/account/profile");
+})
+
 export default router;

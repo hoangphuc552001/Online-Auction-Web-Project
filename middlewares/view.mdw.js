@@ -27,8 +27,14 @@ export default function (app) {
         time(time) {
           return moment(time).format("YYYY/MM/DD");
         },
+        Time_(time){
+          return moment(time).format("DD/MM/YYYY");
+        },
         timestamp(time) {
           return moment(time).format("YYYY/MM/DD hh:mm:ss");
+        },
+        timestamp_(time) {
+          return moment(time).format("DD/MM/YYYY hh:mm:ss");
         },
         new(start) {
           if (moment().diff(start, "days") < 1)

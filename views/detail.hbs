@@ -64,7 +64,7 @@
             {{#with product}}
                 <h2 class="m-0 mb-2 " id="name">{{name}} {{{new start}}} {{#unless (equal status "bidding")}} <b>({{status}})</b>
                 {{/unless}}</h2>
-                <p class="m-1">End in: <b class="text-danger">{{remain end}}</b></p>
+                <p class="m-1">End in: <b id="demo" class="text-danger">{{remain end}}</b></p>
                 <p class="m-1">Current: <b class="text-info">{{ format_number current}}</b></p>
                 <p class="m-1">Deal:
                     {{#if cap}}
@@ -120,7 +120,7 @@
                         class='fa fa-star text-warning'></i></p>)</p>
                 {{/if}}
                 <p class="m-1">Bids: {{bids}} Times</p>
-                <p class="m-1">Start: {{time start}}</p>
+                <p class="m-1">Start: {{Time_ start}}</p>
                 {{#if ../session.authenticated}}
                     <div>
                         <form method="post">
@@ -141,11 +141,20 @@
                             <label class="custom-control-label" for="mode">Automated bid</label>
                         </div>
 
-                        <input class="col-9 col-md-6" type="text" placeholder="{{{format_number sum current increment}}}" name="offer" id="offer"
-                            {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}}>
-                        <button class="col-3 ml-2" style="background-color: lightcyan; border-radius: 15px; width: 50px;"
-                                value="{{{sum current increment}}}" {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}} type="button"
-                                data-toggle="modal" id="minimum" data-target="#announce-modal">Bid</button>
+                        {{#if ../checkRating}}
+                            <input class="col-9 col-md-6" type="text" placeholder="{{{format_number sum current increment}}}" name="offer" id="offer"
+                                {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}}>
+                            <button class="col-3 ml-2" style="background-color: lightcyan; border-radius: 15px; width: 50px;"
+                                    value="{{{sum current increment}}}" {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}} type="button"
+                                    data-toggle="modal" id="minimum" data-target="#announce-modal">Bid</button>
+                        {{else}}
+                            <div class="alert alert-danger" role="alert">
+                                Rate score not enough to bid product
+                            </div>
+                            <input class="col-9 col-md-6" disabled type="text" placeholder="{{{format_number sum current increment}}}" name="offer" id="offer"
+                                {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}}>
+                        {{/if}}
+
                         <div class="modal fade" id="announce-modal" role="dialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -341,7 +350,7 @@
             if (event.type === 'hide') {
                 if ($activeElement[0].id === "confirm") {
                     if (input < minimum) {
-                        $('#error').html("Invalid offer!\nOffer: " + input + 'đ');
+                        $('#error').html("Invalid offer!\nOffer: " + numeral(input).format("0,0") + " đ");
                         $('#error-modal').modal('show');
                     }
                     else if (input >= 0) {
@@ -350,8 +359,41 @@
                 }
             }
             if (event.type === 'show') {
-                $('#announce').html("Are you sure to continue?\nOffer: " +input + " đ");
+                $('#announce').html("Are you sure to continue?\nOffer: " +numeral(input).format("0,0") + " đ");
             }
         }
     });
+</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+<script>
+        {{#with product}}
+        // Set the date we're counting down to
+        var countDownDate = new Date("{{end}}").getTime();
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+                    + minutes + "m " + seconds + "s ";
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+        {{/with}}
 </script>

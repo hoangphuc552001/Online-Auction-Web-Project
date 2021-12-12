@@ -161,7 +161,28 @@ export default {
         .andWhere("automation.offer",">=",entity.offer)
         .orderBy("automation.offer","desc")
         .limit(1)
+  },
+  insertRatingBidder(entity){
+    return db('rating').insert(entity)
+  },
+
+  findSellerInfor(proID){
+    return db("user").select("user.name","user.email").join("product","product.seller","=","user.id")
+        .where("product.id",proID)
+  },
+  getRating(id){
+    return db("user").select("user.rating").where("user.id",id)
   }
-
-
+  ,
+  countLikeBidder(id,like){
+    return db("rating").count('id as count').where({"rating.seller":id,"rating.like":like,"rating.sender":"bidder"})
+  },
+  countRateBidder(id){
+    return db("rating").count('id as count').where({"rating.seller":id,"rating.sender":"bidder"})
+  }
+  ,
+  checkProductAlreadyRate(proId){
+    return db("product").join("rating","product.name","rating.product")
+        .where({"product.id":proId,"rating.sender":"bidder"})
+  }
 };
