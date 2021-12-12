@@ -5,6 +5,7 @@ import usermodel from "../models/usermodel.js";
 import bcrypt from 'bcryptjs';
 import mailgu from "mailgun-js/lib/mailgun.js" ;
 import crypt from "../utils/crypt.js";
+import admin from "../middlewares/admin.mdw.js";
 import moment from "moment";
 
 
@@ -38,6 +39,9 @@ router.get('/', async function (req, res) {
 });
 
 router.get('/login', async function (req, res) {
+  //  if (req.headers.referer.indexOf("/login") == -1 && req.headers.referer.indexOf("/registers") == -1 && req.headers.referer.indexOf('/otp') == -1)
+   //     req.session.previous = req.headers.referer;
+
     if (req.headers.referer) {
         if (req.headers.referer.indexOf("/login") == -1 && req.headers.referer.indexOf("/registers") == -1 && req.headers.referer.indexOf('/otp') == -1)
             req.session.previous = req.headers.referer;
@@ -64,9 +68,8 @@ router.post('/login', async function (req, res) {
         return res.render('./login', {
             announce: 'Invalid username or password.'
         });
-
+    req.session.authenticated=false;
     delete user.password;
-    req.session.authenticated = false;
     req.session.user = user;
     const otp = Math.floor(100000 + Math.random() * 900000);
     const entity = {
@@ -90,8 +93,11 @@ router.post('/login', async function (req, res) {
     });
 });
 
+
+
 router.get('/logout', async function (req, res) {
     req.session.authenticated = false;
+    req.session.admin=false;
     req.session.user = null;
   // if (req.headers.referer){
   //    //if(typeof (req.headers.referer)==='undefined')
@@ -162,7 +168,7 @@ router.post('/reset', async function (req, res) {
         from: 'GPA <HCMUS@fit.com>',
         to: req.session.user.email,
         subject: 'Online Auction',
-        text: `Hi,\nYour password has been changed successfully!\nThank you for joining WNT Online Auction\nSent: ${moment()}`
+        text: `Hi,\nYour password has been changed successfully!\nThank you for joining GPA Online Auction\nSent: ${moment()}`
     };
 
     mailgun.messages().send(data);
@@ -197,7 +203,7 @@ router.post('/register', async function (req, res) {
             from: 'GPA Team<HCMUS@fit.com>',
             to: user.email,
             subject: 'Online Auction',
-            text: `Hi,\nThanks for joining WNT Online Auction! Please confirm your email address by clicking on the link below. We'll communicate with you from time to time via email so it's important that we have an up-to-date email address on file.\nhttp://localhost:3000/account/active/${user.id}\nIf you did not sign up for a WNT account please disregard this email.\nHappy emailing!\nAdministrators`
+            text: `Hi,\nThanks for joining GPA Online Auction! Please confirm your email address by clicking on the link below. We'll communicate with you from time to time via email so it's important that we have an up-to-date email address on file.\nhttp://localhost:3000/account/active/${user.id}\nIf you did not sign up for a GPA account please disregard this email.\nHappy emailing!\nAdministrators`
         };
 
         mailgun.messages().send(data);
@@ -227,43 +233,41 @@ router.get('/otp', async function (req, res) {
     res.render('./otp');
 });
 
-router.post('/otp', async function (req, res) {
+router.post('/otp',async function (req, res) {
     let otp = req.body.otp;
 
     var target = await usermodel.verify(req.session.user.email)
     target=target[0];
 
 
-    if (target.length == 0) {
+    if (target.length === 0) {
         return res.render('./otp', {
             announce: 'Something went wrong, please re-login!'
         })
     }
 
 
-
-
     if (moment().isBefore(target.end)) {
         if (otp === target.otp) {
-            if (req.session.previous.localeCompare("/reset") != 0) {
+   //        if (req.session.previous.localeCompare("/reset") != 0) {
                 req.session.authenticated = true;
-            }
+    //       }
 
-
-         //   console.log('verified');
-
-            req.session.authenticated = true;
+            //req.session.authenticated = true;
             const url = req.session.previous;
             delete req.session.previous;
             if (req.session.user.privilege == null)
                 return req.session.save(function () {
-                    return res.redirect('/account/reminder');
+                        return res.redirect('/account/reminder');
                 });
 
-            else if (req.session.user.privilege === "admin")
+            else if (req.session.user.privilege === "admin"){
+                req.session.admin=true;
                 return req.session.save(function () {
-                    return res.redirect('/account/admin');
+                    const retUrl = req.session.retUrl||'/account/admin';
+                    return res.redirect(retUrl);
                 });
+            }
 
             else if (url)
                 return req.session.save(function () {
@@ -449,5 +453,95 @@ router.get('/logout', async function (req, res) {
     res.redirect('login');
 });
 */
+router.post('/profile/:name/edit-name', (req, res, next) => {
+    usermodel.singleByUserName(req.body.newusername)
+        .then(user => {
+            if (user) {
+                alert("Username exist!");
+                return res.redirect('/user/profile/' + req.session.user.name);
+            } else {
+                usermodel
+                    .updateName({
+                        name: req.body.newusername
+                    }, {
+                        where: { name: req.session.user.name }
+                    })
+                    .then(function() {
+                        usermodel
+                            .singleByUserName(req.body.newusername)
+                            .then(user => {
+                                req.session.user = user;
+                                res.locals.user = req.session.user;
+                                res.redirect('/');
+                            })
+                            .catch(error => next(error));
+                    })
+                    .catch(function(error) {
+                        res.json(error);
+                        console.log("update profile failed!");
+                    });
+            }
+        })
+});
+
+router.post('/profile/:name/edit-email', (req, res, next) => {
+    usermodel.singleByEmail(req.body.newemail)
+        .then(user => {
+            if (user) {
+                alert("Email exist!");
+                return res.redirect('/user/profile/' + req.session.user.name);
+            } else {
+                usermodel
+                    .update({
+                        email: req.body.newemail
+                    }, {
+                        where: { name: req.session.user.email }
+                    })
+                    .then(function() {
+                        usermodel
+                            .singleByEmail(req.body.newemail)
+                            .then(user => {
+                                req.session.user = user;
+                                res.locals.user = req.session.user;
+                                res.redirect('/');
+                            })
+                            .catch(error => next(error));
+                    })
+                    .catch(function(error) {
+                        res.json(error);
+                        console.log("update profile failed!");
+                    });
+            }
+        })
+});
+
+router.post('/profile/:name/edit-dob', (req, res, next) => {
+    usermodel.singleByUserName(req.params.name)
+        .then(function() {
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(req.body.newdob, salt);
+            usermodel
+                .updatePassword({
+                    dob: hash
+                }, {
+                    where: { name: req.session.user.name }
+                })
+                .then(function() {
+                    usermodel
+                        .singleByUserName(req.params.name)
+                        .then(user => {
+                            req.session.user = user;
+                            res.locals.user = req.session.user;
+                            res.redirect('/');
+                        })
+                        .catch(error => next(error));
+                })
+                .catch(function(error) {
+                    res.json(error);
+                    console.log("update profile failed!");
+                });
+        })
+});
+
 export default router;
 

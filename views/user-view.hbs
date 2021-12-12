@@ -1,0 +1,71 @@
+
+<link rel="stylesheet" href="/public/assets/css/profile.css">
+
+<main>
+    <form method="POST">
+    <div class="container bootstrap snippets" style="margin-top:2%">
+        <div class="row" id="user-profile"> 
+            <div class="col-lg-3 col-md-4 col-sm-4">
+                <div class="main-box clearfix">
+                    <h2>{{this.user.name}}</h2>
+                   
+                        <h3><span class="label label-danger" style="color: rgb(11, 112, 70);">{{user.privilege}}</span></h3>
+
+                    <div class="profile-stars">
+                        <i class="fa fa-star"></i>
+                        {{!-- <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i> --}}
+                        <span>{{this.user.rating}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-md-8 col-sm-8">
+                <div class="main-box clearfix">
+                    <div class="profile-header clearfix">
+                        <h3><span style="color: rgb(60, 117, 119);">User info</span></h3>
+                        <a href="/admin/user" class="btn btn-primary edit-profile">
+                            <i class="fa fa-backward"></i> Back
+                        </a>
+                        
+                    </div>
+
+                    <div class="row profile-user-info">
+                        <div class="col-sm-8">
+                            <div class="profile-user-details clearfix">
+                                <div class="profile-user-details-label">
+                                    User ID:
+                                </div>
+                                <div class="profile-user-details-value">
+                                    {{this.user.id}}
+                                </div>
+                            </div>
+                            <div class="profile-user-details clearfix">
+                                <div class="profile-user-details-label">
+                                    Request:
+                                </div>
+                                <div class="profile-user-details-value">
+                                    {{this.user.request}}
+                                </div>
+                            </div>
+                            <div class="profile-user-details clearfix">
+                                <div class="profile-user-details-label">
+                                    Email:
+                                </div>
+                                <div class="profile-user-details-value">
+                                    {{this.user.email}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </form>
+
+</main>
