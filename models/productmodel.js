@@ -145,6 +145,7 @@ export default {
   async countByUser(id){
     const row = await db('product').where('seller',id);
     return row.length;
+  },
   watchlist(id){
     return db('product').join('watchlist','product.id','=','watchlist.product')
         .where('watchlist.user',id);
