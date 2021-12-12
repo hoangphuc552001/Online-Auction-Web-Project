@@ -91,7 +91,7 @@ export default {
         return db('user').where('privilege','bidder').where('request','1');
     },
     updateRating(id,entity){
-        return db('user').update(entity).where("user.id",id),
+        return db('user').update(entity).where("user.id",id)},
     changeType(entity){
         const id = entity.id;
         delete entity.id;
