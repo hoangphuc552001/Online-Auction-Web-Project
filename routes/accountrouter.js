@@ -99,7 +99,7 @@ router.get('/active/:id', async function (req, res) {
     user = user[0]
     const entity = {
         privilege: "bidder",
-        rating:5
+        rating:8
     }
     const condition = {
         id: user.id
