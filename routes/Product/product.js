@@ -171,8 +171,8 @@ app.get("/search",async function (req, res) {
     if (page<0) page=1;
     const offset=(page-1)*9;
     let [list,total] =await Promise.all([
-        productmodel.searchProduct(searchpro,9,offset),
-        productmodel.totalofSearchProduct(searchpro)
+        productmodel.searchFullText(searchpro,9,offset),
+        productmodel.totalSearchFullText(searchpro)
     ]);
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     for (let i=0;i<list.length;i++){
@@ -184,7 +184,7 @@ app.get("/search",async function (req, res) {
             +Math.floor(diffMsEreader / 86400000)*24*60+Math.floor((diffMsEreader % 86400000) / 3600000)*60; // minutes
         list[i].minute=checkMinuteEreader<=15?1:0
     }
-    total=total[0]['count(*)']
+    total=total[0]["count('product.id')"]
     const nPages=Math.ceil(total/9);
     const page_items=[];
 
