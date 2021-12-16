@@ -1,4 +1,5 @@
 import categorymodel from '../models/categorymodel.js';
+import multer from "multer";
 
 export default function (app){
     app.use(async function (req, res, next) {

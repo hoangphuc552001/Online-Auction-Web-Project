@@ -1,10 +1,12 @@
 import express from "express";
-
+import fs from "fs";
 import productmodel from '../models/productmodel.js'
-
 import usermodel from "../models/usermodel.js";
 import bcrypt from "bcryptjs";
 import admin from "../middlewares/admin.mdw.js"
+import multer from 'multer';
+import categorymodel from "../models/categorymodel.js";
+import moment from "moment";
 
 const router = express.Router();
 
@@ -93,6 +95,7 @@ router.get('/active/:id', async function (req, res) {
     }
 
     user = user[0]
+    console.log(user);
     const entity = {
         privilege: "bidder",
         rating:5
@@ -258,5 +261,121 @@ router.post('/reviewpost/:seller/:productid/:like', auth, async function (req, r
     await usermodel.updateRating(sellerid,entity)
     res.redirect("/account/profile");
 })
+//////
+router.get('/upload',  auth,async function (req, res) {
+    if (req.session.user) {
+        if (req.session.user.privilege != "seller")
+            return res.redirect("/404");
+    } else
+        return res.redirect("/404");
+    let list= await categorymodel.all();
+    res.render("product-add",{
+        category: list
+    });
+
+});
+
+router.post('/upload',  auth,async function (req, res) {
+    if (req.session.user) {
+        if (req.session.user.privilege != "seller")
+            return res.redirect("/404");
+    } else
+        return res.redirect("/404");
+    let list= await categorymodel.all();
+    const ID_user= req.session.user.id;
+
+    const Amount = await productmodel.countCat()  +1;
+    const entity ={
+        id: Amount,
+        name: req.body.Name,
+        seller: req.session.user.id,
+        start: moment().format("YYYY-MM-DD hh:mm:ss"),
+        end: moment()
+            .add(7, "days")
+            .format("YYYY-MM-DD hh:mm:ss"),
+        cap: req.body.Reservation,
+        current: req.body.start,
+        increment: req.body.Incre,
+       // holder: req.session.user.id,
+      //  info: req.session.user.name,
+        bids: 5,
+        description: req.body.Des,
+        category: req.body.cate,
+        status: "bidding"
+    }
+    const temp2 = await usermodel.add_Product(entity);
+    const catIdAdded = entity.id;
+    const CatePro = entity.category;
+    res.redirect(`/account/upload/img/${catIdAdded}/${CatePro}`);
+});
+
+router.get("/upload/img/:catId/:proId", auth, async (req, res) => {
+
+    res.render("product-add-img");
+});
+
+router.post("/upload/img/:catId/:proId", async function (req, res) {
+
+    const temp = req.params.proId;
+    const temp1 =await productmodel.countCatById(temp);
+    const cate =  productmodel.selectCate(temp);
+    const folderName = './public/imgs/'+cate+'/' +temp1;
+    const folderAdd = '/public/imgs/'+cate+'/' +temp1+'/';
+    const ID_product = req.params.catId;
+    console.log(folderName);
+    try {
+        if (!fs.existsSync(folderName)) {
+            fs.mkdirSync(folderName)
+        }
+    } catch (err) {
+
+    }
+
+
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, folderName)
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.originalname);
+        }
+    });
+
+    const upload = multer({ storage });
+    upload.array('fuMain', 5)(req, res, async function (err) {
+        console.log(req.body);
+        if (err) {
+            console.error(err);
+        } else {
+            let i = 1;
+            let list_img=[];
+            fs.readdirSync(folderName).forEach(file => {
+                const extension = file.split('.').pop();
+                fs.renameSync(folderName + '/' + file, folderName+ '/' + i + '.' + extension);
+                list_img[i]=folderAdd + i + '.' + extension
+                i++;
+            });
+            console.log(list_img);
+            const size = i;
+            const add_img ={
+                image: list_img[1]
+            }
+            const add_db = await usermodel.add_image(add_img, ID_product);
+            for (let j=1; j<size; j++){
+                let temp_img = {
+                    image: list_img[j],
+                    product: ID_product
+                }
+                const add_db_img = await usermodel.add_img_table(temp_img);
+            }
+            return res.redirect('/account/profile');
+        }
+    });
+
+
+
+
+});
+
 
 export default router;

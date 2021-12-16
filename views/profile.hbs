@@ -71,7 +71,17 @@
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                         </a>
                     </div>
-
+                    {{#if ../session.authenticated}}
+                        {{#if (equal ../session.user.privilege "seller")}}
+                          <div class="d-flex mt-2">
+                              <a class="btn btn-sm btn-outline-success"
+                                 href="/account/upload" role="button">
+                                  Upload Product
+                                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                              </a>
+                          </div>
+                        {{/if}}
+                    {{/if}}
                     <div class="text mt-3">
             <span
             >GPA.com, Inc. is an Viet Name multinational technology company.<br/><br/>
