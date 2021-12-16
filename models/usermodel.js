@@ -4,13 +4,16 @@ export default {
     add(entity) {
         return db('user').insert(entity);
     },
+
     async check(email) {
         return db('user').where('email', email);
     },
     add_Product(entity) {
         return db('product').insert(entity);
     },
-
+    findName(id){
+      return   db('user').where("id", id);
+    },
    add_image(img, catID) {
         return db('product').where("id", catID).update(img);
     },

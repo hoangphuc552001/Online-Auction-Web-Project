@@ -58,7 +58,17 @@ export default {
   findTop5ProInstance() {
     return db("product").limit(5).offset(0).orderBy("end", "ASC");
   },
-
+  findHistory(catId){
+    return db("history").where("product", catId).orderBy("offer", "DESC");
+  },
+  delProBidder(user,offer,id){
+    return db('history')
+        .where({'user':user,'offer':offer, 'product':id})
+        .del();
+  },
+  updateNewBidder(id, entity){
+    return db('product').where({'id': id}).update(entity);
+  },
   async find() {
     const ob = await db("product").where("id", 1);
     return ob;
@@ -149,6 +159,7 @@ export default {
         .where({'product':id,'user':user})
         .del();
   },
+
   history(id){
     return db('history').select('user.name','history.offer','history.time').where('history.product',id).orderBy('time','asc')
         .join('user','user.id','=','history.user')

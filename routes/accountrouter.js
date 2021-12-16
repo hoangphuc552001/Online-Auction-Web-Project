@@ -404,4 +404,23 @@ router.post("/edit/:id", async function (req, res) {
     return res.redirect('/account/profile');
 });
 
+router.post("/delete/:id", async function (req, res) {
+    const ID_His = req.params.id;
+    const list = await productmodel.findHistory(ID_His);
+
+    const del = await productmodel.delProBidder(list[0].user, list[0].offer, list[0].product);
+    if (list[1]!= null){
+        const list_name = await usermodel.findName(list[1].user);
+        const name= list_name[0].name;
+        const entity = {
+            holder: list[1].user,
+            info: name,
+            current: list[1].offer,
+        }
+        const id_del = list[1].product;
+        const update_bidder = await productmodel.updateNewBidder(id_del,entity);
+    }
+    const url= req.headers.referer || "/";
+    res.redirect(url);
+});
 export default router;

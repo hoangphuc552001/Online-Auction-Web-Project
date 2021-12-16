@@ -28,9 +28,11 @@ router.get('/:id', async function (req, res) {
     if (product.length === 0)
         return res.redirect("/404");
     product = product[0];
+
     let related = await productmodel.related(product.category);
     let holder = await usermodel.id(product.holder);
     holder = holder[0];
+
     let seller = await usermodel.id(product.seller);
     seller = seller[0];
     let checkRating=true;
