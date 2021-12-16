@@ -37,6 +37,15 @@ router.get('/profile', auth, async function (req, res) {
 
     var participate = await productmodel.participate(req.session.user.id);
     var wonlist = await productmodel.wonlist(req.session.user.id);
+    var checkRate= await productmodel.checkProductAlreadyRate(req.session.user.id)
+    for (let i=0;i<wonlist.length;i++){
+        for (let j=0;j<checkRate.length;j++){
+            if (wonlist[i].id===+checkRate[j].product){
+                wonlist[i].checkRate=true;
+            }
+        }
+    }
+    console.log(wonlist)
     var watchlist = await productmodel.watchlist(req.session.user.id);
     for (let i=0;i<participate.length;i++){
         var user1=await productmodel.findSellerInfor(participate[i].product)
@@ -224,7 +233,7 @@ router.get('/reviewpost/:seller/:productid/:like',auth,async function (req,res) 
     let percentDisLike=countDisLikeBidder/parseFloat(countLikeBidder+countDisLikeBidder)
     let u_ser=await productmodel.findSellerInfor(req.params.productid)
     let name=u_ser[0].name
-    var today = new Date();
+    var today = new Date()
     res.render("reviewpost",{
         rating,
         countLikeBidder,
