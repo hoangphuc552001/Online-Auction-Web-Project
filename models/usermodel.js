@@ -10,9 +10,14 @@ export default {
     add_Product(entity) {
         return db('product').insert(entity);
     },
+
    add_image(img, catID) {
         return db('product').where("id", catID).update(img);
     },
+    append_Des(des, catID) {
+        return db('product').where("id", catID).update(des);
+    },
+
     add_img_table(img){
         return db('image').insert(img);
     },

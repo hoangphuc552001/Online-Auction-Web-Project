@@ -300,8 +300,8 @@ router.post('/upload',  auth,async function (req, res) {
         cap: req.body.Reservation,
         current: req.body.start,
         increment: req.body.Incre,
-       // holder: req.session.user.id,
-      //  info: req.session.user.name,
+        // holder: req.session.user.id,
+        //  info: req.session.user.name,
         bids: 5,
         description: req.body.Des,
         category: req.body.cate,
@@ -377,9 +377,22 @@ router.post("/upload/img/:catId/:proId", async function (req, res) {
     });
 
 
-
-
 });
+router.get("/edit/:id", auth, async (req, res) => {
+    res.render("description-edit");
+});
+router.post("/edit/:id", async function (req, res) {
 
+    const updateDes= req.body.Des;
+    const ID_Des = req.params.id;
+    const list = await productmodel.detail(ID_Des);
+    const time = moment().format("YYYY-MM-DD");
+    const append_Des = list[0].description + "\n"  + "\n" + time  + "\n"  + updateDes;
+    const entity = {
+      description:   append_Des
+    };
+    const temp = await usermodel.append_Des(entity, ID_Des);
+    return res.redirect('/account/profile');
+});
 
 export default router;
