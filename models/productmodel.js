@@ -219,5 +219,11 @@ export default {
   checkProductAlreadyRate(proId){
     return db("product").join("rating","product.name","rating.product")
         .where({"product.id":proId,"rating.sender":"bidder"})
+  },
+  ratinghistory(userid,sender){
+    return db("rating").select("user.name as sellername","product.name","rating.time"
+    ,"rating.comment").join("product","product.id","rating.product")
+        .where({"rating.sender":sender,"rating.bidder":userid})
+        .join("user","product.seller","user.id")
   }
 };

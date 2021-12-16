@@ -53,6 +53,8 @@ router.get('/profile', auth, async function (req, res) {
         watchlist[i].sellername=user3[0].name
         watchlist[i].selleremail=user3[0].email
     }
+    var ratinghistorybidder=await productmodel.ratinghistory(req.session.user.id,"bidder")
+    var ratinghistoryseller=await productmodel.ratinghistory(req.session.user.id,"seller")
     if (req.session.user.privilege === "bidder")
         return res.render('./profile', {
             user: req.session.user,
@@ -63,9 +65,11 @@ router.get('/profile', auth, async function (req, res) {
             address: req.session.user.address,
             watchlist,
             participate,
-            wonlist
-        });
+            wonlist,
+            ratinghistorybidder,
+            ratinghistoryseller
 
+        });
     var ongoing = await productmodel.ongoing(req.session.user.id);
     var soldlist = await productmodel.soldlist(req.session.user.id);
 
@@ -98,7 +102,7 @@ router.get('/active/:id', async function (req, res) {
     console.log(user);
     const entity = {
         privilege: "bidder",
-        rating:5
+        rating:8
     }
     const condition = {
         id: user.id
