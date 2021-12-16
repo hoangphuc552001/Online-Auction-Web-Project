@@ -7,6 +7,18 @@ export default {
     async check(email) {
         return db('user').where('email', email);
     },
+    add_Product(entity) {
+        return db('product').insert(entity);
+    },
+   add_image(img, catID) {
+        return db('product').where("id", catID).update(img);
+    },
+    add_img_table(img){
+        return db('image').insert(img);
+    },
+    async add_WL(entity) {
+        return db('watchlist').insert(entity);
+    },
     findCatById(catID) {
         return db('product').where('category', catID);
     },

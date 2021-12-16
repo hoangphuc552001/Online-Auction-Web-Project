@@ -10,6 +10,24 @@ export default {
       .count({ amount: "id" });
     return list[0].amount;
   },
+  async countCat() {
+    const list = await db("product")
+        .count({ amount: "id" });
+    return list[0].amount;
+  },
+
+  selectCate(Cate){
+    if (Cate == 1)
+      return 'phone';
+    if (Cate == 2)
+      return 'laptop';
+    if (Cate == 3)
+      return 'tablet';
+    if (Cate == 4)
+      return 'smartwatch';
+    if (Cate == 5)
+      return 'ereader';
+  },
   findPageById(catID, limit, offset) {
     return db("product").where("category", catID).limit(limit).offset(offset);
   },
@@ -156,6 +174,12 @@ export default {
   },
   wonlist(id){
     return db('product').where({'holder':id,'status':'sold'})
+  },
+  ongoing(id){
+    return db('product').where({'seller':id,'status':'bidding'})
+  },
+  soldlist(id){
+    return db('product').where({'seller':id,'status':'sold'})
   },
    holder(id){
     return db('user').select('user.name','user.email').join('history','user.id','history.user')
