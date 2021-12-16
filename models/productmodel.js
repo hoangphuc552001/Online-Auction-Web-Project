@@ -192,9 +192,8 @@ export default {
     return db("rating").count('id as count').where({"rating.seller":id,"rating.sender":"bidder"})
   }
   ,
-  checkProductAlreadyRate(proId){
-    return db("product").join("rating","product.name","rating.product")
-        .where({"product.id":proId,"rating.sender":"bidder"})
+  checkProductAlreadyRate(id){
+    return db("rating").select("rating.product").where({"rating.bidder":id,"rating.sender":"bidder"})
   },
   ratinghistory(userid,sender){
     return db("rating").select("user.name as sellername","product.name","rating.time"

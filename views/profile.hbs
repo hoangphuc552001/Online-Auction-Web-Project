@@ -327,16 +327,44 @@
                                             </a>
                                             <p class="text-center mt-2">
                                                 <button type="button" class="btn" data-toggle="modal"
-                                                        data-target="#like{{id}}">
+                                                        {{#if checkRate}}
+                                                        data-target="#rated
+                                                        {{else}}
+                                                        data-target="#like{{id}}
+                                                        {{/if}}
+                                                        ">
                                                     <i class="fa fa-thumbs-o-up fa-2x" style="color: blue"
                                                        aria-hidden="true"></i>
                                                 </button>
                                                 <button type="button" class="btn" data-toggle="modal"
-                                                        data-target="#dis{{id}}">
+                                                    {{#if checkRate}}
+                                                    data-target="#rated
+                                                        {{else}}
+                                                        data-target="#dis{{id}}
+                                                    {{/if}}">
                                                     <i class="fa fa-thumbs-o-down fa-2x" style="color:red;"
                                                        aria-hidden="true"></i>
                                                 </button>
                                             </p>
+
+                                            <div class="modal fade" id="rated" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Annoucement</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            You already reviewed this product
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <!-- Like Modal -->
                                             <div class="modal fade" id="like{{id}}" tabindex="-1" role="dialog"
                                                  aria-labelledby="exampleModalLabel" aria-hidden="true">
