@@ -107,6 +107,18 @@ export default {
         .limit(limit)
         .offset(offset);
   },
+   async searchFullText(proName,limit,offset){
+     const sql=`select * FROM product WHERE MATCH(name) AGAINST("${proName}") or MATCH(description) AGAINST("${proName}") 
+LIMIT ${limit} OFFSET ${offset}`
+     const raw_data= await db.raw(sql)
+     return raw_data[0]
+  },
+  async totalSearchFullText(proName){
+    const sql=`select count('product.id') FROM product WHERE MATCH(name) AGAINST("${proName}") or MATCH(description) AGAINST("${proName}")`
+    const raw_data= await db.raw(sql)
+    return raw_data[0]
+  }
+  ,
   totalofSearchProduct(name) {
     return db('product').count().where('name', 'like', `%${name}%`)
   },
