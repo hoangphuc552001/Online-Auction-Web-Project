@@ -183,8 +183,8 @@ LIMIT ${limit} OFFSET ${offset}`
   delete(id){
     return db('product').where('id',id).del();
   },
-  async countByUser(id){
-    const row = await db('product').where('seller',id);
+  async countByUser(id) {
+    const row = await db('product').where('seller', id);
     return row.length;
   },
   watchlist(id){
