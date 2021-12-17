@@ -7,8 +7,18 @@ import admin from "../middlewares/admin.mdw.js";
 import multer from "multer";
 import categorymodel from "../models/categorymodel.js";
 import moment from "moment";
+import crypt from "../utils/crypt.js";
+import mailgu from "mailgun-js/lib/mailgun.js" ;
 
 const router = express.Router();
+const hashedApi ='87188d3dedb0558b49e8baa28b414ee3175caac3e27f94bd73b5fdb0f0651bb206ecb4bfea83a060032bb0ce3fd864db';
+const hashedDomain='7dcecb51f53178edd7a6de01581da0b877ac22c459c6599c460cf8a438e5a2e62858b1e92c828e3d257fc9a16afb4a6aff40479f8e45184330814068' +
+    'f12e4764';
+
+
+const DOMAIN = crypt.decrypt(hashedDomain);
+const API = crypt.decrypt(hashedApi);
+const mailgun = mailgu({apiKey: API, domain: DOMAIN});
 
 //
 router.get("/admin", admin, async function (req, res) {
@@ -438,6 +448,21 @@ router.post("/delete/:id", async function (req, res) {
     list[0].offer,
     list[0].product
   );
+  //reject bidder by email
+
+  /*let product_name=await productmodel.detail(list[0].product)
+  product_name=product_name[0].name
+  let user_email=await  usermodel.singleByID(list[0].user)
+  let user_name=user_email.name
+  user_email=user_email.email
+  const data = {
+    from: 'GPA Team <HCMUS@fit.com>',
+    to: user_email,
+    subject: 'Online Auction',
+    text: `Hi ${user_name}\nYour product:${product_name} bid be rejected by seller
+    \n\nThank you for joining us!\nHappy bidding!\nSent: ${moment()}`
+  };
+  mailgun.messages().send(data);*/
 
   if (list[1] != null) {
     const list_name = await usermodel.findName(list[1].user);
