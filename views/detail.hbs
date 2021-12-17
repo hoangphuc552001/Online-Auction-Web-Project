@@ -132,7 +132,7 @@
                     </div>
                      {{#if (equal session.user.id seller.id)}}
                         <form method="post">
-                          <button type="submit" formaction="/account/delete/{{id}}"
+                          <button type="submit" onclick="alert(confirm('Do you sure to reject current holder?'))" formaction="/account/delete/{{id}}"
                               class="btn btn-danger btn-sm" id="reject">Reject
                                  </button>
                         </form>
