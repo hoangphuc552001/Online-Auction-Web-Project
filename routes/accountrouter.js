@@ -28,8 +28,8 @@ function auth(req, res, next) {
 
 router.get('/profile', auth, async function (req, res) {
     if (req.session.user) {
-        if (req.session.user.privilege != "bidder" && req.session.user.privilege != "seller")
-            return res.redirect("/404");
+     //   if (req.session.user.privilege != "bidder" && req.session.user.privilege != "seller")
+     //       return res.redirect("/404");
     } else
         return res.redirect("/404");
 
@@ -38,7 +38,16 @@ router.get('/profile', auth, async function (req, res) {
     var watchlist = await productmodel.watchlist(req.session.user.id);
     // var participate = await productmodel.participate(req.session.user.id);
     // var wonlist = await productmodel.wonlist(req.session.user.id);
-
+    if(req.session.user.priviledge==="admin"){
+            return res.render('./profile', {
+                user: req.session.user,
+                name: req.session.user.name,
+                email: req.session.user.email,
+                dob: req.session.user.dob,
+                priviledge: req.session.user.priviledge,
+                address: req.session.user.address,
+            })
+    }
     if (req.session.user.privilege === "bidder")
         return res.render('./profile', {
             user: req.session.user,
@@ -52,8 +61,8 @@ router.get('/profile', auth, async function (req, res) {
             wonlist
         });
 
-    var ongoing = await productmodel.ongoing(req.session.user.id);
-    var soldlist = await productmodel.soldlist(req.session.user.id);
+ //   var ongoing = await productmodel.ongoing(req.session.user.id);
+  //  var soldlist = await productmodel.soldlist(req.session.user.id);
 
     res.render('./profile', {
         user: req.session.user,
@@ -64,8 +73,8 @@ router.get('/profile', auth, async function (req, res) {
         address: req.session.user.address,
         participate: participate,
         wonlist: wonlist,
-        ongoing: ongoing,
-        soldlist: soldlist
+    //    ongoing: ongoing,
+    //    soldlist: soldlist
     });
 
 });
