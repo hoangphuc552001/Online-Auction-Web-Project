@@ -1,4 +1,3 @@
-
 <style>
     .carousel-indicators li,
     .carousel-indicators li.active {
@@ -74,7 +73,6 @@
                 {{#if (equal ../session.user.id ../seller.id)}}
                     <p class="m-1" data-toggle="modal" data-target="#bidder-modal">Bidder: {{{masked ../holder.name}}} (<a
                             class="text-primary">{{../holder.rating}} <i class='fa fa-star text-warning'></i></a>)</p>
-
                     <div class="modal fade" id="bidder-modal" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -132,6 +130,14 @@
                             </button>
                         </form>
                     </div>
+                     {{#if (equal session.user.id seller.id)}}
+                        <form method="post">
+                          <button type="submit" onclick="alert(confirm('Do you sure to reject current holder?'))" formaction="/account/delete/{{id}}"
+                              class="btn btn-danger btn-sm" id="reject">Reject
+                                 </button>
+                        </form>
+
+                     {{/if}}
                 {{/if}}
 
                 {{#if ../session.authenticated}}
@@ -211,7 +217,6 @@
             {{else}}
                 <p class="m-0" data-toggle="modal" data-target="#seller-modal">{{masked seller.name}} <a
                         class="text-primary">({{seller.rating}} <i class='fa fa-star text-warning'></i>)</a></p>
-
                 <div class="modal fade" id="seller-modal" role="dialog">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -243,6 +248,7 @@
                                     </table>
                                 </div>
                                 <div class="modal-footer py-0">
+
                                     <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm</button>
                                     <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">Cancel</button>
                                 </div>
@@ -291,6 +297,7 @@
                                 </table>
                             </div>
                             <div class="modal-footer py-0">
+
                                 <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm</button>
                                 <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">Cancel</button>
                             </div>
