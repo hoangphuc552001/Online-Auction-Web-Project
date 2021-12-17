@@ -45,7 +45,6 @@ router.get('/profile', auth, async function (req, res) {
             }
         }
     }
-    console.log(wonlist)
     var watchlist = await productmodel.watchlist(req.session.user.id);
     for (let i=0;i<participate.length;i++){
         var user1=await productmodel.findSellerInfor(participate[i].product)
@@ -76,8 +75,7 @@ router.get('/profile', auth, async function (req, res) {
             participate,
             wonlist,
             ratinghistorybidder,
-            ratinghistoryseller
-
+            ratinghistoryseller,
         });
     var ongoing = await productmodel.ongoing(req.session.user.id);
     var soldlist = await productmodel.soldlist(req.session.user.id);
@@ -92,7 +90,8 @@ router.get('/profile', auth, async function (req, res) {
         participate: participate,
         wonlist: wonlist,
         ongoing: ongoing,
-        soldlist: soldlist
+        soldlist: soldlist,
+
     });
 
 });
@@ -150,7 +149,7 @@ router.get('/editprofile', auth, async function (req, res) {
     res.render('./editprofile', {
         name: user_f[0].name,
         email: user_f[0].email,
-        address: user_f[0].address
+        address: user_f[0].address,
     });
 });
 router.get('/changepassword', auth, async function (req, res) {
@@ -244,7 +243,7 @@ router.get('/reviewpost/:seller/:productid/:like',auth,async function (req,res) 
         today,
         seller:req.params.seller,
         productid:req.params.productid,
-        like:req.params.like
+        like:req.params.like,
     });
 })
 router.post('/reviewpost/:seller/:productid/:like', auth, async function (req, res) {

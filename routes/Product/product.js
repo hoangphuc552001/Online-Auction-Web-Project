@@ -1,5 +1,6 @@
 import productmodel from "../../models/productmodel.js";
 import express from "express";
+import usermodel from "../../models/usermodel.js";
 const app = express.Router();
 app.get("/byCat/:id", async function (req, res) {
     const catID=req.params.id || 0;
@@ -57,6 +58,7 @@ app.get("/byCat/:id", async function (req, res) {
         next_value:page+1,
         can_go_prev:page>1,
         can_go_next:page<nPages,
+
     });
 });
 app.get("/searchPrice", async function (req, res) {
@@ -88,7 +90,6 @@ app.get("/searchPrice", async function (req, res) {
         }
         page_items.push(item)
     }
-
     if (req.session.authenticated!==false){
         const listProductUser=await productmodel.getProductwithUser(req.session.user.id);
         for (let i=0;i<list.length;i++){
@@ -141,7 +142,9 @@ app.get("/searchTime", async function (req, res) {
         }
         page_items.push(item)
     }
+
     if (req.session.authenticated!==false){
+
         const listProductUser=await productmodel.getProductwithUser(req.session.user.id);
         for (let i=0;i<list.length;i++){
             list[i].authenticated=res.locals.authenticated;
@@ -161,7 +164,7 @@ app.get("/searchTime", async function (req, res) {
         next_value:page+1,
         can_go_prev:page>1,
         can_go_next:page<nPages,
-        activeTime:true
+        activeTime:true,
 
     })
 })
@@ -214,7 +217,8 @@ app.get("/search",async function (req, res) {
         prev_value:page-1,
         next_value:page+1,
         can_go_prev:page>1,
-        can_go_next:page<nPages
+        can_go_next:page<nPages,
+        searchpro,
     })
 })
 app.post("/byCat/watchlist",async function (req, res) {
@@ -279,7 +283,8 @@ app.get("/watchList",auth,async function (req,res){
         next_value:page+1,
         can_go_prev:page>1,
         can_go_next:page<nPages,
-        activeWatchlist:true
+        activeWatchlist:true,
+        searchpro:"watchlist"
     })
 })
 export default app;

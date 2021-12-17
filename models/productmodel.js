@@ -1,4 +1,5 @@
 import db from "../utils/db.js";
+import mysql from 'mysql2'
 
 export default {
   findCatById(catID) {
@@ -236,5 +237,34 @@ LIMIT ${limit} OFFSET ${offset}`
     ,"rating.comment").join("product","product.id","rating.product")
         .where({"rating.sender":sender,"rating.bidder":userid})
         .join("user","product.seller","user.id")
+  },
+  updateTimePro(id){
+    return db('product').update('status',"sold").where({'id':id,
+    'status':'bidding'})
+  },
+  expiredtimePro(id){
+    return db('product').update('status',"123123123123").where({'id':id,
+      'status':'bidding'})
+  },
+  test(){
+    let config = {
+      host : '127.0.0.1',
+      port : 3306,
+      user : 'root',
+      password : '',
+      database : 'auction'
+    };
+    let connection = mysql.createConnection(config);
+
+    let sql = `CALL Refresh()`;
+
+    connection.query(sql, true, (error, results, fields) => {
+      if (error) {
+        return console.error(error.message);
+      }
+    });
+
+    connection.end();
   }
+
 };
