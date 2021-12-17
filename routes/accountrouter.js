@@ -1,10 +1,12 @@
 import express from "express";
-
+import fs from "fs";
 import productmodel from '../models/productmodel.js'
-
 import usermodel from "../models/usermodel.js";
 import bcrypt from "bcryptjs";
 import admin from "../middlewares/admin.mdw.js"
+import multer from 'multer';
+import categorymodel from "../models/categorymodel.js";
+import moment from "moment";
 
 const router = express.Router();
 
@@ -35,6 +37,15 @@ router.get('/profile', auth, async function (req, res) {
 
     var participate = await productmodel.participate(req.session.user.id);
     var wonlist = await productmodel.wonlist(req.session.user.id);
+    var checkRate= await productmodel.checkProductAlreadyRate(req.session.user.id)
+    for (let i=0;i<wonlist.length;i++){
+        for (let j=0;j<checkRate.length;j++){
+            if (wonlist[i].id===+checkRate[j].product){
+                wonlist[i].checkRate=true;
+            }
+        }
+    }
+    console.log(wonlist)
     var watchlist = await productmodel.watchlist(req.session.user.id);
     // var participate = await productmodel.participate(req.session.user.id);
     // var wonlist = await productmodel.wonlist(req.session.user.id);
@@ -48,6 +59,23 @@ router.get('/profile', auth, async function (req, res) {
                 address: req.session.user.address,
             })
     }
+    for (let i=0;i<participate.length;i++){
+        var user1=await productmodel.findSellerInfor(participate[i].product)
+        participate[i].sellername=user1[0].name
+        participate[i].selleremail=user1[0].email
+    }
+    for (let i=0;i<wonlist.length;i++){
+        var user2=await productmodel.findSellerInfor(wonlist[i].id)
+        wonlist[i].sellername=user2[0].name
+        wonlist[i].selleremail=user2[0].email
+    }
+    for (let i=0;i<watchlist.length;i++){
+        var user3=await productmodel.findSellerInfor(watchlist[i].id)
+        watchlist[i].sellername=user3[0].name
+        watchlist[i].selleremail=user3[0].email
+    }
+    var ratinghistorybidder=await productmodel.ratinghistory(req.session.user.id,"bidder")
+    var ratinghistoryseller=await productmodel.ratinghistory(req.session.user.id,"seller")
     if (req.session.user.privilege === "bidder")
         return res.render('./profile', {
             user: req.session.user,
@@ -58,11 +86,15 @@ router.get('/profile', auth, async function (req, res) {
             address: req.session.user.address,
             watchlist,
             participate,
-            wonlist
-        });
+            wonlist,
+            ratinghistorybidder,
+            ratinghistoryseller
 
  //   var ongoing = await productmodel.ongoing(req.session.user.id);
   //  var soldlist = await productmodel.soldlist(req.session.user.id);
+        });
+    var ongoing = await productmodel.ongoing(req.session.user.id);
+    var soldlist = await productmodel.soldlist(req.session.user.id);
 
     res.render('./profile', {
         user: req.session.user,
@@ -90,9 +122,10 @@ router.get('/active/:id', async function (req, res) {
     }
 
     user = user[0]
+    console.log(user);
     const entity = {
         privilege: "bidder",
-        rating:5
+        rating:8
     }
     const condition = {
         id: user.id
@@ -123,7 +156,6 @@ router.post('/upgrade/:id', async function (req, res) {
         request: "upgrade"
     }
     const condition = {id: req.params.id};
-    console.log(condition)
     const rs = await usermodel.update(entity, condition);
     res.redirect('/account/profile');
 });
@@ -203,6 +235,174 @@ router.post('/editprofile', auth, async function (req, res) {
             res.json(error);
             console.log("update profile failed!");
         });
+});
+router.get('/reviewpost/:seller/:productid/:like',auth,async function (req,res) {
+    let rating=await productmodel.getRating(req.params.seller);
+    rating=rating[0].rating
+    let countLikeBidder=await productmodel.countLikeBidder(req.params.seller,1)
+    countLikeBidder=countLikeBidder[0].count
+    let countDisLikeBidder=await productmodel.countLikeBidder(req.params.seller,0)
+    countDisLikeBidder=countDisLikeBidder[0].count
+    let percentLike=countLikeBidder/parseFloat(countLikeBidder+countDisLikeBidder)
+    let percentDisLike=countDisLikeBidder/parseFloat(countLikeBidder+countDisLikeBidder)
+    let u_ser=await productmodel.findSellerInfor(req.params.productid)
+    let name=u_ser[0].name
+    var today = new Date()
+    res.render("reviewpost",{
+        rating,
+        countLikeBidder,
+        countDisLikeBidder,
+        percentLike:percentLike*100,
+        percentDisLike:percentDisLike*100,
+        name,
+        today,
+        seller:req.params.seller,
+        productid:req.params.productid,
+        like:req.params.like
+    });
 })
-;
+router.post('/reviewpost/:seller/:productid/:like', auth, async function (req, res) {
+    const sellerid=req.params.seller
+    const productid=req.params.productid
+    const like=req.params.like==="like"?1:0
+    const comment=req.body.comment
+    const bidderid=req.session.user.id
+    var entity={
+        product:productid,
+        bidder:bidderid,
+        seller:sellerid,
+        like:like,
+        comment:comment,
+        sender:"bidder",
+        time:new Date()
+    }
+    await productmodel.insertRatingBidder(entity)
+    let likeseller=await productmodel.countLikeBidder(sellerid,1)
+    let totalrating=await productmodel.countRateBidder(sellerid)
+    likeseller=likeseller[0].count
+    totalrating=totalrating[0].count
+    const score=(likeseller/parseFloat(totalrating))*10
+    entity={
+        rating:score.toFixed(2)
+    }
+    await usermodel.updateRating(sellerid,entity)
+    res.redirect("/account/profile");
+})
+//////
+router.get('/upload',  auth,async function (req, res) {
+    if (req.session.user) {
+        if (req.session.user.privilege != "seller")
+            return res.redirect("/404");
+    } else
+        return res.redirect("/404");
+    let list= await categorymodel.all();
+    res.render("product-add",{
+        category: list
+    });
+
+});
+
+router.post('/upload',  auth,async function (req, res) {
+    if (req.session.user) {
+        if (req.session.user.privilege != "seller")
+            return res.redirect("/404");
+    } else
+        return res.redirect("/404");
+    let list= await categorymodel.all();
+    const ID_user= req.session.user.id;
+
+    const Amount = await productmodel.countCat()  +1;
+    const entity ={
+        id: Amount,
+        name: req.body.Name,
+        seller: req.session.user.id,
+        start: moment().format("YYYY-MM-DD hh:mm:ss"),
+        end: moment()
+            .add(7, "days")
+            .format("YYYY-MM-DD hh:mm:ss"),
+        cap: req.body.Reservation,
+        current: req.body.start,
+        increment: req.body.Incre,
+       // holder: req.session.user.id,
+      //  info: req.session.user.name,
+        bids: 5,
+        description: req.body.Des,
+        category: req.body.cate,
+        status: "bidding"
+    }
+    const temp2 = await usermodel.add_Product(entity);
+    const catIdAdded = entity.id;
+    const CatePro = entity.category;
+    res.redirect(`/account/upload/img/${catIdAdded}/${CatePro}`);
+});
+
+router.get("/upload/img/:catId/:proId", auth, async (req, res) => {
+
+    res.render("product-add-img");
+});
+
+router.post("/upload/img/:catId/:proId", async function (req, res) {
+
+    const temp = req.params.proId;
+    const temp1 =await productmodel.countCatById(temp);
+    const cate =  productmodel.selectCate(temp);
+    const folderName = './public/imgs/'+cate+'/' +temp1;
+    const folderAdd = '/public/imgs/'+cate+'/' +temp1+'/';
+    const ID_product = req.params.catId;
+    console.log(folderName);
+    try {
+        if (!fs.existsSync(folderName)) {
+            fs.mkdirSync(folderName)
+        }
+    } catch (err) {
+
+    }
+
+
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, folderName)
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.originalname);
+        }
+    });
+
+    const upload = multer({ storage });
+    upload.array('fuMain', 5)(req, res, async function (err) {
+        console.log(req.body);
+        if (err) {
+            console.error(err);
+        } else {
+            let i = 1;
+            let list_img=[];
+            fs.readdirSync(folderName).forEach(file => {
+                const extension = file.split('.').pop();
+                fs.renameSync(folderName + '/' + file, folderName+ '/' + i + '.' + extension);
+                list_img[i]=folderAdd + i + '.' + extension
+                i++;
+            });
+            console.log(list_img);
+            const size = i;
+            const add_img ={
+                image: list_img[1]
+            }
+            const add_db = await usermodel.add_image(add_img, ID_product);
+            for (let j=1; j<size; j++){
+                let temp_img = {
+                    image: list_img[j],
+                    product: ID_product
+                }
+                const add_db_img = await usermodel.add_img_table(temp_img);
+            }
+            return res.redirect('/account/profile');
+        }
+    });
+
+
+
+
+});
+
+
 export default router;

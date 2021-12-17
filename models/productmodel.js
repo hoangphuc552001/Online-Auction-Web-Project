@@ -10,6 +10,24 @@ export default {
       .count({ amount: "id" });
     return list[0].amount;
   },
+  async countCat() {
+    const list = await db("product")
+        .count({ amount: "id" });
+    return list[0].amount;
+  },
+
+  selectCate(Cate){
+    if (Cate == 1)
+      return 'phone';
+    if (Cate == 2)
+      return 'laptop';
+    if (Cate == 3)
+      return 'tablet';
+    if (Cate == 4)
+      return 'smartwatch';
+    if (Cate == 5)
+      return 'ereader';
+  },
   findPageById(catID, limit, offset) {
     return db("product").where("category", catID).limit(limit).offset(offset);
   },
@@ -79,6 +97,18 @@ export default {
         .limit(limit)
         .offset(offset);
   },
+   async searchFullText(proName,limit,offset){
+     const sql=`select * FROM product WHERE MATCH(name) AGAINST("${proName}") or MATCH(description) AGAINST("${proName}") 
+LIMIT ${limit} OFFSET ${offset}`
+     const raw_data= await db.raw(sql)
+     return raw_data[0]
+  },
+  async totalSearchFullText(proName){
+    const sql=`select count('product.id') FROM product WHERE MATCH(name) AGAINST("${proName}") or MATCH(description) AGAINST("${proName}")`
+    const raw_data= await db.raw(sql)
+    return raw_data[0]
+  }
+  ,
   totalofSearchProduct(name) {
     return db('product').count().where('name', 'like', `%${name}%`)
   },
@@ -157,6 +187,12 @@ export default {
   wonlist(id){
     return db('product').where({'holder':id,'status':'sold'})
   },
+  ongoing(id){
+    return db('product').where({'seller':id,'status':'bidding'})
+  },
+  soldlist(id){
+    return db('product').where({'seller':id,'status':'sold'})
+  },
    holder(id){
     return db('user').select('user.name','user.email').join('history','user.id','history.user')
         .where('history.product',id).orderBy('history.offer','desc').limit(1);
@@ -172,7 +208,33 @@ export default {
         .andWhere("automation.offer",">=",entity.offer)
         .orderBy("automation.offer","desc")
         .limit(1)
+  },
+  insertRatingBidder(entity){
+    return db('rating').insert(entity)
+  },
+
+  findSellerInfor(proID){
+    return db("user").select("user.name","user.email").join("product","product.seller","=","user.id")
+        .where("product.id",proID)
+  },
+  getRating(id){
+    return db("user").select("user.rating").where("user.id",id)
   }
-
-
+  ,
+  countLikeBidder(id,like){
+    return db("rating").count('id as count').where({"rating.seller":id,"rating.like":like,"rating.sender":"bidder"})
+  },
+  countRateBidder(id){
+    return db("rating").count('id as count').where({"rating.seller":id,"rating.sender":"bidder"})
+  }
+  ,
+  checkProductAlreadyRate(id){
+    return db("rating").select("rating.product").where({"rating.bidder":id,"rating.sender":"bidder"})
+  },
+  ratinghistory(userid,sender){
+    return db("rating").select("user.name as sellername","product.name","rating.time"
+    ,"rating.comment").join("product","product.id","rating.product")
+        .where({"rating.sender":sender,"rating.bidder":userid})
+        .join("user","product.seller","user.id")
+  }
 };
