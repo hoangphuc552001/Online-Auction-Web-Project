@@ -25,9 +25,12 @@
     <div class="container">
         <div class="row">
             {{#if this.empty}}
-                <h5 class="card-title">Empty data</h5>
-                <p class="card-text">With support text below as a natural lead-in
-                    to additional content</p>
+                <div class="text-center col-sm-12 col-lg-12 col-12">
+                    <h3 class="card-title">Sorry we can not find any results matching '
+                        {{#if searchpro}}
+                            {{this.searchpro}}
+                        {{/if}}'</h3>
+                </div>
             {{else}}
                 {{#each this.products}}
                     <div class="col-sm-4 mb-3 dev popular">

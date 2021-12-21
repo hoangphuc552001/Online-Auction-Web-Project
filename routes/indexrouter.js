@@ -208,9 +208,10 @@ router.post('/register', async function (req, res) {
 
         mailgun.messages().send(data);
 
-        res.render('./login', {
-            announce: "Signup complete! We've sent you a mail to confirm, please follow the link inside to active your account."
-        });
+        // res.render('./login', {
+        //     announce: "Signup complete! We've sent you a mail to confirm, please follow the link inside to active your account."
+        // });
+        res.redirect('/login')
     } else {
         res.render("./register", {
             name: req.body.register_name,

@@ -1313,7 +1313,7 @@ BEGIN
     if(host) then
         begin
             declare increment float;
-            set increment = (select product.increment from product where product.id=product);
+            set increment = (select auction.product.increment from product where auction.product.id=product);
             insert into history (user, offer, product) values (host, offer + increment, product);
         end;
     end if;

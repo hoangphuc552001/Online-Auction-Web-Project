@@ -9,6 +9,7 @@ import detailrouter from "../routes/detailrouter.js";
 import adminUserRoute from "../routes/admin.user.router.js"
 import adminCategoryRoute from "../routes/admin.category.router.js"
 import adminProductRoute from "../routes/admin.product.router.js"
+import usermodel from "../models/usermodel.js";
 //routes
 export default function (app) {
   app.get("/", async function (req, res) {

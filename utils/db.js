@@ -10,5 +10,4 @@ const knex = fn({
     },
     pool: { min: 0, max: 10 },
 });
-
 export default knex;

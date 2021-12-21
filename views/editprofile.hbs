@@ -1,31 +1,42 @@
 {{#section 'js'}}
     <script>
-        function myFunction() {
-            var txt;
+        // function myFunction() {
+        //     var txt;
+        //     var r = confirm("Are you sure to edit profile!");
+        //     if (r == true) {
+        //         jQuery('#frmEditprofile').on('submit',function (e){
+        //             e.preventDefault();
+        //             const name=$("#txtName").val();
+        //             const address=$("#txtAddress").val();
+        //             if (name.length===0 || address.length===0){
+        //                 alert('Invalid data');
+        //                 return;
+        //             }
+        //             jQuery('#frmEditprofile').off('submit').submit();
+        //         });
+        //     }else{
+        //         jQuery('#frmEditprofile').on('submit',function (e){
+        //             e.preventDefault();
+        //             return;
+        //         });
+        //     }
+        // }
+        function validateForm() {
             var r = confirm("Are you sure to edit profile!");
             if (r == true) {
-                jQuery('#frmEditprofile').on('submit',function (e){
-                    e.preventDefault();
-                    const name=$("#txtName").val();
-                    const address=$("#txtAddress").val();
-                    if (name.length===0 || address.length===0){
-                        alert('Invalid data');
-                        return;
-                    }
-                    jQuery('#frmEditprofile').off('submit').submit();
-                });
-            }else{
-                jQuery('#frmEditprofile').on('submit',function (e){
-                    e.preventDefault();
-                    return;
-                });
+                var a = document.forms["Form"]["Name"].value;
+                var b= document.forms["Form"]["Address"].value;
+                if (a == null || a == "" || b==null || b=="") {
+                    alert("Please fill all required field");
+                    return false;
+                } else return true;
             }
+            else {return false;}
         }
-
     </script>
 {{/section}}
 <main>
-    <form id="frmEditprofile" method="post">
+    <form id="frmEditprofile" method="post" name="Form" onsubmit="return validateForm()">
         <div class="container bootstrap snippets bootdey">
             <h1 class="text-primary">Edit Profile</h1>
             <hr/>
@@ -57,7 +68,8 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Address:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" id="txtAddress" name="Address" type="text" value="{{address}}"/>
+                                <input class="form-control" id="txtAddress" name="Address" type="text"
+                                       value="{{address}}"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -83,7 +95,7 @@
                             </div>
                         </div>
                         <div class="btn-group ml-3 mr-1" role="group" aria-label="Basic example">
-                            <button onclick="myFunction()" type="submit" class="btn btn-info">Save</button>
+                            <button type="submit" class="btn btn-info">Save</button>
                         </div>
                         <div class="btn-group ml-3" role="group" aria-label="Basic example">
                             <a class="btn btn-danger"
