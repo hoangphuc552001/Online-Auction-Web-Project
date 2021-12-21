@@ -28,13 +28,18 @@ router.get('/:id', async function (req, res) {
     if (product.length === 0)
         return res.redirect("/404");
     product = product[0];
-
     let related = await productmodel.related(product.category);
     let holder = await usermodel.id(product.holder);
     holder = holder[0];
 
     let seller = await usermodel.id(product.seller);
     seller = seller[0];
+    console.log(req.session.user.id);
+    console.log(seller.id);
+    let a = false;
+    if (req.session.user.id ===+ seller.id)
+        a=true;
+    console.log(a);
     let checkRating=true;
     if (req.session.user){
     let usercurrent=await usermodel.id(req.session.user.id);
@@ -65,6 +70,7 @@ router.get('/:id', async function (req, res) {
     }
     req.session.save(function () {
         return res.render('./detail', {
+            check: a,
             product: product,
             holder: holder,
             seller: seller,
@@ -145,6 +151,7 @@ router.post('/:id', async function (req, res) {
     // await productmodel.UpdateProduct(req.params.id);
      var product = await productmodel.detail(req.params.id);
      product = product[0];
+
      var entity = {
          user: req.session.user.id,
          offer: req.body.offer,

@@ -93,9 +93,25 @@ router.get('/profile', auth, async function (req, res) {
  //   var ongoing = await productmodel.ongoing(req.session.user.id);
   //  var soldlist = await productmodel.soldlist(req.session.user.id);
         });
+
     var ongoing = await productmodel.ongoing(req.session.user.id);
     var soldlist = await productmodel.soldlist(req.session.user.id);
-
+    if (req.session.user.privilege === "seller")
+        return res.render('./profile', {
+            user: req.session.user,
+            name: req.session.user.name,
+            email: req.session.user.email,
+            dob: req.session.user.dob,
+            priviledge: req.session.user.priviledge,
+            address: req.session.user.address,
+            watchlist,
+            participate,
+            wonlist,
+            ongoing: ongoing,
+            soldlist: soldlist,
+            //   var ongoing = await productmodel.ongoing(req.session.user.id);
+            //  var soldlist = await productmodel.soldlist(req.session.user.id);
+        });
     res.render('./profile', {
         user: req.session.user,
         name: req.session.user.name,
@@ -122,7 +138,6 @@ router.get('/active/:id', async function (req, res) {
     }
 
     user = user[0]
-    console.log(user);
     const entity = {
         privilege: "bidder",
         rating:8
