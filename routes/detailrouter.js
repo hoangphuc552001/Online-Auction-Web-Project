@@ -34,20 +34,12 @@ router.get('/:id', async function (req, res) {
     let a = false;
     if (req.session.user.id ===+ seller.id)
         a=true;
-    console.log(a);
-    let checkRating=true;
     if (req.session.user){
     let usercurrent=await usermodel.id(req.session.user.id);
     usercurrent=usercurrent[0];
     let rateUserCurrent=usercurrent.rating;
     if (rateUserCurrent<8) checkRating=false;}
     let checkRating = true;
-    if (req.session.user) {
-        let usercurrent = await usermodel.id(req.session.user.id);
-        usercurrent = usercurrent[0];
-        let rateUserCurrent = usercurrent.rating;
-        if (rateUserCurrent < 8) checkRating = false;
-    }
     const image = await productmodel.product(product.id);
     const mainimage = {
         image: product.image,
