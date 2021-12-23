@@ -18,7 +18,7 @@ const API = crypt.decrypt(hashedApi);
 const mailgun = mailgu({apiKey: API, domain: DOMAIN});
 
 router.get('/:id', async function (req, res) {
-    await productmodel.test()
+    // await productmodel.test()
     let product = await productmodel.detail(req.params.id);
     if (product.length === 0)
         return res.redirect("/404");
@@ -148,11 +148,11 @@ router.post('/:id', async function (req, res) {
     }
     if (product.status == "bidding") {
         var exholder = await productmodel.holder(req.params.id);
-
-        if (req.body.mode == 'on')
-            await usermodel.automated(entity);
-        else
-            await usermodel.bid(entity);
+        await usermodel.bid(entity);
+        // if (req.body.mode == 'on')
+        //     await usermodel.automated(entity);
+        // else
+        //     await usermodel.bid(entity);
         entity = {
             product: req.params.id,
             user: req.session.user.id

@@ -1224,6 +1224,7 @@ CREATE TABLE `user` (
                         `id` int(11) NOT NULL AUTO_INCREMENT,
                         `name` varchar(100) NOT NULL,
                         `email` varchar(100) NOT NULL,
+			`birthday` date NOT NULL,
                         `password` varchar(255) NOT NULL,
                         `privilege` varchar(45) DEFAULT NULL,
                         `rating` float DEFAULT NULL,
@@ -1313,7 +1314,7 @@ BEGIN
     if(host) then
         begin
             declare increment float;
-            set increment = (select auction.product.increment from product where auction.product.id=product);
+            set increment = (select product.increment from product where product.id=product);
             insert into history (user, offer, product) values (host, offer + increment, product);
         end;
     end if;

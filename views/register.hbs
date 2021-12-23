@@ -1,6 +1,19 @@
 <link rel="stylesheet" href="/public/assets/css/login-screen.css">
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
+{{#section 'css'}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha512-f0tzWhCwVFS3WeYaofoLWkTP62ObhewQ1EZn65oSYDZUg1+CyywGKkWzm8BxaJj5HGKI72PnMH9jYyIFz+GH7g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{{/section}}
+{{#section 'js'}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $('#txtDob').datetimepicker({
+            timepicker:false,
+            format:'d/m/Y',
+            mask:true
+        });
+        $('#txtUsername').select();
+    </script>
+{{/section}}
 <main>
     <div id="logreg-forms">
         <form class="form-signup" method="POST">
@@ -18,14 +31,15 @@
             <p style="text-align:center">OR</p>
 
             <input type="text" name="register_name" class="form-control" placeholder="Full name" required=""
-                autofocus="" value="{{name}}">
+                autofocus="" id="txtUsername" value="{{name}}">
             <input type="email" name="register_email" class="form-control" placeholder="Email address" required
                 autofocus="" value="{{email}}">
 
             <input type="text" name="register_address" class="form-control" placeholder="Address" required autofocus=""
                    value="{{address}}">
 
-
+            <input type="text" name="register_birthday" id="txtDob" class="form-control" placeholder="Birthday" required autofocus=""
+                   value="{{birthday}}">
             <p id="error" class="d-none">{{error}}</p>
             <input type="password" name="register_password" class="form-control" placeholder="Password" required
                 autofocus="" value="{{password}}">

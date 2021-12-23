@@ -189,13 +189,14 @@ router.post('/register', async function (req, res) {
     if (checking.length == 0) {
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.register_password, salt);
+        const dob=moment(req.body.register_birthday,'DD/MM/YYYY').format('YYYY-MM-DD')
         const entity = {
             name: req.body.register_name,
             email: req.body.register_email,
             password: hash,
-            address: req.body.register_address
+            address: req.body.register_address,
+            birthday:dob
         }
-
         await usermodel.add(entity);
         var user = await usermodel.check(entity.email);
         user = user[0];
@@ -219,6 +220,7 @@ router.post('/register', async function (req, res) {
             password: req.body.register_password,
             repeat: req.body.register_repeat,
             address: req.body.register_address,
+            birthday:req.body.register_birthday,
             error: "This email address is already being used!"
         });
     }

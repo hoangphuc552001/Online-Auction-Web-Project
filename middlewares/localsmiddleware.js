@@ -1,5 +1,6 @@
 import categorymodel from '../models/categorymodel.js';
 import multer from "multer";
+import productmodel from "../models/productmodel.js";
 
 export default function (app) {
     app.use(async function (req, res, next) {
@@ -10,6 +11,7 @@ export default function (app) {
     app.use(async function (req, res, next) {
         const category = await categorymodel.findAllWithDetails();
         res.locals.categories = category;
+        await productmodel.test();
         next();
     })
     app.use(async function (req, res, next) {

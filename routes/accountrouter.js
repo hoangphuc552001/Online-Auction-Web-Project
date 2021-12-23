@@ -89,21 +89,20 @@ router.get("/profile", auth, async function (req, res) {
   var ratinghistoryseller = await productmodel.ratinghistory(
     req.session.user.id,
     "seller"
-  );
+  )
   if (req.session.user.privilege === "bidder")
     return res.render("./profile", {
       user: req.session.user,
       name: req.session.user.name,
       email: req.session.user.email,
-      dob: req.session.user.dob,
       priviledge: req.session.user.priviledge,
       address: req.session.user.address,
+      dob:req.session.user.birthday,
       watchlist,
       participate,
       wonlist,
       ratinghistorybidder,
       ratinghistoryseller,
-
       //   var ongoing = await productmodel.ongoing(req.session.user.id);
       //  var soldlist = await productmodel.soldlist(req.session.user.id);
     });
@@ -171,10 +170,12 @@ router.post("/upgrade/:id", async function (req, res) {
 });
 router.get("/editprofile", auth, async function (req, res) {
   const user_f = await usermodel.findUser(req.session.user.id);
+  const dob=moment(user_f[0].birthday,'YYYY-MM-DD').format('DD/MM/YYYY')
   res.render("./editprofile", {
     name: user_f[0].name,
     email: user_f[0].email,
     address: user_f[0].address,
+    birthday:dob
   });
 });
 router.get("/changepassword", auth, async function (req, res) {
@@ -226,11 +227,13 @@ router.post("/changepassword", auth, async function (req, res, next) {
 });
 
 router.post("/editprofile", auth, async function (req, res) {
+  const dob=moment(req.body.Birthday,'DD/MM/YYYY').format('YYYY-MM-DD')
   usermodel
-    .updateNamevsAddress(
+    .updateNamevsAddressvsDob(
       {
         name: req.body.Name,
         address: req.body.Address,
+        birthday:dob
       },
       {
         where: { id: req.session.user.id },
