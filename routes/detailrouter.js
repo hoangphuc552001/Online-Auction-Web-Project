@@ -29,16 +29,16 @@ router.get('/:id', async function (req, res) {
 
     let seller = await usermodel.id(product.seller);
     seller = seller[0];
-    console.log(req.session.user.id);
-    console.log(seller.id);
+
     let a = false;
-    if (req.session.user.id ===+ seller.id)
-        a=true;
-    if (req.session.user){
-    let usercurrent=await usermodel.id(req.session.user.id);
-    usercurrent=usercurrent[0];
-    let rateUserCurrent=usercurrent.rating;
-    if (rateUserCurrent<8) checkRating=false;}
+    if (req.session.user) {
+        if (req.session.user.id === +seller.id)
+            a = true;
+        let usercurrent = await usermodel.id(req.session.user.id);
+        usercurrent = usercurrent[0];
+        let rateUserCurrent = usercurrent.rating;
+        if (rateUserCurrent < 8) checkRating = false;
+    }
     let checkRating = true;
     const image = await productmodel.product(product.id);
     const mainimage = {
@@ -143,108 +143,15 @@ router.get('/:id', async function (req, res) {
 
 router.post('/:id', async function (req, res) {
     // await productmodel.UpdateProduct(req.params.id);
-     var product = await productmodel.detail(req.params.id);
-     product = product[0];
-
-     var entity = {
-         user: req.session.user.id,
-         offer: req.body.offer,
-         product: req.params.id
-     }
-
-     if (product.status == "bidding") {
-         var exholder = await productmodel.holder(req.params.id);
-
-         if (req.body.mode == 'on')
-             await usermodel.automated(entity);
-         else
-             await usermodel.bid(entity);
-         entity = {
-             product: req.params.id,
-             user: req.session.user.id
-         }
-
-         var bidding = await productmodel.bid(entity);
-         bidding = bidding[0];
-
-         product = await productmodel.detail(req.params.id);
-         product = product[0];
-         var data = {
-             from: 'GPA Team<HCMUS@fit.com>',
-             to: bidding.bidderemail,
-             subject: 'Online Auction',
-             text: `Hi ${bidding.bidder},\nCongratulations!\nYou've offered ${numeral(bidding.price).format("0,0")}đ for ${bidding.name} successfully.\n\nThank you for joining us!\nHappy bidding!\nSent: ${moment()}`
-         };
-         mailgun.messages().send(data);
-
-         // data = {
-         //     from: 'GPA Team<HCMUS@fit.com>',
-         //     to: bidding.selleremail,
-         //     subject: 'Online Auction',
-         //     text: `Hi ${bidding.seller},\nCongratulations!\nYour product ${bidding.name} has been offered for ${bidding.price}$.\n\nThank you for joining us!\nHappy selling!\nSent: ${moment()}`
-         // };
-         // mailgun.messages().send(data);
-         //
-         // if (exholder.length == 1) {
-         //     exholder = exholder[0];
-         //     data = {
-         //         from: 'GPA Team<HCMUS@fit.com>',
-         //         to: exholder.email,
-         //         subject: 'Online Auction',
-         //         text: `Hi ${exholder.name},\nUnfortunately!\nSomeone has offered for ${bidding.name} higher than you.\n\nThank you for joining us!\nHappy bidding!\nSent: ${moment()}`
-         //     };
-         //     mailgun.messages().send(data);
-         // }
-         //
-         // entity = {
-         //     product: req.params.id,
-         //     offer: bidding.price + bidding.increment
-         // }
-         //
-         // var factor = await productmodel.xfactor(entity);
-         // if (factor.length == 1) {
-         //     factor = factor[0];
-         //
-         //     data = {
-         //         from: 'GPA Team<HCMUS@fit.com>',
-         //         to: factor.email,
-         //         subject: 'Online Auction',
-         //         text: `Hi ${factor.name},\nCongratulations!\nYou've offered ${entity.offer}$ for ${bidding.name} successfully.\n\nThank you for joining us!\nHappy bidding!\nSent: ${moment()}`
-         //     };
-         //     mailgun.messages().send(data);
-         //
-         //     data = {
-         //         from: 'GPA Team<HCMUS@fit.com>',
-         //         to: bidding.bidderemail,
-         //         subject: 'Online Auction',
-         //         text: `Hi ${bidding.bidder},\nUnfortunately!\nSomeone has offered for ${bidding.name} higher than you.\n\nThank you for joining us!\nHappy bidding!\nSent: ${moment()}`
-         //     };
-         //     mailgun.messages().send(data);
-         //
-         //     data = {
-         //         from: 'GPA Team<HCMUS@fit.com>',
-         //         to: bidding.selleremail,
-         //         subject: 'Online Auction',
-         //         text: `Hi ${bidding.seller},\nCongratulations!\nYour product ${bidding.name} has been offered for ${entity.offer}$.\n\nThank you for joining us!\nHappy selling!\nSent: ${moment()}`
-         //     };
-         //     mailgun.messages().send(data);
-         // }
-
-         req.session.announce = "Done!";
-     } else {
-         req.session.announce = "Oops! Something went wrong..."
-     }
-
-     req.session.save(function () {
-         return res.redirect('/detail/' + req.params.id);
-     });
     var product = await productmodel.detail(req.params.id);
     product = product[0];
+
     var entity = {
         user: req.session.user.id,
         offer: req.body.offer,
         product: req.params.id
     }
+
     if (product.status == "bidding") {
         var exholder = await productmodel.holder(req.params.id);
         await usermodel.bid(entity);
@@ -333,6 +240,5 @@ router.post('/:id', async function (req, res) {
         return res.redirect('/detail/' + req.params.id);
     });
 })
-
 
 export default router;
