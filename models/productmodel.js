@@ -5,6 +5,9 @@ export default {
   findCatById(catID) {
     return db("product").where("category", catID);
   },
+  findById(catID) {
+    return db("product").where("id", catID);
+  },
   async countCatById(catID) {
     const list = await db("product")
       .where("category", catID)

@@ -130,13 +130,12 @@
                             </button>
                         </form>
                     </div>
-                     {{#if (equal session.user.id seller.id)}}
-                        <form method="post">
-                          <button type="submit" onclick="alert(confirm('Do you sure to reject current holder?'))" formaction="/account/delete/{{id}}"
-                              class="btn btn-danger btn-sm" id="reject">Reject
-                                 </button>
-                        </form>
-
+                     {{#if ../check}}
+                          <form method="post">
+                              <button type="submit" onclick="alert(confirm('Do you sure to reject current holder?'))" formaction="/account/delete/{{id}}"
+                                 class="btn btn-danger btn-sm" id="reject" >Reject <i class="fa fa-ban" aria-hidden="true"></i>
+                                   </button>
+                          </form>
                      {{/if}}
                 {{/if}}
 
@@ -213,7 +212,7 @@
 
         <div class="col-5 col-md-3 col-sm-5 m-0 border-left">
             <h4 style="margin: 0;">Seller Information</h4>
-            {{#if (equal session.user.id seller.id)}}
+            {{#if ../check}}
                 <p class="m-0">{{masked seller.name}} <p class="text-primary m-0">
                 ({{seller.rating}} <i class='fa fa-star text-warning'></i>)</p>
                 </p>
