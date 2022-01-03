@@ -141,11 +141,14 @@
 
                 {{#if ../session.authenticated}}
                     <form class="row m-0" method="POST" id="detail">
-                        <div class="custom-control custom-switch col-12">
-                            <input type="checkbox" class="custom-control-input" name="mode" id="mode">
-                            <label class="custom-control-label" for="mode">Automated bid</label>
+<!--                        <div class="custom-control custom-switch col-12">-->
+<!--                            <input type="checkbox" class="custom-control-input" name="mode" id="mode">-->
+<!--                            <label class="custom-control-label" for="mode">Bid Product</label>-->
+<!--                        </div>-->
+                        <div class="custom-control col-12 mt-2">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <label>Bid Product</label>
                         </div>
-
                         {{#if ../checkRating}}
                             <input class="col-9 col-md-6" type="text" placeholder="{{{format_number sum current increment}}}" name="offer" id="offer"
                                 {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}}>

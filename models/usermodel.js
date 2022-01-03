@@ -51,11 +51,12 @@ export default {
             .where('id', condition.id)
             .update(entity);
     },
-    async updateNamevsAddress(entity, condition) {
+    async updateNamevsAddressvsDob(entity, condition) {
 
         return db('user')
             .where('id', condition.where.id)
-            .update({'name': entity.name, 'address': entity.address});
+            .update({'name': entity.name, 'address': entity.address,
+            'birthday':entity.birthday});
     },
     async updatePassword(entity, condition) {
         return db('user')
