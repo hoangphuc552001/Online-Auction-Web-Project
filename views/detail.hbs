@@ -153,11 +153,20 @@
                                     value="{{{sum current increment}}}" {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}} type="button"
                                     data-toggle="modal" id="minimum" data-target="#announce-modal">Bid</button>
                         {{else}}
+                            {{#if ../check_allow}}
+                                <input class="col-9 col-md-6" type="text" placeholder="{{{format_number sum current increment}}}" name="offer" id="offer"
+                                       {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}}>
+                                <button class="col-3 ml-2" style="background-color: lightcyan; border-radius: 15px; width: 50px;"
+                                       value="{{{sum current increment}}}" {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}} type="button"
+                                       data-toggle="modal" id="minimum" data-target="#announce-modal">Bid</button>
+
+                            {{else}}
                             <div class="alert alert-danger" role="alert">
                                 Rate score not enough to bid product
                             </div>
                             <input class="col-9 col-md-6" disabled type="text" placeholder="{{{format_number sum current increment}}}" name="offer" id="offer"
                                 {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}}>
+                            {{/if}}
                         {{/if}}
 
                         <div class="modal fade" id="announce-modal" role="dialog">

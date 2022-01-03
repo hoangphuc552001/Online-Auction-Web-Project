@@ -356,7 +356,16 @@ router.get("/profile", auth, async function (req, res) {
           } else return res.redirect("/404");
           let list = await categorymodel.all();
           const ID_user = req.session.user.id;
-
+          const check_renew = req.body.renew1;
+          const check_allow = req.body.allowbid;
+          let renew1= false;
+          let allow1= false;
+          if (check_renew=="yes"){
+              renew1= true;
+          }
+          if (check_allow=="yes"){
+              allow1= true;
+          }
           const Amount = (await productmodel.countCat()) + 1;
           const entity = {
               id: Amount,
@@ -373,6 +382,8 @@ router.get("/profile", auth, async function (req, res) {
               description: req.body.Des,
               category: req.body.cate,
               status: "bidding",
+              renew: renew1,
+              allow: allow1
           };
           const temp2 = await usermodel.add_Product(entity);
           const catIdAdded = entity.id;

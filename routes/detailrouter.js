@@ -29,17 +29,27 @@ router.get('/:id', async function (req, res) {
 
     let seller = await usermodel.id(product.seller);
     seller = seller[0];
-    console.log(req.session.user.id);
-    console.log(seller.id);
+    let allow1 = product.allow;
+    let check_allow=false;
+    if (allow1==true){
+        check_allow=true;
+    }
+    let renew1 = (product.renew);
+    let check_renew=false;
+    if (renew1==true){
+        check_renew=true;
+    }
+
     let a = false;
     if (req.session.user.id ===+ seller.id)
         a=true;
+    let checkRating = true;
     if (req.session.user){
     let usercurrent=await usermodel.id(req.session.user.id);
     usercurrent=usercurrent[0];
     let rateUserCurrent=usercurrent.rating;
+
     if (rateUserCurrent<8) checkRating=false;}
-    let checkRating = true;
     const image = await productmodel.product(product.id);
     const mainimage = {
         image: product.image,
@@ -76,7 +86,9 @@ router.get('/:id', async function (req, res) {
             //announce: announce,
             //ratinglist: ratinglist,
             history: history,
-            checkRating
+            checkRating,
+            check_allow,
+            check_renew
         });
 
         /* await productmodel.refresh();
