@@ -37,7 +37,16 @@ router.get('/', async function (req, res) {
         });
     });
 });
+router.get('/about', async function (req, res) {
 
+    res.render("about-us", {
+    });
+});
+router.get('/contact', async function (req, res) {
+
+    res.render("contact-us", {
+    });
+});
 router.get('/login', async function (req, res) {
   //  if (req.headers.referer.indexOf("/login") == -1 && req.headers.referer.indexOf("/registers") == -1 && req.headers.referer.indexOf('/otp') == -1)
    //     req.session.previous = req.headers.referer;

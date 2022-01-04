@@ -47,6 +47,7 @@ router.get("/profile", auth, async function (req, res) {
     var checkRate = await productmodel.checkProductAlreadyRate(
         req.session.user.id
     );
+
     for (let i = 0; i < wonlist.length; i++) {
         for (let j = 0; j < checkRate.length; j++) {
             if (wonlist[i].id === +checkRate[j].product) {
@@ -107,7 +108,27 @@ router.get("/profile", auth, async function (req, res) {
             //  var soldlist = await productmodel.soldlist(req.session.user.id);
         });
     var ongoing = await productmodel.ongoing(req.session.user.id);
+    var checkRate1 = await productmodel.checkProductAlreadyRateSeller(
+        req.session.user.id
+    );
     var soldlist = await productmodel.soldlist(req.session.user.id);
+    for (let i = 0; i < soldlist.length; i++) {
+        for (let j = 0; j < checkRate1.length; j++) {
+            if (soldlist[i].id === +checkRate1[j].product) {
+                soldlist[i].checkRate1 = true;
+            }
+        }
+    }
+    var ratinghistoryseller1 = await productmodel.ratinghistorySeller(
+        req.session.user.id,
+        "seller"
+    );
+
+    var ratinghistorybidder1 = await productmodel.ratinghistorySeller(
+        req.session.user.id,
+        "bidder"
+    )
+
     if (req.session.user.privilege === "seller")
         return res.render('./profile', {
             user: req.session.user,
@@ -121,6 +142,8 @@ router.get("/profile", auth, async function (req, res) {
             wonlist,
             ongoing: ongoing,
             soldlist: soldlist,
+            ratinghistorybidder1,
+            ratinghistoryseller1,
             //   var ongoing = await productmodel.ongoing(req.session.user.id);
             //  var soldlist = await productmodel.soldlist(req.session.user.id);
         });
@@ -424,137 +447,6 @@ router.post(
         res.redirect("/account/profile");
     }
 );
-//////
-
-      router.get("/upload", auth, async function (req, res) {
-          if (req.session.user) {
-              if (req.session.user.privilege != "seller") return res.redirect("/404");
-          } else return res.redirect("/404");
-          let list = await categorymodel.all();
-          res.render("product-add", {
-              category: list,
-          });
-      });
-
-      router.post("/upload", auth, async function (req, res) {
-          if (req.session.user) {
-              if (req.session.user.privilege != "seller") return res.redirect("/404");
-          } else return res.redirect("/404");
-          let list = await categorymodel.all();
-          const ID_user = req.session.user.id;
-          const check_renew = req.body.renew1;
-          const check_allow = req.body.allowbid;
-          let renew1= false;
-          let allow1= false;
-          if (check_renew=="yes"){
-              renew1= true;
-          }
-          if (check_allow=="yes"){
-              allow1= true;
-          }
-          const Amount = (await productmodel.countCat()) + 1;
-          const entity = {
-              id: Amount,
-              name: req.body.Name,
-              seller: req.session.user.id,
-              start: moment().format("YYYY-MM-DD hh:mm:ss"),
-              end: moment().add(7, "days").format("YYYY-MM-DD hh:mm:ss"),
-              cap: req.body.Reservation,
-              current: req.body.start,
-              increment: req.body.Incre,
-              // holder: req.session.user.id,
-              //  info: req.session.user.name,
-              bids: 5,
-              description: req.body.Des,
-              category: req.body.cate,
-              status: "bidding",
-              renew: renew1,
-              allow: allow1
-          };
-          const temp2 = await usermodel.add_Product(entity);
-          const catIdAdded = entity.id;
-          const CatePro = entity.category;
-          res.redirect(`/account/upload/img/${catIdAdded}/${CatePro}`);
-      });
-
-      router.get("/upload/img/:catId/:proId", auth, async (req, res) => {
-          res.render("product-add-img");
-      });
-
-      router.post("/upload/img/:catId/:proId", async function (req, res) {
-          const temp = req.params.proId;
-          const temp1 = await productmodel.countCatById(temp);
-          const cate = productmodel.selectCate(temp);
-          const folderName = "./public/imgs/" + cate + "/" + temp1;
-          const folderAdd = "/public/imgs/" + cate + "/" + temp1 + "/";
-          const ID_product = req.params.catId;
-          console.log(folderName);
-          try {
-              if (!fs.existsSync(folderName)) {
-                  fs.mkdirSync(folderName);
-              }
-          } catch (err) {
-          }
-
-          const storage = multer.diskStorage({
-              destination: function (req, file, cb) {
-                  cb(null, folderName);
-              },
-              filename: function (req, file, cb) {
-                  cb(null, file.originalname);
-              },
-          });
-
-          const upload = multer({storage});
-          upload.array("fuMain", 5)(req, res, async function (err) {
-              console.log(req.body);
-              if (err) {
-                  console.error(err);
-              } else {
-                  let i = 1;
-                  let list_img = [];
-                  fs.readdirSync(folderName).forEach((file) => {
-                      const extension = file.split(".").pop();
-                      fs.renameSync(
-                          folderName + "/" + file,
-                          folderName + "/" + i + "." + extension
-                      );
-                      list_img[i] = folderAdd + i + "." + extension;
-                      i++;
-                  });
-                  console.log(list_img);
-                  const size = i;
-                  const add_img = {
-                      image: list_img[1],
-                  };
-                  const add_db = await usermodel.add_image(add_img, ID_product);
-                  for (let j = 1; j < size; j++) {
-                      let temp_img = {
-                          image: list_img[j],
-                          product: ID_product,
-                      };
-                      const add_db_img = await usermodel.add_img_table(temp_img);
-                  }
-                  return res.redirect("/account/profile");
-              }
-          });
-      });
-      router.get("/edit/:id", auth, async (req, res) => {
-          res.render("description-edit");
-      });
-      router.post("/edit/:id", async function (req, res) {
-          const updateDes = req.body.Des;
-          const ID_Des = req.params.id;
-          const list = await productmodel.detail(ID_Des);
-          const time = moment().format("YYYY-MM-DD");
-          const append_Des =
-              list[0].description + "\n" + "\n" + time + "\n" + updateDes;
-          const entity = {
-              description: append_Des,
-          };
-          const temp = await usermodel.append_Des(entity, ID_Des);
-          return res.redirect("/account/profile");
-      });
 
 router.get("/upload", auth, async function (req, res) {
     if (req.session.user) {
@@ -572,7 +464,11 @@ router.post("/upload", auth, async function (req, res) {
     } else return res.redirect("/404");
     let list = await categorymodel.all();
     const ID_user = req.session.user.id;
-
+    let incre = parseFloat(req.body.Incre);
+    if (incre<100000){
+        incre=100000;
+    }
+    console.log(incre);
     const Amount = (await productmodel.countCat()) + 1;
     const entity = {
         id: Amount,
@@ -582,7 +478,7 @@ router.post("/upload", auth, async function (req, res) {
         end: moment().add(7, "days").format("YYYY-MM-DD hh:mm:ss"),
         cap: req.body.Reservation,
         current: req.body.start,
-        increment: req.body.Incre,
+        increment: incre,
         // holder: req.session.user.id,
         //  info: req.session.user.name,
         bids: 5,
@@ -607,7 +503,7 @@ router.post("/upload/img/:catId/:proId", async function (req, res) {
     const folderName = "./public/imgs/" + cate + "/" + temp1;
     const folderAdd = "/public/imgs/" + cate + "/" + temp1 + "/";
     const ID_product = req.params.catId;
-    console.log(folderName);
+
     try {
         if (!fs.existsSync(folderName)) {
             fs.mkdirSync(folderName);
@@ -626,7 +522,7 @@ router.post("/upload/img/:catId/:proId", async function (req, res) {
 
     const upload = multer({storage});
     upload.array("fuMain", 5)(req, res, async function (err) {
-        console.log(req.body);
+
         if (err) {
             console.error(err);
         } else {
@@ -641,7 +537,7 @@ router.post("/upload/img/:catId/:proId", async function (req, res) {
                 list_img[i] = folderAdd + i + "." + extension;
                 i++;
             });
-            console.log(list_img);
+
             const size = i;
             const add_img = {
                 image: list_img[1],
@@ -722,4 +618,74 @@ router.post("/delete/:id", async function (req, res) {
     const url = req.headers.referer || "/";
     res.redirect(url);
 });
+router.get(
+    "/reviewpost/seller/:holder/:productid/:like",
+    auth,
+    async function (req, res) {
+        let rating = await productmodel.getRating(req.params.holder);
+        rating = rating[0].rating;
+        let countLikeSeller = await productmodel.countLikeSeller(
+            req.params.holder,
+            1
+        );
+        countLikeSeller = countLikeSeller[0].count;
+        let countDisLikeSeller = await productmodel.countLikeSeller(
+            req.params.holder,
+            0
+        );
+        countDisLikeSeller = countDisLikeSeller[0].count;
+        let percentLike =
+            countLikeSeller / parseFloat(countLikeSeller + countDisLikeSeller);
+        let percentDisLike =
+            countDisLikeSeller / parseFloat(countLikeSeller + countDisLikeSeller);
+        let u_ser = await productmodel.findHolderInfor(req.params.productid);
+        let name = u_ser[0].name;
+        var today = new Date();
+        res.render("reviewpost-seller", {
+            rating,
+            countLikeSeller,
+            countDisLikeSeller,
+            percentLike: percentLike * 100,
+            percentDisLike: percentDisLike * 100,
+            name,
+            today,
+            bidder: req.params.holder,
+            productid: req.params.productid,
+            like: req.params.like,
+        });
+    }
+);
+router.post(
+    "/reviewpost/seller/:holder/:productid/:like",
+    auth,
+    async function (req, res) {
+        const sellerid = req.session.user.id;
+        const productid = req.params.productid;
+        const like = req.params.like === "like" ? 1 : 0;
+        const comment = req.body.comment;
+        const bidderid =  req.params.holder;
+        var entity = {
+            product: productid,
+            bidder: bidderid,
+            seller: sellerid,
+            like: like,
+            comment: comment,
+            sender: "seller",
+            time: new Date(),
+        };
+        await productmodel.insertRatingSeller(entity);
+        let likebidder = await productmodel.countLikeSeller(bidderid, 1);
+        let totalrating = await productmodel.countRateSeller(bidderid);
+        likebidder = likebidder[0].count;
+        totalrating = totalrating[0].count;
+        const score = (likebidder / parseFloat(totalrating)) * 10;
+        entity = {
+            rating: score.toFixed(2),
+        };
+        await usermodel.updateRating(bidderid, entity);
+        res.redirect("/account/profile");
+    }
+);
+
+
 export default router;
