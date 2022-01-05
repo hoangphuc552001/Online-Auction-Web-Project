@@ -1,107 +1,114 @@
-{{#section 'js'}}
-<script src="https://cdn.tiny.cloud/1/y5mq9cxhnrazibmar3is1h9fk4jgcqogpct32s2r0wa3t7za/tinymce/5/tinymce.min.js"
-    referrerpolicy="origin"></script>
-{{!-- <script>tinymce.init({ selector: 'textarea' });</script> --}}
-<script>
-    tinymce.init({
-        selector: 'textarea',
-        height: 600,
-        plugins: 'paste image link autolink lists table media',
-        menubar: false,
-        toolbar: [
-            'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright',
-            'forecolor backcolor',
-            'table link image media',
-        ],
-    });
-</script>
-{{/section}}
+        {{#section 'js'}}
+        <script src="https://cdn.tiny.cloud/1/y5mq9cxhnrazibmar3is1h9fk4jgcqogpct32s2r0wa3t7za/tinymce/5/tinymce.min.js"
+            referrerpolicy="origin"></script>
+        {{!-- <script>tinymce.init({ selector: 'textarea' });</script> --}}
+        <script>
+            tinymce.init({
+                selector: 'textarea',
+                height: 600,
+                plugins: 'paste image link autolink lists table media',
+                menubar: false,
+                toolbar: [
+                    'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright',
+                    'forecolor backcolor',
+                    'table link image media',
+                ],
+            });
+        </script>
+        {{/section}}
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-3 ">
-            <div class="list-group ">
-                <a href="/account/profile" class="list-group-item list-group-item-action ">Profile</a>
-                <a href="/account/changepassword" class="list-group-item list-group-item-action">Change Password</a>
-                <a href="/account/myProducts" class="list-group-item list-group-item-action active">Product</a>
-            </div>
-        </div>
-        <div class="col-md-9 mt-5">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>Upload Product Information</h4>
-                            <hr>
-                        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 ">
+                    <div class="list-group ">
+                        <a href="/account/profile" class="list-group-item list-group-item-action ">Profile</a>
+                        <a href="/account/changepassword" class="list-group-item list-group-item-action">Change Password</a>
+                        <a href="/account/myProducts" class="list-group-item list-group-item-action active">Product</a>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            {{#if message}}
-                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                {{message}}
+                </div>
+                <div class="col-md-9 mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Upload Product Information</h4>
+                                    <hr>
+                                </div>
                             </div>
-                            {{/if}}
-                            <form action="/account/upload" method="POST">
-                                      <div class="form-group">
-                                        <label for="cate"  >Category</label>
-                                        <select class="form-control" type="text" id="cate" name="cate"
-                                            style="min-width: 200px; margin: 0px;width: 200px;">>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{#if message}}
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        {{message}}
+                                    </div>
+                                    {{/if}}
+                                    <form action="/account/upload" method="POST">
+                                              <div class="form-group">
+                                                <label for="cate"  >Category</label>
+                                                <select class="form-control" type="text" id="cate" name="cate"
+                                                    style="min-width: 200px; margin: 0px;width: 200px;">>
 
-                                                        {{#each category}}
-                                                            <option style="width: 200px;" value={{id}}>{{name}}</option>
-                                                        {{/each}}
-                                        </select>
-                                      </div>
-                                <div class="form-group row">
-                                    <label for="Name" class="col-2 col-form-label">Product Name</label>
-                                    <div class="col-10">
-                                        <input id="ProName" name="Name" class="form-control here" type="text"
-                                            required="required">
-                                    </div>
+                                                                {{#each category}}
+                                                                    <option style="width: 200px;" value={{id}}>{{name}}</option>
+                                                                {{/each}}
+                                                </select>
+                                              </div>
+                                        <div class="form-group row">
+                                            <label for="Name" class="col-2 col-form-label">Product Name</label>
+                                            <div class="col-10">
+                                                <input id="ProName" name="Name" class="form-control here" type="text"
+                                                    required="required">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="start" class="col-2 col-form-label">Start Price</label>
+                                            <div class="col-10">
+                                                <input id="StartPrice" name="start" required="required"
+                                                    class="form-control here" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="Reservation" class="col-2 col-form-label">Reservation price</label>
+                                            <div class="col-10">
+                                                <input id="Reservation" name="Reservation" class="form-control here"
+                                                    type="text">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="Incre" class="col-2 col-form-label">Increment <p>(If value <100.000 auto default 100.000)</p> </label>
+                                            <div class="col-10">
+                                                <input id="Incre" name="Incre" class="form-control here" type="text"
+                                                    required="required">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                               <input type="checkbox" id="renew1" name="renew1" value="yes">
+                                               <label for="renew1"> Auto-renew</label><br>
+                                               <input type="checkbox" id="allowbid" name="allowbid" value="yes">
+                                               <label for="allowbid"> Allow bidder who have never bid to bid</label><br>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="Des" class="col-2 col-form-label">Description</label>
+                                            <div class="col-10">
+                                                <textarea id="Des" name="Des" class="form-control here" rows="3"
+                                                    type="text"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="offset-4 col-10">
+                                                <button type="submit" class="btn btn-success">Continue</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="start" class="col-2 col-form-label">Start Price</label>
-                                    <div class="col-10">
-                                        <input id="StartPrice" name="start" required="required"
-                                            class="form-control here" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="Reservation" class="col-2 col-form-label">Reservation price</label>
-                                    <div class="col-10">
-                                        <input id="Reservation" name="Reservation" class="form-control here"
-                                            type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="Incre" class="col-2 col-form-label">Increment</label>
-                                    <div class="col-10">
-                                        <input id="Incre" name="Incre" class="form-control here" type="text"
-                                            required="required">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="Des" class="col-2 col-form-label">Description</label>
-                                    <div class="col-10">
-                                        <textarea id="Des" name="Des" class="form-control here" rows="3"
-                                            type="text"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="offset-4 col-10">
-                                        <button type="submit" class="btn btn-success">Continue</button>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
+
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-    </div>
-</div>

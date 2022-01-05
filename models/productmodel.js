@@ -227,9 +227,15 @@ LIMIT ${limit} OFFSET ${offset}`
   insertRatingBidder(entity){
     return db('rating').insert(entity)
   },
-
+  insertRatingSeller(entity){
+    return db('rating').insert(entity)
+  },
   findSellerInfor(proID){
     return db("user").select("user.name","user.email").join("product","product.seller","=","user.id")
+        .where("product.id",proID)
+  },
+  findHolderInfor(proID){
+    return db("user").select("user.name","user.email").join("product","product.holder","=","user.id")
         .where("product.id",proID)
   },
   getRating(id){
@@ -243,14 +249,30 @@ LIMIT ${limit} OFFSET ${offset}`
     return db("rating").count('id as count').where({"rating.seller":id,"rating.sender":"bidder"})
   }
   ,
+  countLikeSeller(id,like){
+    return db("rating").count('id as count').where({"rating.seller":id,"rating.like":like,"rating.sender":"seller"})
+  },
+  countRateSeller(id){
+    return db("rating").count('id as count').where({"rating.seller":id,"rating.sender":"seller"})
+  }
+  ,
   checkProductAlreadyRate(id){
     return db("rating").select("rating.product").where({"rating.bidder":id,"rating.sender":"bidder"})
+  },
+  checkProductAlreadyRateSeller(id){
+    return db("rating").select("rating.product").where({"rating.seller":id,"rating.sender":"seller"})
   },
   ratinghistory(userid,sender){
     return db("rating").select("user.name as sellername","product.name","rating.time"
     ,"rating.comment").join("product","product.id","rating.product")
         .where({"rating.sender":sender,"rating.bidder":userid})
         .join("user","product.seller","user.id")
+  },
+  ratinghistorySeller(userid,sender){
+    return db("rating").select("user.name as biddername","product.name","rating.time"
+        ,"rating.comment").join("product","product.id","rating.product")
+        .where({"rating.sender":sender,"rating.seller":userid})
+        .join("user","product.holder","user.id")
   },
   updateTimePro(id){
     return db('product').update('status',"sold").where({'id':id,
