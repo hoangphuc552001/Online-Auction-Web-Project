@@ -12,6 +12,10 @@ export default function (app) {
         format_number(val) {
           return numeral(val).format("0,0") + " đ";
         },
+        format_number_wth(val) {
+          return numeral(val).format("0,0");
+          }
+        ,
         section: express_handlebars_sections(),  // CONFIGURE 'express_handlebars_sections'
         remain(end) {
           if (moment(end).diff(moment(), "days") > 0)

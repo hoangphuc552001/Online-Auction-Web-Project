@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/public/btnWL.css">
+<link rel="stylesheet" href="/public/btnBid_.css">
 <!-- Page Content -->
 <div class="products">
     <div class="container">
@@ -38,21 +40,38 @@
                                                                                style="font-weight: bold;font-size: 20px">
                                     {{day}} days
                                 </span></p>
-                                    <p class="card-text">Bids: {{bids}}</p>
                                     {{#if cap}}
                                         <p class="card-text">Buy now:{{format_number cap}}</p>
                                     {{/if}}
                                     {{#if authenticated}}
                                         <div>
-                                            <form method="post">
-                                                <button type="submit" name="id" value={{id}}
-                                                        class="btn btn-primary" {{#if
-                                                        checkwl}}
-                                                        disabled
-                                                {{/if}} formaction="product/byCat/watchlist">
-                                                    Watch List
-                                                </button>
-                                            </form>
+                                            <div class="container mt-2">
+                                                <div class="row">
+                                                    <div class="btn-group">
+                                                        <button class="btn-hover color-2 mt-2 mr-4" disabled>
+                                                            Bids:{{bids}}
+                                                            <i class="fa fa-gavel" aria-hidden="true"></i>
+                                                        </button>
+                                                        <form method="post">
+                                                            {{#if checkwl}}
+                                                                <button type="button" class="buttonAdd" disabled>
+                                                                    Added
+                                                                    <i class="fa fa-check-circle-o"
+                                                                       aria-hidden="true"></i>
+                                                                </button>
+                                                            {{else}}
+                                                                <button type="submit" name="id" value={{id}}
+                                                                        class="button"
+                                                                        formaction="/product/byCat/watchlist">
+                                                                    Watch List
+                                                                    <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                                                                </button>
+                                                            {{/if}}
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                         </div>
                                     {{/if}}
                                 </div>
@@ -60,8 +79,8 @@
                             <div class="card-footer text-muted">
                                 <a class="btn btn-sm btn-outline-primary"
                                    href="/detail/{{id}}" role="button">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
                                     Details
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
                             </div>
                         </div>
@@ -90,29 +109,58 @@
                                     <p class="card-text">Time Remaining: <span id="{{id}}"
                                                                                style="font-weight: bold;font-size: 20px">
                                     {{day}} days</span></p>
-                                    <p class="card-text">Bids:{{bids}}</p>
                                     {{#if cap}}
                                         <p class="card-text">Buy now:{{cap}}</p>
                                     {{/if}}
                                     {{#if authenticated}}
-                                        <div>
-                                            <form method="post">
-                                                <button type="submit" name="id" value={{id}}
-                                                        class="btn btn-primary" {{#if
-                                                        checkwl}}
-                                                        disabled
-                                                {{/if}} formaction="product/byCat/watchlist">
-                                                    Watch List
-                                                </button>
-                                            </form>
-                                        </div>
+                                        {{#if removewl}}
+                                            <div>
+                                                <form method="post">
+                                                    <button type="submit" name="id" value={{id}} formaction="watchlist"
+                                                            class="btn btn-danger">
+                                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                    </button>
+                                                </form>
+
+                                            </div>
+                                        {{else}}
+                                            <div>
+                                                <div class="container mt-2">
+                                                    <div class="row">
+                                                        <div class="btn-group">
+                                                            <button class="btn-hover color-2 mt-2 mr-0 mr-lg-4 mr-sm-0" disabled>
+                                                                Bids:{{bids}}
+                                                                <i class="fa fa-gavel" aria-hidden="true"></i>
+                                                            </button>
+                                                            <form method="post">
+                                                                {{#if checkwl}}
+                                                                    <button type="button" class="buttonAdd" disabled>
+                                                                        Added
+                                                                        <i class="fa fa-check-circle-o"
+                                                                           aria-hidden="true"></i>
+                                                                    </button>
+                                                                {{else}}
+                                                                    <button type="submit" name="id" value={{id}}
+                                                                            class="button"
+                                                                            formaction="/product/byCat/watchlist">
+                                                                        Watch List
+                                                                        <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                                                                    </button>
+                                                                {{/if}}
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {{/if}}
                                     {{/if}}
                                 </div>
                                 <div class="card-footer text-muted">
                                     <a class="btn btn-sm btn-outline-primary"
                                        href="/detail/{{id}}" role="button">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
                                         Details
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                 </div>
                             </a>
@@ -143,29 +191,46 @@
                                                                                style="font-weight: bold;font-size: 20px">
 
                                 </span></p>
-                                    <p class="card-text">Bids: {{bids}}</p>
                                     {{#if cap}}
                                         <p class="card-text">Buy now:{{format_number cap}}</p>
                                     {{/if}}
                                     {{#if authenticated}}
                                         <div>
-                                            <form method="post">
-                                                <button type="submit" name="id" value={{id}}
-                                                        class="btn btn-primary" {{#if
-                                                        checkwl}}
-                                                        disabled
-                                                {{/if}} formaction="product/byCat/watchlist">
-                                                    Watch List
-                                                </button>
-                                            </form>
+                                            <div class="container mt-2">
+                                                <div class="row">
+                                                    <div class="btn-group">
+                                                        <button class="btn-hover color-2 mt-2 mr-4" disabled>
+                                                            Bids:{{bids}}
+                                                            <i class="fa fa-gavel" aria-hidden="true"></i>
+                                                        </button>
+                                                        <form method="post">
+                                                            {{#if checkwl}}
+                                                                <button type="button" class="buttonAdd" disabled>
+                                                                    Added
+                                                                    <i class="fa fa-check-circle-o"
+                                                                       aria-hidden="true"></i>
+                                                                </button>
+                                                            {{else}}
+                                                                <button type="submit" name="id" value={{id}}
+                                                                        class="button"
+                                                                        formaction="/product/byCat/watchlist">
+                                                                    Watch List
+                                                                    <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                                                                </button>
+                                                            {{/if}}
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                         </div>
                                     {{/if}}
                                 </div>
                                 <div class="card-footer text-muted">
                                     <a class="btn btn-sm btn-outline-primary"
                                        href="/detail/{{id}}" role="button">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
                                         Details
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                 </div>
                             </a>

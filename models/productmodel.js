@@ -217,10 +217,10 @@ LIMIT ${limit} OFFSET ${offset}`
     const raw_data= await db.raw(sql)
     return raw_data[0]
   },
-  xfactor(entity){
+  async xfactor(entity){
     return db("automation").join("user","user.id","automation.user")
         .where("automation.product",entity.product)
-        .andWhere("automation.offer",">=",entity.offer)
+        .andWhere("automation.offer",">",entity.offer)
         .orderBy("automation.offer","desc")
         .limit(1)
   },
@@ -260,6 +260,19 @@ LIMIT ${limit} OFFSET ${offset}`
     return db('product').update('status',"123123123123").where({'id':id,
       'status':'bidding'})
   },
+  updateHistoryBidding(entity){
+    return db('history').insert(entity)
+  },
+  getProRenew(){
+    return db('product').where('status','bidding')
+  },
+  updateProRenew(productid,datetime){
+    return db('product').where({'status':'bidding','id':productid}).update('end',datetime)
+  },
+  updateRenewCondition(productid){
+    return db('product').update('renew',0).where('id',productid)
+  }
+  ,
   test(){
     let config = {
       host : '127.0.0.1',
@@ -280,5 +293,35 @@ LIMIT ${limit} OFFSET ${offset}`
 
     connection.end();
   }
-
+  ,
+  findProductSoldedWithMailing(){
+    return db('product').where({'status':'sold'})
+  },
+  findProductExpiredWithMailing(){
+    return db('product').where({'status':'expired'})
+  },
+  findAutoHighest(productID){
+    return db('automation').max('offer', {as: 'maxoffer'}).where('product','=',productID)
+  },
+  findUserHighestAuto(offer,productID){
+    return db('automation').where({'product':productID,'offer':offer})
+  },
+  findUserHighestHistory(productID){
+    return db('history').where('product',productID).orderBy('offer','desc').limit(1)
+  },
+  addMailWon(entity){
+    return db('mailwon').insert(entity)
+  },
+  getcheckMailWon(email,productid){
+    return db('mailwon').where({'email':email,'productid':productid})
+  },
+  updateCheckMailWon(email,productid){
+    return db('mailwon').where({'email':email,'productid':productid}).update('check',1)
+  },
+  getAllowProduct(productid){
+    return db('product').select('allow').where('id',productid)
+  },
+  addAutoNew(entity){
+    return db('automation').insert(entity)
+  }
 };

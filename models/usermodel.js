@@ -1,4 +1,5 @@
 import db from '../utils/db.js'
+import mysql from "mysql2";
 
 export default {
     add(entity) {
@@ -96,10 +97,30 @@ export default {
         return list[0];
     },
     // bid: async (entity) => { await db.insert(entity, 'history')}
+    dbHistory(){
+        let config = {
+            host : '127.0.0.1',
+            port : 3306,
+            user : 'root',
+            password : '',
+            database : 'auction'
+        };
+        let connection = mysql.createConnection(config);
+
+        let sql = `CALL UpdateHistory()`;
+
+        connection.query(sql, true, (error, results, fields) => {
+            if (error) {
+                return console.error(error.message);
+            }
+        });
+
+        connection.end();
+    },
     async bid(entity){
         return db('history').insert(entity)
     },
-    automated(entity){
+    async automated(entity){
         return db('automation').insert(entity)},
     async findBidder(){
         return db('user').where('privilege','bidder');
@@ -120,5 +141,12 @@ export default {
     },
     async delete(id){
         return db('user').where('id',id).del();
+    },
+    getIDbyEmail(email){
+        return db('user').where('email',email)
+    },
+    countNumberofBid_bidder(userid){
+        return db('rating').count('id as countid').where({'bidder':userid,'sender':'seller'})
     }
+
 }

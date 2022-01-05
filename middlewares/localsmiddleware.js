@@ -1,7 +1,6 @@
 import categorymodel from '../models/categorymodel.js';
 import multer from "multer";
 import productmodel from "../models/productmodel.js";
-
 export default function (app) {
     app.use(async function (req, res, next) {
         res.locals.session = req.session;
@@ -11,13 +10,19 @@ export default function (app) {
     app.use(async function (req, res, next) {
         const category = await categorymodel.findAllWithDetails();
         res.locals.categories = category;
+        var proRenew = await productmodel.getProRenew()
+        for (let i = 0; i < proRenew.length; i++) {
+            if (proRenew[i].end.getTime() <= new Date().getTime() && proRenew[i].renew===+1) {
+                await productmodel.updateProRenew(proRenew[i].id,new Date(proRenew[i].end.getTime() + 15*60000))
+                await productmodel.updateRenewCondition(proRenew[i].id)
+            }
+        }
         await productmodel.test();
         next();
     })
     app.use(async function (req, res, next) {
         if (typeof (req.session.authenticated) === 'undefined') {
             req.session.authenticated = false;
-
         }
         if (typeof (req.session.admin) === 'undefined') {
             req.session.admin = false;

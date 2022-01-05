@@ -194,7 +194,6 @@
             </ul>
             <div class="tab-content">
                 {{#if (equal ../session.user.privilege "bidder")}}
-
                     <div class="tab-pane active" role="tabpanel" id="tab-1">
                         <div class="projects-horizontal">
                             <div class="container">
@@ -218,12 +217,21 @@
                                                 </div>
                                                 <div class="clearfix">
                                                     <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                    <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                    <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                 </div>
                                                 <p class="text-center text-info font-weight-bold">{{format_number
                                                         current}}
                                                 </p>
                                             </a>
+                                            <div>
+                                                <form method="post">
+                                                    <button type="submit" name="id" value={{id}} formaction="/product/watchlist"
+                                                            class="btn btn-danger">
+                                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                    </button>
+                                                </form>
+
+                                            </div>
                                         </div>
                                     {{/each}}
 
@@ -255,7 +263,7 @@
                                                 </div>
                                                 <div class="clearfix">
                                                     <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                    <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                    <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                 </div>
                                                 <div class="clearfix">
                                                     <p class="float-left m-0">Bid time: {{{timestamp_ time}}}</p>
@@ -290,7 +298,7 @@
                                                 </div>
                                                 <div class="clearfix">
                                                     <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                    <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                    <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                 </div>
                                                 <p class="text-center text-info font-weight-bold">{{format_number
                                                         current}}
@@ -424,7 +432,7 @@
                                                     </div>
                                                     <div class="clearfix">
                                                         <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
                                                     </p>
@@ -459,7 +467,7 @@
                                                     </div>
                                                     <div class="clearfix">
                                                         <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
                                                     </p>
@@ -489,7 +497,7 @@
                                                     </div>
                                                     <div class="clearfix">
                                                         <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
                                                     </p>
@@ -519,7 +527,7 @@
                                                     </div>
                                                     <div class="clearfix">
                                                         <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
                                                     </p>
@@ -556,7 +564,7 @@
                                                     </div>
                                                     <div class="clearfix">
                                                         <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
                                                     </p>

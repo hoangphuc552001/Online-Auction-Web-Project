@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/public/btnWL.css">
+<link rel="stylesheet" href="/public/btnBid_.css">
 <form method="GET">
     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group mr-2" role="group" aria-label="First group">
@@ -49,7 +51,6 @@
                                     <p class="card-text">Time Remaining: <span id="{{id}}"
                                                                                style="font-weight: bold;font-size: 20px">
                                     {{day}} days</span></p>
-                                    <p class="card-text">Bids:{{bids}}</p>
                                     {{#if cap}}
                                         <p class="card-text">Buy now:{{format_number cap}}</p>
                                     {{/if}}
@@ -66,14 +67,31 @@
                                             </div>
                                         {{else}}
                                             <div>
-                                                <form method="post">
-                                                    <button type="submit" name="id" value={{id}}
-                                                            class="btn btn-primary" {{#if checkwl}}
-                                                            disabled
-                                                    {{/if}} formaction="/product/byCat/watchlist">
-                                                        Watch List
-                                                    </button>
-                                                </form>
+                                                <div class="container mt-2">
+                                                    <div class="row">
+                                                        <p class="card-text justify-content-center align-items-center mt-2">
+                                                            <button class="btn-hover color-2" disabled>Bids:{{bids}}
+                                                                <i class="fa fa-gavel" aria-hidden="true"></i>
+                                                            </button>
+                                                        </p>
+                                                        <form method="post">
+                                                            {{#if checkwl}}
+                                                                <button type="button" class="buttonAdd ml-4" disabled>
+                                                                    Added
+                                                                    <i class="fa fa-check-circle-o"
+                                                                       aria-hidden="true"></i>
+                                                                </button>
+                                                            {{else}}
+                                                                <button type="submit" name="id" value={{id}}
+                                                                        class="button ml-4"
+                                                                        formaction="/product/byCat/watchlist">
+                                                                    Watch List
+                                                                    <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                                                                </button>
+                                                            {{/if}}
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </div>
                                         {{/if}}
 
@@ -82,8 +100,8 @@
                                 <div class="card-footer text-muted">
                                     <a class="btn btn-sm btn-outline-primary"
                                        href="/detail/{{id}}" role="button">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
                                         Details
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                 </div>
                             </a>
@@ -136,7 +154,7 @@
 
             // If the count down is finished, write some text
             if (distance < 0) {
-                clearInterval(x);
+                // clearInterval(x);
                 document.getElementById(id[i]).innerHTML = "EXPIRED";
             }
         }, 1000);

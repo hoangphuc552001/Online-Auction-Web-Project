@@ -476,7 +476,6 @@ router.post("/upload/img/:catId/:proId", async function (req, res) {
     const folderName = "./public/imgs/" + cate + "/" + temp1;
     const folderAdd = "/public/imgs/" + cate + "/" + temp1 + "/";
     const ID_product = req.params.catId;
-    console.log(folderName);
     try {
         if (!fs.existsSync(folderName)) {
             fs.mkdirSync(folderName);
@@ -495,7 +494,6 @@ router.post("/upload/img/:catId/:proId", async function (req, res) {
 
     const upload = multer({storage});
     upload.array("fuMain", 5)(req, res, async function (err) {
-        console.log(req.body);
         if (err) {
             console.error(err);
         } else {
@@ -510,7 +508,6 @@ router.post("/upload/img/:catId/:proId", async function (req, res) {
                 list_img[i] = folderAdd + i + "." + extension;
                 i++;
             });
-            console.log(list_img);
             const size = i;
             const add_img = {
                 image: list_img[1],
