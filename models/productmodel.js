@@ -157,6 +157,15 @@ LIMIT ${limit} OFFSET ${offset}`
   addProtoWL(id, user) {
     return db('watchlist').insert({'user': user, 'product': id});
   },
+  addRejectBid(id, user) {
+    return db('reject').insert({'userid': user, 'productid': id});
+  },
+  addCancelDeal(id, user) {
+    return db('canceldeal').insert({'userid': user, 'productid': id});
+  },
+  getWinner(id){
+    return db('product').where({'id':id})
+  },
   getProductwithUser(user) {
     return db('watchlist').select('product').where('user',user);
   },
@@ -201,6 +210,9 @@ LIMIT ${limit} OFFSET ${offset}`
   },
   wonlist(id){
     return db('product').where({'holder':id,'status':'sold'})
+  },
+  getRejectlist(user, id){
+    return db('reject').where({'userid': user,'productid':id })
   },
   ongoing(id){
     return db('product').where({'seller':id,'status':'bidding'})

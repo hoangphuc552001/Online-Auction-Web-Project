@@ -9,6 +9,7 @@ import categorymodel from "../models/categorymodel.js";
 import moment from "moment";
 import crypt from "../utils/crypt.js";
 import mailgu from "mailgun-js/lib/mailgun.js";
+import {CAMPAIGN_ID} from "mailgun";
 
 const router = express.Router();
 const hashedApi =
@@ -580,6 +581,7 @@ router.post("/delete/:id", async function (req, res) {
     list[0].offer,
     list[0].product
   );
+  const addreject= await  productmodel.addRejectBid(list[0].product, list[0].user);
   //reject bidder by email
 
   /*let product_name=await productmodel.detail(list[0].product)
@@ -685,5 +687,34 @@ router.post(
     res.redirect("/account/profile");
   }
 );
-
+router.post("/cancel/:id", async function (req, res) {
+  const IDpro_cancel = req.params.id;
+  const list = await productmodel.getWinner(IDpro_cancel);
+  const IDuser_cancel= list[0].holder;
+  const add_deal = await productmodel.addCancelDeal(IDpro_cancel,IDuser_cancel);
+  const dislike = 0;
+  const sellerid =list[0].seller;
+  const comment = "Winner doesnt pay this deal"
+  var entity = {
+    product: IDpro_cancel,
+    bidder: IDuser_cancel,
+    seller: sellerid,
+    like: dislike,
+    comment: comment,
+    sender: "seller",
+    time: new Date(),
+  };
+  await productmodel.insertRatingSeller(entity);
+  let likebidder = await productmodel.countLikeSeller(IDuser_cancel, 1);
+  let totalrating = await productmodel.countRateSeller(IDuser_cancel);
+  likebidder = likebidder[0].count;
+  totalrating = totalrating[0].count;
+  const score = (likebidder / parseFloat(totalrating)) * 10;
+  entity = {
+    rating: score.toFixed(2),
+  };
+  await usermodel.updateRating(IDuser_cancel, entity);
+  const url = req.headers.referer || "/";
+  res.redirect(url);
+});
 export default router;
