@@ -875,6 +875,20 @@ CREATE TABLE `mailwon`(
 --
 -- Dumping data for table `category`
 --
+DROP TABLE IF EXISTS `reject`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `reject`(
+                          `id` int(11) NOT NULL AUTO_INCREMENT,
+                          `productid` int(11) DEFAULT NULL,
+                          `userid` int(11) DEFAULT NULL,
+                          PRIMARY KEY (`id`)
+
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+--
+-- Dumping data for table `category`
+--
 
 LOCK TABLES `category` WRITE;
 
