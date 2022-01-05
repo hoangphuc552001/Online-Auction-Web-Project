@@ -148,5 +148,4 @@ export default {
     countNumberofBid_bidder(userid){
         return db('rating').count('id as countid').where({'bidder':userid,'sender':'seller'})
     }
-
 }

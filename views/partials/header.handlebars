@@ -1033,7 +1033,7 @@
             top: 0;
             right: 0;
             margin-bottom: 20px;
-        }
+        }Ư
         .product-item .down-content span {
             position: relative;
             right: 0;
@@ -1067,11 +1067,9 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="/product/byCat/0">Electronic</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/product/byCat/1">Mobile Phone</a></li>
-                            <li><a class="dropdown-item" href="/product/byCat/2">Laptop</a></li>
-                            <li><a class="dropdown-item" href="/product/byCat/3">Tablet</a></li>
-                            <li><a class="dropdown-item" href="/product/byCat/4">Smart Watch</a></li>
-                            <li><a class="dropdown-item" href="/product/byCat/5">E-Reader</a></li>
+                            {{#each categories}}
+                                <li><a class="dropdown-item" href="/product/byCat/{{stt}}">{{name}}</a></li>
+                            {{/each}}
                         </ul>
                     </li>
                 </ul>
