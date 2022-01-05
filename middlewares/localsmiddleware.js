@@ -40,6 +40,11 @@ export default function (app) {
             user_ = user_[0]
             res.locals.userName = user_
         }
+        var getCategories=await productmodel.getCategories()
+        for (let i=0;i<getCategories.length;i++){
+            getCategories[i].stt=i+1
+        }
+        res.locals.categories=getCategories
         next();
     })
 };
