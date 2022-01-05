@@ -1,4 +1,3 @@
-
 <style>
     .carousel-indicators li,
     .carousel-indicators li.active {
@@ -12,9 +11,11 @@
         top: 0;
         left: 0;
     }
-    .high-light{
+
+    .high-light {
         color: black;
     }
+
     .carousel-indicators li {
         height: 100%;
         background-color: transparent;
@@ -24,11 +25,16 @@
     .carousel-indicators {
         bottom: -25%;
     }
-
 </style>
-
-
-
+<link rel="stylesheet" href="/public/btnWL.css">
+<link rel="stylesheet" href="/public/btnBid.css">
+<link rel="stylesheet" href="/public/rainbowButton.css">
+<link rel="stylesheet" href="/public/rainbowButtonPM.css">
+<!--<link rel="stylesheet" href="/public/imgAnim/imgAnim.css">-->
+{{#section 'js'}}
+    <script src="/public/formatNumber/fmnb.js"></script>
+    <script src="/public/imgAnim/imgAnim.js"></script>
+{{/section}}
 <main>
     <hr class="m-0">
 
@@ -36,7 +42,6 @@
 
         <div class="col-10 col-md-4 col-sm-8 m-0 p-0">
             <div id="carousel" class="carousel slide  mr-4" data-ride="carousel">
-
                 <div class="carousel-inner p-0 " onchange="Check()">
                     {{#each image}}
                         <div class="carousel-item {{{imageactive @index}}}" onclick="Change()">
@@ -46,7 +51,6 @@
                 </div>
                 <a class="carousel-control-prev  ml-20" href="#carousel" data-slide="prev">
                     <i class="fa fa-arrow-left high-light  " aria-hidden="true"></i>
-
                 </a>
                 <a class="carousel-control-next mr-20" href="#carousel" data-slide="next">
                     <i class="fa fa-arrow-right high-light mt-2 " aria-hidden="true"></i>
@@ -54,107 +58,255 @@
                 </a>
 
             </div>
-
             <div style="height: 20vh;">
+                <div class="container mt-5">
+                    <div class="row text-center">
+                        <div id="thumb" class="owl-carousel product-thumb">
+                            <div style="height: 20vh">
+                                {{#each image}}
+                                    <span class="item" data-target="#carousel" data-slide-to="{{stt}}">
+                                        <img
+                                                src="{{image}}"
+                                                alt="{{image}}"
+                                                width="50px"
+                                                height="50px"
+                                        />
+                                    </span>
+                                {{/each}}
 
-            </div>
-        </div>
-
-        <div class="col-7 col-md-5 col-sm-7 m-0 ">
-            {{#with product}}
-                <h2 class="m-0 mb-2 " id="name">{{name}} {{{new start}}} {{#unless (equal status "bidding")}} <b>({{status}})</b>
-                {{/unless}}</h2>
-                <p class="m-1">End in: <b id="demo" class="text-danger">{{remain end}}</b></p>
-                <p class="m-1">Current: <b class="text-info">{{ format_number current}}</b></p>
-                <p class="m-1">Deal:
-                    {{#if cap}}
-                        {{ format_number cap}}
-                    {{/if}}
-                </p>
-                {{#if (equal ../session.user.id ../seller.id)}}
-                    <p class="m-1" data-toggle="modal" data-target="#bidder-modal">Bidder: {{{masked ../holder.name}}} (<a
-                            class="text-primary">{{../holder.rating}} <i class='fa fa-star text-warning'></i></a>)</p>
-
-                    <div class="modal fade" id="bidder-modal" role="dialog">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <form class="form-horizontal" id="announce-form">
-                                    <div class="modal-header">
-                                        <h6 class="modal-title">GPA Online Auction: {{name}} - Bidders</h6>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body py-0">
-                                        <table class="table border my-1">
-                                            <thead class="thead-dark">
-                                            <tr>
-                                                <th>User</th>
-                                                <th>Rating</th>
-                                                <th>Rator</th>
-                                                <th>Comment</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {{#each ../ratinglist}}
-                                                <tr>
-                                                    <td>{{masked username}}</td>
-                                                    <td>{{rating}}</td>
-                                                    <td>{{masked ratorname}}</td>
-                                                    <td>{{comment}}</td>
-                                                </tr>
-                                            {{/each}}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="modal-footer py-0">
-                                        <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm</button>
-                                        <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">Cancel</button>
-                                    </div>
-                                </form>
                             </div>
                         </div>
                     </div>
-                {{else}}
-                    <p class="m-1 d-inline-block">Bidder: {{{masked ../holder.name}}} (<p class="text-primary m-0 d-inline-block">{{../holder.rating}} <i
-                        class='fa fa-star text-warning'></i></p>)</p>
-                {{/if}}
-                <p class="m-1">Bids: {{bids}} Times</p>
-                <p class="m-1">Start: {{Time_ start}}</p>
-                {{#if ../session.authenticated}}
-                    <div>
-                        <form method="post">
-                            <button type="submit" name="id" value={{id}}
-                                    class="btn btn-primary" {{#if ../product.checkwl}}
-                                    disabled
-                            {{/if}} formaction="/product/byCat/watchlist">
-                                Watch List
-                            </button>
-                        </form>
-                    </div>
-                {{/if}}
+                </div>
+            </div>
 
-                {{#if ../session.authenticated}}
-                    <form class="row m-0" method="POST" id="detail">
-                        <div class="custom-control custom-switch col-12">
-                            <input type="checkbox" class="custom-control-input" name="mode" id="mode">
-                            <label class="custom-control-label" for="mode">Automated bid</label>
+        </div>
+
+        <div class="col-7 col-md-5 col-sm-7 m-0 mt-2">
+            {{#with product}}
+                <h2 style="color:gray;" class="m-0 mb-2" id="name">{{name}} {{{new start}}} {{#unless
+                        (equal status "bidding")}}
+                    <b>({{status}})</b>
+                {{/unless}}</h2>
+                <p class="m-1"><b style="font-size: 20px" class="text-info">{{ format_number current}}</b></p>
+                <div class="card">
+                    <div style="color:#0fb59f;" class="card-header">
+                        <div class="row">
+                            <div class="col-9">
+                                <p style="font-size: 20px" class="m-1">End in: <b id="demo" class="text-danger">{{remain
+                                        end}}</b>
+                                </p>
+                            </div>
+                            <div class="col-3">
+                                {{#if ../checkAllow}}
+                                    <div id="testbutton"></div>
+                                {{else}}
+                                    <div id="testbuttonpm"></div>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="m-1"><i class="fa fa-check-circle-o" style="color: #17a2b8"
+                                                          aria-hidden="true"></i> Deal:
+                                            {{#if cap}}
+                                                {{ format_number cap}}
+                                            {{/if}}
+                                        </p>
+                                        {{#if (equal ../session.user.id ../seller.id)}}
+                                            <p class="m-1 d-inline-block"><i class="fa fa-check-circle-o"
+                                                                             style="color: #17a2b8"
+                                                                             aria-hidden="true"></i>
+                                                Bidder:{{#if ../holder.name}}{{{masked ../holder.name}}}<span
+                                                class="text-primary m-0 d-inline-block">{{../holder.rating}}(<i
+                                                class='fa fa-star text-warning'></i>)</span>
+                                            </p>
+                                        {{/if}}
+                                            <div class="modal fade" id="bidder-modal" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <form class="form-horizontal" id="announce-form">
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title">GPA Online Auction: {{name}} -
+                                                                    Bidders</h6>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body py-0">
+                                                                <table class="table border my-1">
+                                                                    <thead class="thead-dark">
+                                                                    <tr>
+                                                                        <th>User</th>
+                                                                        <th>Rating</th>
+                                                                        <th>Rator</th>
+                                                                        <th>Comment</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {{#each ../ratinglist}}
+                                                                        <tr>
+                                                                            <td>{{masked username}}</td>
+                                                                            <td>{{rating}}</td>
+                                                                            <td>{{masked ratorname}}</td>
+                                                                            <td>{{comment}}</td>
+                                                                        </tr>
+                                                                    {{/each}}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="modal-footer py-0">
+                                                                <button data-dismiss="modal"
+                                                                        class="btn btn-danger btn-sm" id="confirm">
+                                                                    Confirm
+                                                                </button>
+                                                                <button data-dismiss="modal"
+                                                                        class="btn btn-default btn-sm border"
+                                                                        id="cancel">
+                                                                    Cancel
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {{else}}
+                                            <p class="m-1 d-inline-block"><i class="fa fa-check-circle-o"
+                                                                             style="color: #17a2b8"
+                                                                             aria-hidden="true"></i>
+                                                Bidder:{{#if ../holder.name}}{{{masked ../holder.name}}}<p
+                                                class="text-primary m-0 d-inline-block">{{../holder.rating}}(<i
+                                                class='fa fa-star text-warning'></i>)</p>
+                                        {{/if}}
+                                        {{/if}}
+                                        <p class="m-1"><i class="fa fa-check-circle-o" style="color: #17a2b8"
+                                                          aria-hidden="true"></i> Bids: {{bids}} Times</p>
+                                        <p class="m-1"><i class="fa fa-check-circle-o" style="color: #17a2b8"
+                                                          aria-hidden="true"></i> Start: {{Time_ start}}</p>
+                                        <p class="m-1"><i class="fa fa-check-circle-o" style="color: #17a2b8"
+                                                          aria-hidden="true"></i> Status: <b
+                                                id="statuspro">{{status}}</b></p>
+                                    </div>
+                                    <div class="col-6">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </blockquote>
+                    </div>
+                </div>
+                <div>
+                    {{#if ../session.authenticated}}
+                        <div class="btn-group">
+                            {{#if removewl}}
+                                <div class="mt-2">
+                                    <form method="post">
+                                        <button type="submit" name="id" value={{id}} formaction="watchlist"
+                                                class="btn btn-danger">
+                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                        </button>
+                                    </form>
+
+                                </div>
+                            {{else}}
+                                <div class="mt-2">
+                                    <form method="post">
+                                        {{#if ../product.checkwl}}
+                                            <button type="button" class="buttonAdd" disabled>
+                                                Added
+                                                <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                                            </button>
+                                        {{else}}
+                                            <button type="submit" name="id" value={{id}}
+                                                    class="button" formaction="/product/byCat/watchlist">
+                                                Watch List
+                                                <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                                            </button>
+                                        {{/if}}
+                                    </form>
+                                </div>
+                            {{/if}}
+                            {{#if ../check}}
+                                <form method="post">
+                                    <button type="submit"
+                                            onclick="alert(confirm('Do you sure to reject current holder?'))"
+                                            formaction="/account/delete/{{id}}"
+                                            class="btn btn-outline-danger mt-2 ml-2"
+                                            style="padding: 5px;border: solid 3px" id="reject">Reject <i
+                                            class="fa fa-ban"
+                                            aria-hidden="true"></i>
+                                    </button>
+                                </form>
+                            {{/if}}
                         </div>
 
+                    {{/if}}
+                </div>
+                {{#if ../session.authenticated}}
+                    <form class="row m-0" method="POST" id="detail">
+                        <!--                        <div class="custom-control custom-switch col-12">-->
+                        <!--                            <input type="checkbox" class="custom-control-input" name="mode" id="mode">-->
+                        <!--                            <label class="custom-control-label" for="mode">Bid Product</label>-->
+                        <!--                        </div>-->
+                        <div class="custom-control col-12 mt-2">
+                            <hr/>
+                            <div class="text-center">
+                                <i class="fa fa-pencil" style="color: #3f80af" aria-hidden="true"></i>
+                                <label>Bid Product</label>
+                            </div>
+                        </div>
+                      {{#if ../checkReject}}
                         {{#if ../checkRating}}
-                            <input class="col-9 col-md-6" type="text" placeholder="{{{format_number sum current increment}}}" name="offer" id="offer"
-                                {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}}>
-                            <button class="col-3 ml-2" style="background-color: lightcyan; border-radius: 15px; width: 50px;"
-                                    value="{{{sum current increment}}}" {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}} type="button"
-                                    data-toggle="modal" id="minimum" data-target="#announce-modal">Bid</button>
+                            <div class="mb-3 ml-2 form-row align-items-center">
+                                <div class="col-12 col-md-8 col-sm-12">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">VND</div>
+                                        </div>
+
+                                        <input data-type="currency" type="text" class="form-control"
+                                               pattern="^\d{1,3}(,\d{3})*(\.\d+)?$"
+                                               placeholder="{{{format_number_wth sum_}}}" name="offer" id="offer"
+                                               {{#if statuscheck}}disabled{{/if}}
+                                            {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable
+                                                ../session.user.id ../seller.id}}}>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4 col-sm-12">
+                                    <button class="btn-hover color-6 mb-4"
+                                            style="background-color: lightcyan;border-radius: 15px; width: 100px;"
+                                            {{#if statuscheck}}disabled{{/if}}
+                                            value="{{{sum current increment}}}" {{{disable status}}} {{{disable
+                                            ../session.user.rating}}} {{{disable ../session.user.id
+                                                                                 ../seller.id}}}type="button"
+                                            data-toggle="modal" id="minimum" data-target="#announce-modal">Bid
+                                    </button>
+                                </div>
+                            </div>
+
                         {{else}}
                             <div class="alert alert-danger" role="alert">
                                 Rate score not enough to bid product
                             </div>
-                            <input class="col-9 col-md-6" disabled type="text" placeholder="{{{format_number sum current increment}}}" name="offer" id="offer"
-                                {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}}>
+                            <input class="col-9 col-md-6" disabled type="text"
+                                   placeholder="{{{format_number sum current increment}}}" name="offer" id="offer"
+                                {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id
+                                                                                                     ../seller.id}}}>
                         {{/if}}
-
+                      {{else}}
+                            <div class="alert alert-danger" role="alert">
+                                You have been denied to bid for this product
+                            </div>
+                            <input class="col-9 col-md-6" disabled type="text"
+                                   placeholder="{{{format_number sum current increment}}}" name="offer" id="offer"
+                                {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id
+                                                                                                     ../seller.id}}}>
+                      {{/if}}
                         <div class="modal fade" id="announce-modal" role="dialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -168,8 +320,12 @@
                                         <div class="modal-body py-0" id="announce" style="white-space: pre;">
                                         </div>
                                         <div class="modal-footer py-0">
-                                            <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm</button>
-                                            <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">Cancel</button>
+                                            <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">
+                                                Confirm
+                                            </button>
+                                            <button data-dismiss="modal" class="btn btn-default btn-sm border"
+                                                    id="cancel">Cancel
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -187,11 +343,13 @@
                                             </button>
                                         </div>
                                         <div class="modal-body py-0">
-                                            <p class="my-0" id="error" style="white-space: pre-line;">{{{ ../announce}}}</p>
+                                            <p class="my-0" id="error"
+                                               style="white-space: pre-line;">{{{ ../announce}}}</p>
                                         </div>
                                         <div class="modal-footer py-0">
                                             <button data-dismiss="modal" class="btn btn-danger btn-sm">Confirm</button>
-                                            <button data-dismiss="modal" class="btn btn-default btn-sm border">Cancel</button>
+                                            <button data-dismiss="modal" class="btn btn-default btn-sm border">Cancel
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -204,14 +362,14 @@
 
         <div class="col-5 col-md-3 col-sm-5 m-0 border-left">
             <h4 style="margin: 0;">Seller Information</h4>
-            {{#if (equal session.user.id seller.id)}}
-                <p class="m-0">{{masked seller.name}} <p class="text-primary m-0">
-                ({{seller.rating}} <i class='fa fa-star text-warning'></i>)</p>
+            {{#if ../check}}
+                <p class="m-0">{{masked seller.name}}
+                <p class="text-primary m-0">
+                    ({{seller.rating}} <i class='fa fa-star text-warning'></i>)</p>
                 </p>
             {{else}}
                 <p class="m-0" data-toggle="modal" data-target="#seller-modal">{{masked seller.name}} <a
                         class="text-primary">({{seller.rating}} <i class='fa fa-star text-warning'></i>)</a></p>
-
                 <div class="modal fade" id="seller-modal" role="dialog">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -243,8 +401,12 @@
                                     </table>
                                 </div>
                                 <div class="modal-footer py-0">
-                                    <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm</button>
-                                    <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">Cancel</button>
+
+                                    <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm
+                                    </button>
+                                    <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">
+                                        Cancel
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -291,8 +453,10 @@
                                 </table>
                             </div>
                             <div class="modal-footer py-0">
+
                                 <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm</button>
-                                <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">Cancel</button>
+                                <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">Cancel
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -315,7 +479,8 @@
                 <div class="col-4 col-sm-3 col-lg-2 product">
                     <a href="/detail/{{id}}">
                         <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
-                        <h5 class="text-center">{{name}} {{{new start}}} {{#unless (equal status "bidding")}} <b>({{status}})</b>
+                        <h5 class="text-center">{{name}} {{{new start}}} {{#unless (equal status "bidding")}}
+                            <b>({{status}})</b>
                         {{/unless}} </h5>
                         {{#if info}}
                             <p class="text-center m-0">{{{masked info}}}</p>
@@ -346,20 +511,23 @@
     $('#announce-modal').on('hide.bs.modal show.bs.modal', function (event) {
         var $activeElement = $(document.activeElement);
         if ($activeElement.is('[data-toggle], [data-dismiss]')) {
-            var input = parseFloat(document.getElementById('offer').value);
+            var input = document.getElementById('offer').value;
+            input = input.substr(0, input.length - 2)
+            input = input.replaceAll(',', '.')
+            input = input.replaceAll('.', '')
+            input = parseFloat(input)
             if (event.type === 'hide') {
                 if ($activeElement[0].id === "confirm") {
                     if (input < minimum) {
                         $('#error').html("Invalid offer!\nOffer: " + numeral(input).format("0,0") + " đ");
                         $('#error-modal').modal('show');
-                    }
-                    else if (input >= 0) {
+                    } else if (input >= 0) {
                         document.getElementById('detail').submit();
                     }
                 }
             }
             if (event.type === 'show') {
-                $('#announce').html("Are you sure to continue?\nOffer: " +numeral(input).format("0,0") + " đ");
+                $('#announce').html("Are you sure to continue?\nOffer: " + numeral(input).format("0,0") + " đ");
             }
         }
     });
@@ -369,9 +537,8 @@
         {{#with product}}
         // Set the date we're counting down to
         var countDownDate = new Date("{{end}}").getTime();
-
         // Update the count down every 1 second
-        var x = setInterval(function() {
+        var x = setInterval(function () {
 
             // Get today's date and time
             var now = new Date().getTime();
@@ -393,6 +560,9 @@
             if (distance < 0) {
                 clearInterval(x);
                 document.getElementById("demo").innerHTML = "EXPIRED";
+                if (document.getElementById("statuspro").innerHTML == "bidding") {
+                    location.reload()
+                }
             }
         }, 1000);
         {{/with}}

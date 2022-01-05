@@ -16,6 +16,7 @@
                     <div class="d-flex flex-row justify-content-center align-items-center gap-2">
                         <span class="idd1">{{privilege}}</span>
                     </div>
+                    <div>{{Time_ birthday}}</div>
                     <div>{{address}}</div>
                     <div class="d-flex flex-row justify-content-center align-items-center mt-3 ">
                         <span class="number">{{rating}}</span>
@@ -187,13 +188,94 @@
                                                     href="#tab-4">Ongoing Listed Items</a></li>
                             <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab"
                                                     href="#tab-5">Ended Listed Items</a></li>
+                            <button type="button" class="btn" style="color: #0D6EFD" data-toggle="modal" data-target="#history-modal-seller1">
+                                                        Send Review
+                            </button>
+                            <button type="button" class="btn" style="color: #0D6EFD" data-toggle="modal" data-target="#history-modal-bidder1">
+                                                        Receive Review
+                            </button>
+                        <div class="modal fade" id="history-modal-seller1" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title">GPA Online Auction</h6>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table border my-1">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th>Bidder</th>
+                                                <th>Product Name</th>
+                                                <th>Time Review</th>
+                                                <th>Comment</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {{#each ../ratinghistoryseller1}}
+                                                <tr>
+                                                    <td>{{masked biddername}}</td>
+                                                    <td>{{name}}</td>
+                                                    <td>{{timestamp_ time}}</td>
+                                                    <td>{{comment}}</td>
+                                                </tr>
+                                            {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm</button>
+                                        <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="history-modal-bidder1" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title">GPA Online Auction</h6>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table border my-1">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th>Bidder</th>
+                                                <th>Product Name</th>
+                                                <th>Time Review</th>
+                                                <th>Comment</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {{#each ../ratinghistorybidder1}}
+                                                <tr>
+                                                    <td>{{masked biddername}}</td>
+                                                    <td>{{name}}</td>
+                                                    <td>{{timestamp_ time}}</td>
+                                                    <td>{{comment}}</td>
+                                                </tr>
+                                            {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm</button>
+                                        <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         {{/if}}
                     {{/if}}
                 {{/if}}
             </ul>
             <div class="tab-content">
                 {{#if (equal ../session.user.privilege "bidder")}}
-
                     <div class="tab-pane active" role="tabpanel" id="tab-1">
                         <div class="projects-horizontal">
                             <div class="container">
@@ -217,12 +299,21 @@
                                                 </div>
                                                 <div class="clearfix">
                                                     <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                    <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                    <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                 </div>
                                                 <p class="text-center text-info font-weight-bold">{{format_number
                                                         current}}
                                                 </p>
                                             </a>
+                                            <div>
+                                                <form method="post">
+                                                    <button type="submit" name="id" value={{id}} formaction="/product/watchlist"
+                                                            class="btn btn-danger">
+                                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                    </button>
+                                                </form>
+
+                                            </div>
                                         </div>
                                     {{/each}}
 
@@ -254,7 +345,7 @@
                                                 </div>
                                                 <div class="clearfix">
                                                     <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                    <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                    <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                 </div>
                                                 <div class="clearfix">
                                                     <p class="float-left m-0">Bid time: {{{timestamp_ time}}}</p>
@@ -289,7 +380,7 @@
                                                 </div>
                                                 <div class="clearfix">
                                                     <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                    <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                    <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                 </div>
                                                 <p class="text-center text-info font-weight-bold">{{format_number
                                                         current}}
@@ -423,7 +514,7 @@
                                                     </div>
                                                     <div class="clearfix">
                                                         <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
                                                     </p>
@@ -458,7 +549,7 @@
                                                     </div>
                                                     <div class="clearfix">
                                                         <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
                                                     </p>
@@ -488,7 +579,7 @@
                                                     </div>
                                                     <div class="clearfix">
                                                         <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
                                                     </p>
@@ -518,10 +609,17 @@
                                                     </div>
                                                     <div class="clearfix">
                                                         <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
                                                     </p>
+                                                    <div class="d-flex mt-2">
+                                                      <a class="btn btn-sm btn-outline-success"
+                                                         href="/account/edit/{{id}}" role="button">
+                                                          Update Description
+                                                          <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                      </a>
+                                                    </div>
                                                 </a>
                                             </div>
                                         {{/each}}
@@ -548,11 +646,117 @@
                                                     </div>
                                                     <div class="clearfix">
                                                         <p class="float-left m-0">{{{timestamp_ start}}}</p>
-                                                        <p class="float-right text-danger m-0">{{{remain end}}}</p>
+                                                        <p class="float-right text-danger m-0">{{{remain end}}}ays</p>
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
                                                     </p>
+                                                     <form method="post">
+                                                         <button type="submit"
+                                                            onclick="alert(confirm('Do you sure to cancel this deal?'))"
+                                                           formaction="/account/cancel/{{id}}"
+                                                           class="btn btn-outline-danger mt-2 ml-2"
+                                                          style="padding: 5px;border: solid 3px" id="reject">Cancel DEAL <i
+                                                         class="fa fa-ban"
+                                                         aria-hidden="true"></i>
+                                                             </button>
+                                                     </form>
                                                 </a>
+                                                <p class="text-center mt-2">
+                                                    <button type="button" class="btn" data-toggle="modal"
+                                                            {{#if checkRate1}}
+                                                            data-target="#rated1
+                                                            {{else}}
+                                                            data-target="#like{{id}}
+                                                            {{/if}}
+                                                            ">
+                                                        <i class="fa fa-thumbs-o-up fa-2x" style="color: blue"
+                                                           aria-hidden="true"></i>
+                                                    </button>
+                                                    <button type="button" class="btn" data-toggle="modal"
+                                                        {{#if checkRate1}}
+                                                        data-target="#rated1
+                                                            {{else}}
+                                                            data-target="#dis{{id}}
+                                                        {{/if}}">
+                                                        <i class="fa fa-thumbs-o-down fa-2x" style="color:red;"
+                                                           aria-hidden="true"></i>
+                                                    </button>
+                                                </p>
+
+                                                <div class="modal fade" id="rated1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Annoucement</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                You already reviewed this product
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Like Modal -->
+                                                <div class="modal fade" id="like{{id}}" tabindex="-1" role="dialog"
+                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Review
+                                                                    Post</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Do you want to review post
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close
+                                                                </button>
+                                                                <form action="/account/reviewpost/seller/{{holder}}/{{id}}/like">
+                                                                    <button type="submit" class="btn btn-primary">Yes
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Dislike Modal -->
+                                                <div class="modal fade" id="dis{{id}}" tabindex="-1" role="dialog"
+                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Review
+                                                                    Post</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Do you want to review post
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close
+                                                                </button>
+                                                                <form action="/account/reviewpost/seller/{{holder}}/{{id}}/dislike">
+                                                                    <button type="submit" class="btn btn-primary">Yes
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         {{/each}}
                                     </div>

@@ -1,18 +1,27 @@
 import db from '../utils/db.js'
+import mysql from "mysql2";
 
 export default {
     add(entity) {
         return db('user').insert(entity);
     },
+
     async check(email) {
         return db('user').where('email', email);
     },
     add_Product(entity) {
         return db('product').insert(entity);
     },
+    findName(id){
+      return   db('user').where("id", id);
+    },
    add_image(img, catID) {
         return db('product').where("id", catID).update(img);
     },
+    append_Des(des, catID) {
+        return db('product').where("id", catID).update(des);
+    },
+
     add_img_table(img){
         return db('image').insert(img);
     },
@@ -43,11 +52,12 @@ export default {
             .where('id', condition.id)
             .update(entity);
     },
-    async updateNamevsAddress(entity, condition) {
+    async updateNamevsAddressvsDob(entity, condition) {
 
         return db('user')
             .where('id', condition.where.id)
-            .update({'name': entity.name, 'address': entity.address});
+            .update({'name': entity.name, 'address': entity.address,
+            'birthday':entity.birthday});
     },
     async updatePassword(entity, condition) {
         return db('user')
@@ -87,10 +97,30 @@ export default {
         return list[0];
     },
     // bid: async (entity) => { await db.insert(entity, 'history')}
+    dbHistory(){
+        let config = {
+            host : '127.0.0.1',
+            port : 3306,
+            user : 'root',
+            password : '',
+            database : 'auction'
+        };
+        let connection = mysql.createConnection(config);
+
+        let sql = `CALL UpdateHistory()`;
+
+        connection.query(sql, true, (error, results, fields) => {
+            if (error) {
+                return console.error(error.message);
+            }
+        });
+
+        connection.end();
+    },
     async bid(entity){
         return db('history').insert(entity)
     },
-    automated(entity){
+    async automated(entity){
         return db('automation').insert(entity)},
     async findBidder(){
         return db('user').where('privilege','bidder');
@@ -111,5 +141,11 @@ export default {
     },
     async delete(id){
         return db('user').where('id',id).del();
+    },
+    getIDbyEmail(email){
+        return db('user').where('email',email)
+    },
+    countNumberofBid_bidder(userid){
+        return db('rating').count('id as countid').where({'bidder':userid,'sender':'seller'})
     }
 }

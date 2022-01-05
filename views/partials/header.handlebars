@@ -289,7 +289,7 @@
     .navbar .navbar-nav .nav-link.show,
     .navbar .navbar-nav .show > .nav-link {
         color: #fff;
-        padding-bottom: 25px;
+        padding-bottom: 5px;
         border-bottom: 3px solid #f33f3f;
     }
     .navbar .navbar-toggler-icon {
@@ -1033,7 +1033,7 @@
             top: 0;
             right: 0;
             margin-bottom: 20px;
-        }
+        }Ư
         .product-item .down-content span {
             position: relative;
             right: 0;
@@ -1043,14 +1043,15 @@
 
 </style>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
-    <a class="navbar-brand ml-5 mr-5" href="/">
-        <h2>Auction <em>Online</em></h2></a>    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand ml-5 mt-1 mr-5" href="/"
+    ><h2>Auction <em>Online</em></h2></a
+    >    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item mr-3  {{#if activeHome}}
+            <li class="nav-item mr-3 {{#if activeHome}}
                 active
             {{/if}}">
 
@@ -1066,29 +1067,29 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="/product/byCat/0">Electronic</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/product/byCat/1">Mobile Phone</a></li>
-                            <li><a class="dropdown-item" href="/product/byCat/2">Laptop</a></li>
-                            <li><a class="dropdown-item" href="/product/byCat/3">Tablet</a></li>
-                            <li><a class="dropdown-item" href="/product/byCat/4">Smart Watch</a></li>
-                            <li><a class="dropdown-item" href="/product/byCat/5">E-Reader</a></li>
+                            {{#each categories}}
+                                <li><a class="dropdown-item" href="/product/byCat/{{stt}}">{{name}}</a></li>
+                            {{/each}}
                         </ul>
                     </li>
                 </ul>
             </li>
             <li class="nav-item mr-3">
-                <a class="nav-link" href="#">About Us</a>
+                <a class="nav-link" href="/about">About Us</a>
             </li>
             <li class="nav-item mr-5">
-                <a class="nav-link" href="#">Contact Us</a>
+                <a class="nav-link" href="/contact">Contact Us</a>
             </li>
             <form method="GET" class="form-inline my-2 my-lg-0 mb-auto mt-auto">
                 <input class="form-control mr-sm-2" type="search" name="name" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-warning my-2 my-sm-0" formaction="/product/search" type="submit">Search</button>
             </form>
-
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-user" aria-hidden="true"></i>
+                    {{#if authenticated}}
+                        Hi, {{userName}}
+                    {{/if}}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {{#if authenticated}}
