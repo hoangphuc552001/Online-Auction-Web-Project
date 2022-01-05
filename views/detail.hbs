@@ -260,6 +260,7 @@
                                 <label>Bid Product</label>
                             </div>
                         </div>
+                      {{#if ../checkReject}}
                         {{#if ../checkRating}}
                             <div class="mb-3 ml-2 form-row align-items-center">
                                 <div class="col-12 col-md-8 col-sm-12">
@@ -297,7 +298,15 @@
                                 {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id
                                                                                                      ../seller.id}}}>
                         {{/if}}
-
+                      {{else}}
+                            <div class="alert alert-danger" role="alert">
+                                You have been denied to bid for this product
+                            </div>
+                            <input class="col-9 col-md-6" disabled type="text"
+                                   placeholder="{{{format_number sum current increment}}}" name="offer" id="offer"
+                                {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id
+                                                                                                     ../seller.id}}}>
+                      {{/if}}
                         <div class="modal fade" id="announce-modal" role="dialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">

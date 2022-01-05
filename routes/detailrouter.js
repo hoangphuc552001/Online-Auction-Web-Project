@@ -20,6 +20,11 @@ const mailgun = mailgu({ apiKey: API, domain: DOMAIN });
 
 router.get("/:id", async function (req, res) {
   // await productmodel.test()
+  let checkReject = true;
+  const listReject = await productmodel.getRejectlist(req.session.user.id,req.params.id);
+  if (listReject[0]!=null){
+    checkReject=false;
+  }
   let product = await productmodel.detail(req.params.id);
   if (product.length === 0) return res.redirect("/404");
   product = product[0];
@@ -92,6 +97,7 @@ router.get("/:id", async function (req, res) {
       history: history,
       checkRating,
       checkAllow,
+      checkReject,
     });
 
     /* await productmodel.refresh();
@@ -159,9 +165,12 @@ router.post("/:id", async function (req, res) {
   var product = await productmodel.detail(req.params.id);
   product = product[0];
   var offer_body = req.body.offer;
+
   offer_body = offer_body.substr(0, offer_body.length - 2);
-  offer_body = offer_body.replaceAll(",", ".");
-  offer_body = offer_body.replaceAll(".", "");
+
+  offer_body = offer_body.replaceAll(',', ".");
+  offer_body = offer_body.replaceAll('.', "");
+
   var entity = {
     user: req.session.user.id,
     offer: offer_body,

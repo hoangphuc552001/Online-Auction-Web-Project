@@ -650,6 +650,16 @@
                                                     </div>
                                                     <p class="text-center text-info font-weight-bold">{{current}}$
                                                     </p>
+                                                     <form method="post">
+                                                         <button type="submit"
+                                                            onclick="alert(confirm('Do you sure to cancel this deal?'))"
+                                                           formaction="/account/cancel/{{id}}"
+                                                           class="btn btn-outline-danger mt-2 ml-2"
+                                                          style="padding: 5px;border: solid 3px" id="reject">Cancel DEAL <i
+                                                         class="fa fa-ban"
+                                                         aria-hidden="true"></i>
+                                                             </button>
+                                                     </form>
                                                 </a>
                                                 <p class="text-center mt-2">
                                                     <button type="button" class="btn" data-toggle="modal"
