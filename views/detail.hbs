@@ -121,12 +121,11 @@
                                             <p class="m-1 d-inline-block"><i class="fa fa-check-circle-o"
                                                                              style="color: #17a2b8"
                                                                              aria-hidden="true"></i>
-                                                Bidder:{{#if ../holder.name}}{{{masked ../holder.name}}}<p
+                                                Bidder:{{#if ../holder.name}}{{{masked ../holder.name}}}<span
                                                 class="text-primary m-0 d-inline-block">{{../holder.rating}}(<i
-                                                class='fa fa-star text-warning'></i>)</p>
-
-                                        {{/if}}
+                                                class='fa fa-star text-warning'></i>)</span>
                                             </p>
+                                        {{/if}}
                                             <div class="modal fade" id="bidder-modal" role="dialog">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
@@ -290,14 +289,6 @@
                             </div>
 
                         {{else}}
-                            {{#if ../check_allow}}
-                                <input class="col-9 col-md-6" type="text" placeholder="{{{format_number sum current increment}}}" name="offer" id="offer"
-                                       {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}}>
-                                <button class="col-3 ml-2" style="background-color: lightcyan; border-radius: 15px; width: 50px;"
-                                       value="{{{sum current increment}}}" {{{disable status}}} {{{disable ../session.user.rating}}} {{{disable ../session.user.id ../seller.id}}} type="button"
-                                       data-toggle="modal" id="minimum" data-target="#announce-modal">Bid</button>
-
-                            {{else}}
                             <div class="alert alert-danger" role="alert">
                                 Rate score not enough to bid product
                             </div>
