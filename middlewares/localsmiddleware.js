@@ -44,7 +44,7 @@ export default function (app) {
         for (let i=0;i<getCategories.length;i++){
             getCategories[i].stt=i+1
         }
-        res.locals.categories=getCategories
+        res.locals.categories_=getCategories
         next();
     })
 };
