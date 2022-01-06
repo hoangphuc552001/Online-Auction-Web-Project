@@ -164,7 +164,8 @@ router.get('/reset', async function (req, res) {
 })
 
 router.post('/reset', async function (req, res) {
-    const hash = bcrypt.hashSync(req.body.password, configuration.authentication.saltRounds);
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(req.body.password, salt);
     const entity = {
         password: hash
     }
