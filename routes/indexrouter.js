@@ -164,7 +164,8 @@ router.get('/reset', async function (req, res) {
 })
 
 router.post('/reset', async function (req, res) {
-    const hash = bcrypt.hashSync(req.body.password, configuration.authentication.saltRounds);
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(req.body.password, salt);
     const entity = {
         password: hash
     }
@@ -240,7 +241,11 @@ router.get('/404', async function (req, res) {
 });
 
 router.get('/otp', async function (req, res) {
-    if (req.headers.referer.indexOf("/login") == -1 && req.headers.referer.indexOf("/registers") == -1 && req.headers.referer.indexOf('/otp') == -1)
+ //   if(typeof (req.headers.referer.indexOf("/login"))==="undefined"||typeof (req.headers.referer.indexOf("/registers"))==="undefined"){
+ //       req.session.previous = req.headers.referer;
+ //       res.redirect('/login')
+ //   }
+    if (req.headers.referer.indexOf("/login") === -1 && req.headers.referer.indexOf("/registers") === -1 && req.headers.referer.indexOf('/otp') === -1)
         req.session.previous = req.headers.referer;
     res.render('./otp');
 });

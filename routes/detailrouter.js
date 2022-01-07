@@ -37,9 +37,12 @@ router.get("/:id", async function (req, res) {
   let checkReject = true;
   var getBids = -1;
   if (req.session.user) {
-    const listReject = await productmodel.getRejectlist(req.session.user.id,req.params.id);
-    if (listReject[0]!=null){
-      checkReject=false;
+    const listReject = await productmodel.getRejectlist(
+      req.session.user.id,
+      req.params.id
+    );
+    if (listReject[0] != null) {
+      checkReject = false;
     }
     if (req.session.user.id === +seller.id) a = true;
     let usercurrent = await usermodel.id(req.session.user.id);
@@ -168,8 +171,8 @@ router.post("/:id", async function (req, res) {
 
   offer_body = offer_body.substr(0, offer_body.length - 2);
 
-  offer_body = offer_body.replaceAll(',', ".");
-  offer_body = offer_body.replaceAll('.', "");
+  offer_body = offer_body.replaceAll(",", ".");
+  offer_body = offer_body.replaceAll(".", "");
 
   var entity = {
     user: req.session.user.id,

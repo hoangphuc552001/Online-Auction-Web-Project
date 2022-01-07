@@ -3,6 +3,5 @@ export default function validAdmin(req,res,next){
         req.session.retUrl= req.originalUrl;
         return res.redirect('/login');
     }
-
     next();
 }
