@@ -472,7 +472,6 @@ router.post("/upload", auth, async function (req, res) {
   if (incre < 100000) {
     incre = 100000;
   }
-  console.log(incre);
   const Amount = (await productmodel.countCat()) + 1;
   const entity = {
     id: Amount,
@@ -677,8 +676,8 @@ router.post(
       time: new Date(),
     };
     await productmodel.insertRatingSeller(entity);
-    let likebidder = await productmodel.countLikeSeller(sellerid, 1);
-    let totalrating = await productmodel.countRateSeller(sellerid);
+    let likebidder = await productmodel.countLikeSeller(bidderid, 1);
+    let totalrating = await productmodel.countRateSeller(bidderid);
     likebidder = likebidder[0].count;
     totalrating = totalrating[0].count;
     const score = (likebidder / parseFloat(totalrating)) * 10;

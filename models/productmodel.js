@@ -279,7 +279,7 @@ LIMIT ${limit} OFFSET ${offset}`;
     return db("rating")
       .count("id as count")
       .where({
-        "rating.seller": id,
+        "rating.bidder": id,
         "rating.like": like,
         "rating.sender": "seller",
       });
@@ -287,7 +287,7 @@ LIMIT ${limit} OFFSET ${offset}`;
   countRateSeller(id) {
     return db("rating")
       .count("id as count")
-      .where({ "rating.seller": id, "rating.sender": "seller" });
+      .where({ "rating.bidder": id, "rating.sender": "seller" });
   },
   checkProductAlreadyRate(id) {
     return db("rating")
