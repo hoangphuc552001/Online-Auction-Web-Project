@@ -20,11 +20,6 @@ const mailgun = mailgu({ apiKey: API, domain: DOMAIN });
 
 router.get("/:id", async function (req, res) {
   // await productmodel.test()
-  let checkReject = true;
-  const listReject = await productmodel.getRejectlist(req.session.user.id,req.params.id);
-  if (listReject[0]!=null){
-    checkReject=false;
-  }
   let product = await productmodel.detail(req.params.id);
   if (product.length === 0) return res.redirect("/404");
   product = product[0];
@@ -39,8 +34,13 @@ router.get("/:id", async function (req, res) {
   seller = seller[0];
   let a = false;
   let checkRating = true;
+  let checkReject = true;
   var getBids = -1;
   if (req.session.user) {
+    const listReject = await productmodel.getRejectlist(req.session.user.id,req.params.id);
+    if (listReject[0]!=null){
+      checkReject=false;
+    }
     if (req.session.user.id === +seller.id) a = true;
     let usercurrent = await usermodel.id(req.session.user.id);
     usercurrent = usercurrent[0];
@@ -53,7 +53,7 @@ router.get("/:id", async function (req, res) {
   var checkAllow = await productmodel.getAllowProduct(req.params.id);
   checkAllow = checkAllow[0];
   checkAllow = checkAllow.allow;
-  if (checkAllow === +1 && getBids === +0) {
+  if (checkAllow === +1) {
     checkRating = true;
   }
   const image = await productmodel.product(product.id);

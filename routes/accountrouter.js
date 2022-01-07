@@ -93,6 +93,9 @@ router.get("/profile", auth, async function (req, res) {
     req.session.user.id,
     "seller"
   );
+  var user_id=await usermodel.id(req.session.user.id)
+  user_id=user_id[0]
+  req.session.user=user_id
   if (req.session.user.privilege === "bidder")
     return res.render("./profile", {
       user: req.session.user,
@@ -130,7 +133,6 @@ router.get("/profile", auth, async function (req, res) {
     req.session.user.id,
     "bidder"
   );
-
   if (req.session.user.privilege === "seller")
     return res.render("./profile", {
       user: req.session.user,
@@ -675,8 +677,8 @@ router.post(
       time: new Date(),
     };
     await productmodel.insertRatingSeller(entity);
-    let likebidder = await productmodel.countLikeSeller(bidderid, 1);
-    let totalrating = await productmodel.countRateSeller(bidderid);
+    let likebidder = await productmodel.countLikeSeller(sellerid, 1);
+    let totalrating = await productmodel.countRateSeller(sellerid);
     likebidder = likebidder[0].count;
     totalrating = totalrating[0].count;
     const score = (likebidder / parseFloat(totalrating)) * 10;

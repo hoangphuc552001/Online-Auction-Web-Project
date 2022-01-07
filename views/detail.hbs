@@ -110,7 +110,7 @@
                         <blockquote class="blockquote mb-0">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-8">
                                         <p class="m-1"><i class="fa fa-check-circle-o" style="color: #17a2b8"
                                                           aria-hidden="true"></i> Deal:
                                             {{#if cap}}
@@ -121,9 +121,9 @@
                                             <p class="m-1 d-inline-block"><i class="fa fa-check-circle-o"
                                                                              style="color: #17a2b8"
                                                                              aria-hidden="true"></i>
-                                                Bidder:{{#if ../holder.name}}{{{masked ../holder.name}}}<span
+                                                Bidder:{{#if ../holder.name}}{{{masked ../holder.name}}}<p
                                                 class="text-primary m-0 d-inline-block">{{../holder.rating}}(<i
-                                                class='fa fa-star text-warning'></i>)</span>
+                                                class='fa fa-star text-warning'></i>)</p>
                                             </p>
                                         {{/if}}
                                             <div class="modal fade" id="bidder-modal" role="dialog">
@@ -192,7 +192,7 @@
                                                           aria-hidden="true"></i> Status: <b
                                                 id="statuspro">{{status}}</b></p>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-3">
                                     </div>
                                 </div>
                             </div>
