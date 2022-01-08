@@ -60,16 +60,6 @@ router.get("/profile", auth, async function (req, res) {
   var watchlist = await productmodel.watchlist(req.session.user.id);
   // var participate = await productmodel.participate(req.session.user.id);
   // var wonlist = await productmodel.wonlist(req.session.user.id);
-  if (req.session.user.priviledge === "admin") {
-    return res.render("./profile", {
-      user: req.session.user,
-      name: req.session.user.name,
-      email: req.session.user.email,
-      dob: req.session.user.dob,
-      priviledge: req.session.user.priviledge,
-      address: req.session.user.address,
-    });
-  }
   for (let i = 0; i < participate.length; i++) {
     var user1 = await productmodel.findSellerInfor(participate[i].product);
     participate[i].sellername = user1[0].name;
@@ -96,8 +86,8 @@ router.get("/profile", auth, async function (req, res) {
   var user_id=await usermodel.id(req.session.user.id)
   user_id=user_id[0]
   req.session.user=user_id
-  if (req.session.user.privilege === "bidder")
-    return res.render("./profile", {
+  if (req.session.user.privilege === "bidder"){
+  return res.render("./profile", {
       user: req.session.user,
       name: req.session.user.name,
       email: req.session.user.email,
@@ -112,6 +102,23 @@ router.get("/profile", auth, async function (req, res) {
       //   var ongoing = await productmodel.ongoing(req.session.user.id);
       //  var soldlist = await productmodel.soldlist(req.session.user.id);
     });
+  }
+  if (req.session.user.privilege === "admin") {
+    return res.render("./profile", {
+      user: req.session.user,
+      name: req.session.user.name,
+      email: req.session.user.email,
+      priviledge: req.session.user.priviledge,
+      address: req.session.user.address,
+      dob: req.session.user.birthday,
+      watchlist,
+      participate,
+      wonlist,
+      ratinghistorybidder,
+      ratinghistoryseller,
+    });
+  }
+
   var ongoing = await productmodel.ongoing(req.session.user.id);
   var checkRate1 = await productmodel.checkProductAlreadyRateSeller(
     req.session.user.id
@@ -133,7 +140,7 @@ router.get("/profile", auth, async function (req, res) {
     req.session.user.id,
     "bidder"
   );
-  if (req.session.user.privilege === "seller")
+  if (req.session.user.privilege === "seller") {
     return res.render("./profile", {
       user: req.session.user,
       name: req.session.user.name,
@@ -151,6 +158,7 @@ router.get("/profile", auth, async function (req, res) {
       //   var ongoing = await productmodel.ongoing(req.session.user.id);
       //  var soldlist = await productmodel.soldlist(req.session.user.id);
     });
+  }
   var ongoing = await productmodel.ongoing(req.session.user.id);
   var soldlist = await productmodel.soldlist(req.session.user.id);
 
