@@ -37,9 +37,14 @@
 {{/section}}
 <main>
     <hr class="m-0">
-
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/product/byCat/{{product.category}}">{{category}}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{product.name}}</li>
+        </ol>
+    </nav>
     <div class="mt-4 mb-2 bg-white container-xl clearfix justify-content-center row mx-auto">
-
         <div class="col-10 col-md-4 col-sm-8 m-0 p-0">
             <div id="carousel" class="carousel slide  mr-4" data-ride="carousel">
                 <div class="carousel-inner p-0 " onchange="Check()">

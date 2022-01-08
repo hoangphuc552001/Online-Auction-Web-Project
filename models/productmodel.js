@@ -407,4 +407,7 @@ LIMIT ${limit} OFFSET ${offset}`;
   getCategories() {
     return db("category").select("name");
   },
+  getCategoriesID(id) {
+    return db("category").select("name").where("id",id);
+  },
 };
