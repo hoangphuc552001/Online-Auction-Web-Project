@@ -233,8 +233,11 @@ router.post("/changepassword", auth, async function (req, res, next) {
         usermodel
           .singleByID(req.session.user.id)
           .then((user) => {
-            req.session.user = user;
-            res.locals.user = req.session.user;
+            // req.session.user = user;
+            // res.locals.user = req.session.user;
+            req.session.authenticated = false;
+            req.session.admin=false;
+            req.session.user = null;
             res.render("./changepassword", {
               success: true,
               newpassword: newpassword,
@@ -275,7 +278,14 @@ router.post("/editprofile", auth, async function (req, res) {
         .then((user) => {
           req.session.user = user;
           res.locals.user = req.session.user;
-          res.redirect("/account/profile");
+          // res.redirect("/account/profile");
+          res.render("editprofile",{
+            announcement:"Edit Successfully",
+            name: user.name,
+            address: user.address,
+            birthday: moment(user.birthday, "YYYY-MM-DD").format("DD/MM/YYYY"),
+            email:user.email
+          })
         })
         .catch((error) => next(error));
     })

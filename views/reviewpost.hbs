@@ -1,3 +1,23 @@
+{{#section 'js'}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $('#announce-modal').on('hide.bs.modal show.bs.modal', function (event) {
+            var $activeElement = $(document.activeElement);
+            if ($activeElement.is('[data-toggle], [data-dismiss]')) {
+                if (event.type === 'hide') {
+                    if ($activeElement[0].id === "confirm") {
+                        document.getElementById('frmRV').submit();
+                    }
+                }
+                if (event.type === 'show') {
+                    $('#announce').html("Are you sure to send review?");
+                }
+            }
+        });
+
+    </script>
+{{/section}}
+
 <style>
     body {
         background-repeat: no-repeat;
@@ -190,16 +210,40 @@
                         <div class="text-left">
                             <label  for="exampleFormControlTextarea1">Review Post</label >
                         </div>
-                        <form method="post" action="/account/reviewpost/{{seller}}/{{productid}}/{{like}}">
+                        <form method="post" id="frmRV" action="/account/reviewpost/{{seller}}/{{productid}}/{{like}}">
                             <div class="row">
                                 <div class="col-11">
                                     <textarea name="comment" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                                 </div>
                                 <div class="col-1 mt-4">
-                                    <button type="submit" class="btn btn-info">Send</button>
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#announce-modal">Send</button>
                                 </div>
                             </div>
                         </form>
+                        <div class="modal fade" id="announce-modal" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form class="form-horizontal" id="announce-form">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title">GPA Online Auction</h6>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body py-0" id="announce" style="white-space: pre;">
+                                        </div>
+                                        <div class="modal-footer py-0">
+                                            <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">
+                                                Confirm
+                                            </button>
+                                            <button data-dismiss="modal" class="btn btn-default btn-sm border"
+                                                    id="cancel">Cancel
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
