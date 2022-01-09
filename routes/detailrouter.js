@@ -85,7 +85,6 @@ router.get("/:id", async function (req, res) {
     }
   }
   var category=await productmodel.getCategoriesID(product.category)
-  console.log(category)
   category=category[0]
   category=category.name
   req.session.save(function () {
