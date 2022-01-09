@@ -35,10 +35,10 @@
                 </div>
             {{else}}
                 {{#each this.products}}
-                    <div class="col-sm-4 mb-3 dev popular">
+                    <div class="col-sm-5 col-md-5 col-lg-4 mb-3 dev popular">
                         <div class="card h-100">
                             <a href="/detail/{{id}}">
-                                <img src="{{image}}" title="{{name}}" width="250px" height="250px">
+                                <img src="{{image}}" title="{{name}}" class="rounded img-fluid m-1" width="250px" height="250px" alt="image">
                                 <div class="card-body">
                                     <h4 class="card-title">{{name}}
                                         {{#if minute}}
