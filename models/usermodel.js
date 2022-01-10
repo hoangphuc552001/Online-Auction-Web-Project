@@ -146,11 +146,6 @@ export default {
       .join("user", "user.id", "rating.bidder")
       .where({ "rating.seller": sellerid, "rating.sender": "bidder" });
   },
-  countNumberofBid_bidder(userid) {
-    return db("rating")
-      .count("id as countid")
-      .where({ bidder: userid, sender: "seller" });
-  },
   async AdminPassword(userID, password) {
     console.log(password);
     console.log(userID);
