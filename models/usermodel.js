@@ -12,17 +12,17 @@ export default {
     add_Product(entity) {
         return db('product').insert(entity);
     },
-    findName(id){
-      return   db('user').where("id", id);
+    findName(id) {
+        return db('user').where("id", id);
     },
-   add_image(img, catID) {
+    add_image(img, catID) {
         return db('product').where("id", catID).update(img);
     },
     append_Des(des, catID) {
         return db('product').where("id", catID).update(des);
     },
 
-    add_img_table(img){
+    add_img_table(img) {
         return db('image').insert(img);
     },
     async add_WL(entity) {
@@ -56,8 +56,10 @@ export default {
 
         return db('user')
             .where('id', condition.where.id)
-            .update({'name': entity.name, 'address': entity.address,
-            'birthday':entity.birthday});
+            .update({
+                'name': entity.name, 'address': entity.address,
+                'birthday': entity.birthday
+            });
     },
     async updatePassword(entity, condition) {
         return db('user')
@@ -91,19 +93,19 @@ export default {
 
         return null;
     },
-    async findById(id){
-        const list= await db('user').where('id',id)
-        if (list.length===0) return null;
+    async findById(id) {
+        const list = await db('user').where('id', id)
+        if (list.length === 0) return null;
         return list[0];
     },
     // bid: async (entity) => { await db.insert(entity, 'history')}
-    dbHistory(){
+    dbHistory() {
         let config = {
-            host : '127.0.0.1',
-            port : 3306,
-            user : 'root',
-            password : '',
-            database : 'auction'
+            host: '127.0.0.1',
+            port: 3306,
+            user: 'root',
+            password: '',
+            database: 'auction'
         };
         let connection = mysql.createConnection(config);
 
@@ -117,35 +119,41 @@ export default {
 
         connection.end();
     },
-    async bid(entity){
+    async bid(entity) {
         return db('history').insert(entity)
     },
-    async automated(entity){
-        return db('automation').insert(entity)},
-    async findBidder(){
-        return db('user').where('privilege','bidder');
+    async automated(entity) {
+        return db('automation').insert(entity)
     },
-    async findSeller(){
-        return db('user').where('privilege','seller');
+    async findBidder() {
+        return db('user').where('privilege', 'bidder');
+    },
+    async findSeller() {
+        return db('user').where('privilege', 'seller');
     },
 
-    async findRequest(){
-        return db('user').where('privilege','bidder').where('request','1');
+    async findRequest() {
+        return db('user').where('privilege', 'bidder').where('request', '1');
     },
-    updateRating(id,entity){
-        return db('user').update(entity).where("user.id",id)},
-    changeType(entity){
+    updateRating(id, entity) {
+        return db('user').update(entity).where("user.id", id)
+    },
+    changeType(entity) {
         const id = entity.id;
         delete entity.id;
-        return db('user').where('id',id).update(entity);
+        return db('user').where('id', id).update(entity);
     },
-    async delete(id){
-        return db('user').where('id',id).del();
+    async delete(id) {
+        return db('user').where('id', id).del();
     },
-    getIDbyEmail(email){
-        return db('user').where('email',email)
+    getIDbyEmail(email) {
+        return db('user').where('email', email)
     },
-    countNumberofBid_bidder(userid){
-        return db('rating').count('id as countid').where({'bidder':userid,'sender':'seller'})
+    countNumberofBid_bidder(userid) {
+        return db('rating').count('id as countid').where({'bidder': userid, 'sender': 'seller'})
+    },
+    userratinglist(sellerid) {
+        return db('rating').join('user', 'user.id', 'rating.bidder')
+            .where({'rating.seller': sellerid, 'rating.sender': 'bidder'})
     }
 }

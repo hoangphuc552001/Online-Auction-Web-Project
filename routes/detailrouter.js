@@ -90,6 +90,12 @@ router.get("/:id", async function (req, res) {
   var category=await productmodel.getCategoriesID(product.category)
   category=category[0]
   category=category.name
+  var ratinglist;
+  if (req.session.authenticated){
+    if (seller.id === req.session.user.id)
+      ratinglist=1
+    else
+      ratinglist = await usermodel.userratinglist(seller.id);}
   req.session.save(function () {
     return res.render("./detail", {
       check: a,
@@ -103,7 +109,7 @@ router.get("/:id", async function (req, res) {
       //  prepath: prepath,
       //image: image,
       //announce: announce,
-      //ratinglist: ratinglist,
+      ratinglist: ratinglist,
       history: history,
       checkRating,
       checkAllow,

@@ -369,11 +369,11 @@
 
         <div class=" col-md-3 col-sm-5 col-12 m-0 border-left">
             <h4 style="margin: 0;">Seller Information</h4>
-            {{#if ../check}}
-                <p class="m-0">{{masked seller.name}}
-                <p class="text-primary m-0">
-                    ({{seller.rating}} <i class='fa fa-star text-warning'></i>)</p>
-                </p>
+            {{#if check}}
+                <p class="m-1 d-inline-block"><i class="fa fa-user" style="color:darkolivegreen" aria-hidden="true"></i>
+                {{masked seller.name}}<p
+                    class="text-primary m-0 d-inline-block">{{seller.rating}}(<i
+                    class='fa fa-star text-warning'></i>)</p>
             {{else}}
                 <p class="m-0" data-toggle="modal" data-target="#seller-modal">{{masked seller.name}} <a
                         class="text-primary">({{seller.rating}} <i class='fa fa-star text-warning'></i>)</a></p>
@@ -393,14 +393,16 @@
                                         <tr>
                                             <th>User</th>
                                             <th>Rating</th>
+                                            <th>Time</th>
                                             <th>Comment</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         {{#each ratinglist}}
                                             <tr>
-                                                <td>{{masked ratorname}}</td>
+                                                <td>{{masked name}}</td>
                                                 <td>{{rating}}</td>
+                                                <td>{{timestamp_ time}}</td>
                                                 <td>{{comment}}</td>
                                             </tr>
                                         {{/each}}
@@ -487,17 +489,22 @@
                                     <div class="row">
                                         <div class="col-3">
                                             <button class="btn">
-                                                <img src="https://cdn-icons-png.flaticon.com/512/147/147144.png" height="100"
+                                                <img src="https://cdn-icons-png.flaticon.com/512/147/147144.png"
+                                                     height="100"
                                                      width="100"/>
                                             </button>
                                         </div>
                                         <div class="col-6 mt-2 ml-3">
                                             <tbody>
                                             <tr>
-                                                <td>Name: {{masked seller.name}}</td><br>
-                                                <td>Rating: {{seller.rating}}</td><br>
-                                                <td>Address: {{seller.address}}</td><br>
-                                                <td>Email: {{seller.email}}</td><br>
+                                                <td>Name: {{masked seller.name}}</td>
+                                                <br>
+                                                <td>Rating: {{seller.rating}}</td>
+                                                <br>
+                                                <td>Address: {{seller.address}}</td>
+                                                <br>
+                                                <td>Email: {{seller.email}}</td>
+                                                <br>
                                             </tr>
                                             </tbody>
                                         </div>
@@ -524,11 +531,11 @@
         <h3 class="pb-1">Description</h3>
         {{{product.description}}}
         <div class="d-flex mt-2">
-          <a class="btn btn-sm btn-outline-success"
-            href="/account/edit/{{product.id}}" role="button">
-               Update Description
-            <i class="fa fa-pencil" aria-hidden="true"></i>
-          </a>
+            <a class="btn btn-sm btn-outline-success"
+               href="/account/edit/{{product.id}}" role="button">
+                Update Description
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+            </a>
         </div>
 
     </div>
