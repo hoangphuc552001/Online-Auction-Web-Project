@@ -3,7 +3,19 @@
   width : 100px;
   height: 100px
 }
-
+.image{
+  position:relative;
+  overflow:hidden;
+  padding-bottom:100%;
+}
+.image img{
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
 .product-table {
   padding: 2rem 02em;
 }
@@ -11,7 +23,7 @@
 /* .nav-page ul li{
     display: inline-block;
     /* list-style-type: none; */
-} */
+
 /* .container-category.h4 {
   margin: 2rem 0rem 1rem;
 }

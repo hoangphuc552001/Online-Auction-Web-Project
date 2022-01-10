@@ -23,11 +23,11 @@
                     to additional content</p>
             {{else}}
                 {{#each this.highestprice}}
-                    <div class="col-sm-4 mb-3 des popular">
+                    <div class="col-sm-4 mb-3 col-12 des popular">
                         <div class="card h-100">
                             <a href="/detail/{{id}}">
-                                <img src="{{image}}" title="{{name}}" width="250px" height="250px">
-                                <div class="card-body">
+                                <img src="{{image}}" title="{{name}}"   width="250px" height="250px">
+                                <div class="card-body ">
                                     <h4 class="card-title">{{name}}&nbsp;
 
                                         {{#if minute}}
@@ -61,8 +61,8 @@
                                                                        aria-hidden="true"></i>
                                                                 </button>
                                                             {{else}}
-                                                                <button type="submit" name="id" value={{id}}
-                                                                        class="button"
+                                                                <button  type="submit" name="id" value={{id}}
+                                                                        class="button col-12"
                                                                         formaction="/product/byCat/watchlist">
                                                                     Watch List
                                                                     <i class="fa fa-bookmark-o" aria-hidden="true"></i>

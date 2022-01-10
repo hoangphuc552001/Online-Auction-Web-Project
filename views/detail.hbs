@@ -82,7 +82,7 @@
 
         </div>
 
-        <div class="col-7 col-md-5 col-sm-7 m-0 mt-2">
+        <div class="col-12 col-md-5 col-sm-7 m-0 mt-2">
             {{#with product}}
                 <h2 style="color:gray;" class="m-0 mb-2" id="name">{{name}} {{{new start}}} {{#unless
                         (equal status "bidding")}}
@@ -97,7 +97,7 @@
                                         end}}</b>
                                 </p>
                             </div>
-                            <div class="col-3">
+                            <div class="col-9">
                                 {{#if ../checkAllow}}
                                     <div id="testbutton"></div>
                                 {{else}}
@@ -361,7 +361,7 @@
             {{/with}}
         </div>
 
-        <div class="col-5 col-md-3 col-sm-5 m-0 border-left">
+        <div class=" col-md-3 col-sm-5 col-12 m-0 border-left">
             <h4 style="margin: 0;">Seller Information</h4>
             {{#if ../check}}
                 <p class="m-0">{{masked seller.name}}
@@ -477,7 +477,7 @@
         <hr class="m-0">
         <div class="row">
             {{#each related}}
-                <div class="col-4 col-sm-3 col-lg-2 product">
+                <div class="col-lg-2 col-sm-4 col-6 product">
                     <a href="/detail/{{id}}">
                         <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
                         <h5 class="text-center">{{name}} {{{new start}}} {{#unless (equal status "bidding")}}

@@ -35,7 +35,7 @@
                 </div>
             {{else}}
                 {{#each this.products}}
-                    <div class="col-sm-4 mb-3 dev popular">
+                    <div class="col-sm-4 mb-3 col-6 dev popular">
                         <div class="card h-100">
                             <a href="/detail/{{id}}">
                                 <img src="{{image}}" title="{{name}}" width="250px" height="250px">
@@ -45,7 +45,7 @@
                                             <a href="https://icons8.com/icon/1ndSPjeQAOgK/flat-3.new-post"></a>
                                         {{/if}}
                                     </h4>
-                                    <h5 class="card-title text-danger">Current Price: {{format_number current}}</h5>
+                                    <h5 class="card-title text-danger ">Current Price: {{format_number current}}</h5>
                                     <p class="card-text">Bidder: {{masked info}}</p>
                                     <p class="card-text">Date Post: {{timestamp_ start}}</p>
                                     <p class="card-text">Time Remaining: <span id="{{id}}"
