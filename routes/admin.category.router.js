@@ -27,7 +27,7 @@ router.get('/category-add',admin,async function (req, res) {
 });
 
 //submit new category to database
-router.post('/category-add',admin,async function (req, res) {
+    router.post('/category-add',admin,async function (req, res) {
     //if high level category
     if(req.body.txtcategoryParent !== '-1'){
         const entity = {

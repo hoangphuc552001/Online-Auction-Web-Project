@@ -72,10 +72,10 @@ export default {
     const list = db("product").where("id", id);
     return list;
   },
-  related(category) {
+  related(category,id) {
     return db("product")
       .limit(5)
-      .where("category", category)
+      .where("category", category).whereNot('id',id)
       .offset(0)
       .orderBy("start", "DESC");
   },

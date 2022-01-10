@@ -180,6 +180,7 @@
                                 </div>
                             </div>
                             {{#if (equal ../session.user.request  null)}}
+                                {{#unless (equal ../session.user.privilede  "seller")}}
                                 <li>
                                     <form method="POST">
                                         <button class="btn btn-outline-warning" type="submit"
@@ -188,6 +189,7 @@
                                         </button>
                                     </form>
                                 </li>
+                                {{/unless}}
                             {{/if}}
                         {{/if}}
                         {{#if (equal ../session.user.privilege "bidder")}}
