@@ -60,16 +60,6 @@ router.get("/profile", auth, async function (req, res) {
   var watchlist = await productmodel.watchlist(req.session.user.id);
   // var participate = await productmodel.participate(req.session.user.id);
   // var wonlist = await productmodel.wonlist(req.session.user.id);
-  if (req.session.user.priviledge === "admin") {
-    return res.render("./profile", {
-      user: req.session.user,
-      name: req.session.user.name,
-      email: req.session.user.email,
-      dob: req.session.user.dob,
-      priviledge: req.session.user.priviledge,
-      address: req.session.user.address,
-    });
-  }
   for (let i = 0; i < participate.length; i++) {
     var user1 = await productmodel.findSellerInfor(participate[i].product);
     participate[i].sellername = user1[0].name;
@@ -96,8 +86,8 @@ router.get("/profile", auth, async function (req, res) {
   var user_id=await usermodel.id(req.session.user.id)
   user_id=user_id[0]
   req.session.user=user_id
-  if (req.session.user.privilege === "bidder")
-    return res.render("./profile", {
+  if (req.session.user.privilege === "bidder"){
+  return res.render("./profile", {
       user: req.session.user,
       name: req.session.user.name,
       email: req.session.user.email,
@@ -112,6 +102,23 @@ router.get("/profile", auth, async function (req, res) {
       //   var ongoing = await productmodel.ongoing(req.session.user.id);
       //  var soldlist = await productmodel.soldlist(req.session.user.id);
     });
+  }
+  if (req.session.user.privilege === "admin") {
+    return res.render("./profile", {
+      user: req.session.user,
+      name: req.session.user.name,
+      email: req.session.user.email,
+      priviledge: req.session.user.priviledge,
+      address: req.session.user.address,
+      dob: req.session.user.birthday,
+      watchlist,
+      participate,
+      wonlist,
+      ratinghistorybidder,
+      ratinghistoryseller,
+    });
+  }
+
   var ongoing = await productmodel.ongoing(req.session.user.id);
   var checkRate1 = await productmodel.checkProductAlreadyRateSeller(
     req.session.user.id
@@ -133,7 +140,7 @@ router.get("/profile", auth, async function (req, res) {
     req.session.user.id,
     "bidder"
   );
-  if (req.session.user.privilege === "seller")
+  if (req.session.user.privilege === "seller") {
     return res.render("./profile", {
       user: req.session.user,
       name: req.session.user.name,
@@ -151,6 +158,7 @@ router.get("/profile", auth, async function (req, res) {
       //   var ongoing = await productmodel.ongoing(req.session.user.id);
       //  var soldlist = await productmodel.soldlist(req.session.user.id);
     });
+  }
   var ongoing = await productmodel.ongoing(req.session.user.id);
   var soldlist = await productmodel.soldlist(req.session.user.id);
 
@@ -233,8 +241,11 @@ router.post("/changepassword", auth, async function (req, res, next) {
         usermodel
           .singleByID(req.session.user.id)
           .then((user) => {
-            req.session.user = user;
-            res.locals.user = req.session.user;
+            // req.session.user = user;
+            // res.locals.user = req.session.user;
+            req.session.authenticated = false;
+            req.session.admin=false;
+            req.session.user = null;
             res.render("./changepassword", {
               success: true,
               newpassword: newpassword,
@@ -275,7 +286,14 @@ router.post("/editprofile", auth, async function (req, res) {
         .then((user) => {
           req.session.user = user;
           res.locals.user = req.session.user;
-          res.redirect("/account/profile");
+          // res.redirect("/account/profile");
+          res.render("editprofile",{
+            announcement:"Edit Successfully",
+            name: user.name,
+            address: user.address,
+            birthday: moment(user.birthday, "YYYY-MM-DD").format("DD/MM/YYYY"),
+            email:user.email
+          })
         })
         .catch((error) => next(error));
     })
@@ -472,7 +490,6 @@ router.post("/upload", auth, async function (req, res) {
   if (incre < 100000) {
     incre = 100000;
   }
-  console.log(incre);
   const Amount = (await productmodel.countCat()) + 1;
   const entity = {
     id: Amount,
@@ -677,8 +694,8 @@ router.post(
       time: new Date(),
     };
     await productmodel.insertRatingSeller(entity);
-    let likebidder = await productmodel.countLikeSeller(sellerid, 1);
-    let totalrating = await productmodel.countRateSeller(sellerid);
+    let likebidder = await productmodel.countLikeSeller(bidderid, 1);
+    let totalrating = await productmodel.countRateSeller(bidderid);
     likebidder = likebidder[0].count;
     totalrating = totalrating[0].count;
     const score = (likebidder / parseFloat(totalrating)) * 10;

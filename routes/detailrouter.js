@@ -84,6 +84,9 @@ router.get("/:id", async function (req, res) {
       }
     }
   }
+  var category=await productmodel.getCategoriesID(product.category)
+  category=category[0]
+  category=category.name
   req.session.save(function () {
     return res.render("./detail", {
       check: a,
@@ -92,6 +95,7 @@ router.get("/:id", async function (req, res) {
       seller: seller,
       related: related,
       image: image,
+      category,
       //path: path,
       //  prepath: prepath,
       //image: image,
