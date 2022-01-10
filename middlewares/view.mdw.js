@@ -42,7 +42,7 @@ export default function (app) {
         },
         new(start) {
           if (moment().diff(start, "days") < 1)
-            return "<i class='fa fa-rocket text-danger'></i>";
+            return "<img width=\"60px\" height=\"60px\" src=\"/public/icon/new-post.png\"/>";
         },
         equal(first, second) {
           return first === second;

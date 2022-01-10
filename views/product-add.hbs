@@ -47,7 +47,8 @@
                                     {{/if}}
                                     <form action="/account/upload" method="POST">
                                               <div class="form-group">
-                                                <label for="cate"  >Category</label>
+                                                <label for="cate" class="col-sm-3 control-label"  >Category</label>
+                                                <div class="col-sm-9">
                                                 <select class="form-control" type="text" id="cate" name="cate"
                                                     style="min-width: 200px; margin: 0px;width: 200px;">>
 
@@ -55,51 +56,56 @@
                                                                     <option style="width: 200px;" value={{id}}>{{name}}</option>
                                                                 {{/each}}
                                                 </select>
+                                                </div>
                                               </div>
-                                        <div class="form-group row">
-                                            <label for="Name" class="col-2 col-form-label">Product Name</label>
-                                            <div class="col-10">
+                                        <div class="form-group">
+                                            <label for="Name" class="col-sm-3 control-label">Product Name</label>
+                                            <div class="col-sm-9">
                                                 <input id="ProName" name="Name" class="form-control here" type="text"
                                                     required="required">
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label for="start" class="col-2 col-form-label">Start Price</label>
-                                            <div class="col-10">
+                                        <div class="form-group">
+                                            <label for="start" class="col-sm-3 control-label">Start Price</label>
+                                            <div class="col-sm-9">
                                                 <input id="StartPrice" name="start" required="required"
                                                     class="form-control here" type="text">
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label for="Reservation" class="col-2 col-form-label">Reservation price</label>
-                                            <div class="col-10">
+                                        <div class="form-group">
+                                            <label for="Reservation" class="col-sm-3 control-label">Reservation price</label>
+                                            <div class="col-sm-9">
                                                 <input id="Reservation" name="Reservation" class="form-control here"
                                                     type="text">
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label for="Incre" class="col-2 col-form-label">Increment <p>(If value <100.000 auto default 100.000)</p> </label>
-                                            <div class="col-10">
+                                        <div class="form-group">
+                                            <label for="Incre" class="col-sm-3 control-label">Increment <p>(If value <100.000 auto default 100.000)</p> </label>
+                                            <div class="col-sm-9">
                                                 <input id="Incre" name="Incre" class="form-control here" type="text"
                                                     required="required">
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                               <input type="checkbox" id="renew1" name="renew1" value="yes">
-                                               <label for="renew1"> Auto-renew</label><br>
-                                               <input type="checkbox" id="allowbid" name="allowbid" value="yes">
-                                               <label for="allowbid"> Allow bidder who have never bid to bid</label><br>
+                                        <div class="form-group">
+                                                <label class="btn btn-default blue">
+                                                    <input type="radio" class="toggle" name="renew1" id="renew1" value="yes"> Auto-renew
+                                                </label>
                                         </div>
 
-                                        <div class="form-group row">
-                                            <label for="Des" class="col-2 col-form-label">Description</label>
-                                            <div class="col-10">
+                                        <div class="form-group">
+                                                <label class="btn btn-default blue">
+                                                    <input type="radio" class="toggle" name="allowbid" id="allowbid" value="yes"> Allow bidder who have never bid to bid
+                                                </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Des" class="col-sm-3 control-label">Description</label>
+                                            <div class="col-sm-9">
                                                 <textarea id="Des" name="Des" class="form-control here" rows="3"
                                                     type="text"></textarea>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <div class="offset-4 col-10">
+                                        <div class="form-group">
+                                            <div class="offset-4 col-sm-9">
                                                 <button type="submit" class="btn btn-success">Continue</button>
                                             </div>
                                         </div>

@@ -23,19 +23,15 @@
                     to additional content</p>
             {{else}}
                 {{#each this.highestprice}}
-                    <div class="col-sm-5 col-md-5 col-lg-4 mb-3 des popular">
-                        <div class="card h-100">
+                    <div class="col-sm-4 mb-3 col-12 des popular">
+                        <div class="card">
                             <a href="/detail/{{id}}">
                                 <img src="{{image}}" title="{{name}}" class="rounded img-fluid m-1" width="250px" height="250px" alt="image">
-                                <div class="card-body">
-                                    <h4 class="card-title">{{name}}&nbsp;
-
-                                        {{#if minute}}
-                                            <img width="60px" height="60px" src="./public/icon/new-post.png"/>
-                                        {{/if}}
+                                <div class="card-body ">
+                                    <h4 class="card-title">{{name}}&nbsp;{{{new start}}}
                                     </h4>
-                                    <h5 class="card-title text-danger">Current Price: {{format_number current}}</h5>
-                                    <p class="card-text">Bidder: {{masked info}}</p>
+                                    <h5 class="card-title text-danger" >Current Price: {{format_number current}}</h5>
+                                    <p class="card-text" >Bidder: {{masked info}}</p>
                                     <p class="card-text">Date Post: {{timestamp_ start}}</p>
                                     <p class="card-text">Time Remaining: <span id="{{id}}"
                                                                                style="font-weight: bold;font-size: 20px">
@@ -61,8 +57,8 @@
                                                                        aria-hidden="true"></i>
                                                                 </button>
                                                             {{else}}
-                                                                <button type="submit" name="id" value={{id}}
-                                                                        class="button"
+                                                                <button  type="submit" name="id" value={{id}}
+                                                                        class="button col-12"
                                                                         formaction="/product/byCat/watchlist">
                                                                     Watch List
                                                                     <i class="fa fa-bookmark-o" aria-hidden="true"></i>
@@ -94,15 +90,12 @@
                     to additional content</p>
             {{else}}
                 {{#each this.mostbids}}
-                    <div class="col-sm-5 col-md-5 col-lg-4 mb-3 dev popular">
+                    <div class="col-sm-4 mb-3 col-12 dev popular">
                         <div class="card h-100">
                             <a href="/detail/{{id}}">
-                                <img src="{{image}}" title="{{name}}" class="rounded img-fluid m-1" width="250px" height="250px" alt="image">
+                                <img src="{{image}}" title="{{name}}"  class="rounded img-fluid m-1" width="250px" height="250px" alt="image">
                                 <div class="card-body">
-                                    <h4 class="card-title">{{name}}
-                                        {{#if minute}}
-                                            <a href="https://icons8.com/icon/1ndSPjeQAOgK/flat-3.new-post"></a>
-                                        {{/if}}
+                                    <h4 class="card-title">{{name}} {{{new start}}}
                                     </h4>
                                     <h5 class="card-title text-danger">Current Price: {{format_number current}}</h5>
                                     <p class="card-text">Bidder: {{masked info}}</p>
@@ -175,15 +168,12 @@
                     to additional content</p>
             {{else}}
                 {{#each this.instance}}
-                    <div class="col-sm-5 col-md-5 col-lg-4 mb-3 gra popular">
+                    <div class="col-sm-4 mb-3 col-12 gra popular">
                         <div class="card h-100">
                             <a href="/detail/{{id}}">
-                                <img src="{{image}}" title="{{name}}" class="rounded img-fluid m-1" width="250px" height="250px" alt="image">
+                                <img src="{{image}}" title="{{name}}"  class="rounded img-fluid m-1" width="250px" height="250px" alt="image">
                                 <div class="card-body">
-                                    <h4 class="card-title">{{name}}
-                                        {{#if minute}}
-                                            <a href="https://icons8.com/icon/1ndSPjeQAOgK/flat-3.new-post"></a>
-                                        {{/if}}
+                                    <h4 class="card-title">{{name}} {{{new start}}}
                                     </h4>
                                     <h5 class="card-title text-danger">Current Price: {{format_number current}}</h5>
                                     <p class="card-text">Bidder: {{masked info}}</p>

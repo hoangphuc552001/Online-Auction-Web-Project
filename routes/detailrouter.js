@@ -84,8 +84,10 @@ router.get("/:id", async function (req, res) {
       }
     }
   }
+  if ((new Date().getTime()-product.start.getTime()) < 60000*15){
+    product.minute=true
+  }
   var category=await productmodel.getCategoriesID(product.category)
-  console.log(category)
   category=category[0]
   category=category.name
   req.session.save(function () {
