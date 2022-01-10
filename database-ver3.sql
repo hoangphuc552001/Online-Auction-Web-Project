@@ -562,7 +562,10 @@ CREATE TABLE `product` (
 --
 -- Dumping data for table `product`
 --
-
+ALTER TABLE product
+    ADD FULLTEXT(name);
+ALTER TABLE product
+    ADD FULLTEXT(description);
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
 INSERT INTO `product` VALUES (1,'OPPO A15',null,'2021-12-1 20:47:00','2022-5-1 00:00:00',50000000, 5199000,100000,null,null,0,'<figure class="table"><table><tbody><tr><td>Screen:</td><td>6.52 inch, droplets screen; LCD; Corning Gorilla Glass 3; 720 x 1600 (HD+); 16 million colors</td></tr><tr><td>CPU:</td><td>Helio G35 8 core; max 2.3GHz; IMG GE8320</td></tr><tr><td>RAM:</td><td>3GB</td></tr><tr><td>Camera back:</td><td>13 MP; F/2.2; Light flash behind;</td></tr><tr><td>Camera front:</td><td>5 MP; F/2.4</td></tr><tr><td>Internal memory:</td><td>32GB</td></tr><tr><td>Memory stick:</td><td>Maximum memory card support 1TB</td></tr><tr><td>Multi sim support:</td><td>Dual nano-SIM + 1 memory card slot</td></tr><tr><td>Operating System:</td><td>ColorOS 11, Android Platform 11</td></tr><tr><td>Wifi:</td><td>2.4G/5G, 802.11 a/b/g/n/ac</td></tr><tr><td>Pin:</td><td>4230mAh (Typ)</td></tr></tbody></table></figure>',1,'/public/imgs/phone/1/1.jpg','bidding',0,0,NULL)
@@ -926,4 +929,4 @@ LOCK TABLES `category` WRITE;
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-09 22:01:00
+
