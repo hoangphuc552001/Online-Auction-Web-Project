@@ -130,7 +130,7 @@ export default {
     },
 
     async findRequest(){
-        return db('user').where('privilege','bidder').where('request','1');
+        return db('user').where('privilege','bidder').where('request','upgrade');
     },
     updateRating(id,entity){
         return db('user').update(entity).where("user.id",id)},
@@ -147,5 +147,12 @@ export default {
     },
     countNumberofBid_bidder(userid){
         return db('rating').count('id as countid').where({'bidder':userid,'sender':'seller'})
+    },
+    async AdminPassword(userID, password){
+        console.log(password);
+        console.log(userID);
+        return db('user').where('id',userID).update('password',password);
+    }, async AdminGetMail(id){
+        return db('user').where('id',id);
     }
 }
