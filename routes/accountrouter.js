@@ -617,7 +617,7 @@ router.post("/delete/:id", async function (req, res) {
   const addreject= await  productmodel.addRejectBid(list[0].product, list[0].user);
   //reject bidder by email
 
-  /*let product_name=await productmodel.detail(list[0].product)
+  let product_name=await productmodel.detail(list[0].product)
     product_name=product_name[0].name
     let user_email=await  usermodel.singleByID(list[0].user)
     let user_name=user_email.name
@@ -629,7 +629,7 @@ router.post("/delete/:id", async function (req, res) {
       text: `Hi ${user_name}\nYour product:${product_name} bid be rejected by seller
       \n\nThank you for joining us!\nHappy bidding!\nSent: ${moment()}`
     };
-    mailgun.messages().send(data);*/
+    mailgun.messages().send(data);
 
   if (list[1] != null) {
     const list_name = await usermodel.findName(list[1].user);
