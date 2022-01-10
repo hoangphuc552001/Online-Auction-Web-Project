@@ -484,12 +484,24 @@ router.post("/upload", auth, async function (req, res) {
   if (req.session.user) {
     if (req.session.user.privilege != "seller") return res.redirect("/404");
   } else return res.redirect("/404");
+  let renew1= req.body.renew1;
+  let allowbid =req.body.allowbid;
+  let checkrenew=0;
+  let checkallowbid=0;
+  if (renew1==="yes"){
+    checkrenew =1;
+  }
+  if (allowbid==="yes"){
+    checkallowbid =1;
+  }
+
   let list = await categorymodel.all();
   const ID_user = req.session.user.id;
   let incre = parseFloat(req.body.Incre);
   if (incre < 100000) {
     incre = 100000;
   }
+
   const Amount = (await productmodel.countCat()) + 1;
   const entity = {
     id: Amount,
@@ -506,6 +518,8 @@ router.post("/upload", auth, async function (req, res) {
     description: req.body.Des,
     category: req.body.cate,
     status: "bidding",
+    renew: checkrenew,
+    allow: checkallowbid
   };
   const temp2 = await usermodel.add_Product(entity);
   const catIdAdded = entity.id;

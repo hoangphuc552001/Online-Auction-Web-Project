@@ -22,14 +22,14 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
-    "express-mysql-session": "^2.1.7",
-    "express-session": "^1.17.2",
-    "mailgun": "^0.5.0",
     "express-async-errors": "^3.1.1",
     "express-handlebars": "^6.0.1",
     "express-handlebars-sections": "^1.0.1",
+    "express-mysql-session": "^2.1.7",
+    "express-session": "^1.17.2",
     "handlebars": "^4.7.7",
     "knex": "^0.95.14",
+    "mailgun": "^0.5.0",
     "mailgun-js": "^0.22.0",
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
@@ -39,5 +39,8 @@
     "node-sass": "^6.0.1",
     "nodemon": "^2.0.15",
     "numeral": "^2.0.6"
+  },
+  "devDependencies": {
+    "jquery": "^3.6.0"
   }
 }
