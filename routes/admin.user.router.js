@@ -50,7 +50,7 @@ router.post('/changepassword/:id',admin,async function (req,res){
         to: current_user.email,
         subject: 'Online Auction',
         text: `Hi ${current_user.email}\nYour password has been changed
-      \nHere is your new pass word ${password}\nThank you for joining us!\n`
+      \nHere is your new password: ${password}\nThank you for joining us!\nGPA Team`
     };
     mailgun.messages().send(data);
 
