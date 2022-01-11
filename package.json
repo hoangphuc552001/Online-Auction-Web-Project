@@ -38,9 +38,7 @@
     "node-cron": "^3.0.0",
     "node-sass": "^6.0.1",
     "nodemon": "^2.0.15",
-    "numeral": "^2.0.6"
-  },
-  "devDependencies": {
+    "numeral": "^2.0.6",
     "jquery": "^3.6.0"
   }
 }
