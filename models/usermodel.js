@@ -146,6 +146,12 @@ export default {
       .join("user", "user.id", "rating.bidder")
       .where({ "rating.seller": sellerid, "rating.sender": "bidder" });
   },
+  bidderratinglist(bidderid) {
+    return db("rating")
+        .join("user", "user.id", "rating.seller")
+        .where({ "rating.bidder": bidderid, "rating.sender": "seller" });
+  }
+  ,
   async AdminPassword(userID, password) {
     console.log(password);
     console.log(userID);

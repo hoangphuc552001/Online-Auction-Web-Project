@@ -69,7 +69,6 @@ router.get("/profile", auth, async function (req, res) {
     bidHolder=bidHolder[0];
     if (bidHolder.holder===+req.session.user.id) participate[i].holderBid=true
   }
-  console.log(participate)
   for (let i = 0; i < wonlist.length; i++) {
     var user2 = await productmodel.findSellerInfor(wonlist[i].id);
     wonlist[i].sellername = user2[0].name;

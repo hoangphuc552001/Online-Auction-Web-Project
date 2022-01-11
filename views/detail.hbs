@@ -123,23 +123,17 @@
                                             {{/if}}
                                         </p>
                                         {{#if (equal ../session.user.id ../seller.id)}}
-                                            <p class="m-1 d-inline-block"><i class="fa fa-check-circle-o"
-                                                                             style="color: #17a2b8"
-                                                                             aria-hidden="true"></i>
-                                                Bidder:{{#if ../holder.name}}{{{masked ../holder.name}}}<p
-                                                class="text-primary m-0 d-inline-block">{{../holder.rating}}(<i
-                                                class='fa fa-star text-warning'></i>)</p>
-                                            </p>
-                                        {{/if}}
+                                            <p class="m-1" data-toggle="modal" data-target="#bidder-modal"><i class="fa fa-check-circle-o" style="color: #17a2b8"
+                                                                                                              aria-hidden="true"></i> Bidder: {{{masked ../holder.name}}} (<a
+                                                    class="text-primary">{{../holder.rating}} <i class='fa fa-star text-warning'></i></a>)</p>
+
                                             <div class="modal fade" id="bidder-modal" role="dialog">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <form class="form-horizontal" id="announce-form">
                                                             <div class="modal-header">
-                                                                <h6 class="modal-title">GPA Online Auction: {{name}} -
-                                                                    Bidders</h6>
-                                                                <button type="button" class="close" data-dismiss="modal"
-                                                                        aria-label="Close">
+                                                                <h6 class="modal-title">GPA Online Auction: {{name}} - Bidders</h6>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
                                                             </div>
@@ -148,46 +142,34 @@
                                                                     <thead class="thead-dark">
                                                                     <tr>
                                                                         <th>User</th>
-                                                                        <th>Rating</th>
-                                                                        <th>Rator</th>
-                                                                        <th>Comment</th>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                    {{#each ../ratinglist}}
+                                                                    {{#each ../userBidProduct}}
+
                                                                         <tr>
-                                                                            <td>{{masked username}}</td>
-                                                                            <td>{{rating}}</td>
-                                                                            <td>{{masked ratorname}}</td>
-                                                                            <td>{{comment}}</td>
+                                                                            <td>
+                                                                                <a href="rating/bidder/{{id}}" target="_blank">
+                                                                                {{masked name}}
+                                                                                </a>
+                                                                            </td>
                                                                         </tr>
+
                                                                     {{/each}}
                                                                     </tbody>
                                                                 </table>
                                                             </div>
                                                             <div class="modal-footer py-0">
-                                                                <button data-dismiss="modal"
-                                                                        class="btn btn-danger btn-sm" id="confirm">
-                                                                    Confirm
-                                                                </button>
-                                                                <button data-dismiss="modal"
-                                                                        class="btn btn-default btn-sm border"
-                                                                        id="cancel">
-                                                                    Cancel
-                                                                </button>
+                                                                <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm</button>
+                                                                <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">Cancel</button>
                                                             </div>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
                                         {{else}}
-                                            <p class="m-1 d-inline-block"><i class="fa fa-check-circle-o"
-                                                                             style="color: #17a2b8"
-                                                                             aria-hidden="true"></i>
-                                                Bidder:{{#if ../holder.name}}{{{masked ../holder.name}}}<p
-                                                class="text-primary m-0 d-inline-block">{{../holder.rating}}(<i
-                                                class='fa fa-star text-warning'></i>)</p>
-                                        {{/if}}
+                                            <p class="m-1 d-inline-block">Bidder: {{{masked ../holder.name}}} (<p class="text-primary m-0 d-inline-block">{{../holder.rating}} <i
+                                                class='fa fa-star text-warning'></i></p>)</p>
                                         {{/if}}
                                         <p class="m-1"><i class="fa fa-check-circle-o" style="color: #17a2b8"
                                                           aria-hidden="true"></i> Bids: {{bids}} Times</p>
@@ -366,7 +348,6 @@
                 {{/if}}
             {{/with}}
         </div>
-
         <div class=" col-md-3 col-sm-5 col-12 m-0 border-left">
             <h4 style="margin: 0;">Seller Information</h4>
             {{#if check}}
@@ -375,52 +356,12 @@
                     class="text-primary m-0 d-inline-block">{{seller.rating}}(<i
                     class='fa fa-star text-warning'></i>)</p>
             {{else}}
-                <p class="m-0" data-toggle="modal" data-target="#seller-modal">{{masked seller.name}} <a
-                        class="text-primary">({{seller.rating}} <i class='fa fa-star text-warning'></i>)</a></p>
-                <div class="modal fade" id="seller-modal" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form class="form-horizontal" id="announce-form">
-                                <div class="modal-header">
-                                    <h6 class="modal-title">GPA Online Auction: {{masked seller.name}}</h6>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body py-0">
-                                    <table class="table border my-1">
-                                        <thead class="thead-dark">
-                                        <tr>
-                                            <th>User</th>
-                                            <th>Rating</th>
-                                            <th>Time</th>
-                                            <th>Comment</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {{#each ratinglist}}
-                                            <tr>
-                                                <td>{{masked name}}</td>
-                                                <td>{{rating}}</td>
-                                                <td>{{timestamp_ time}}</td>
-                                                <td>{{comment}}</td>
-                                            </tr>
-                                        {{/each}}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="modal-footer py-0">
-
-                                    <button data-dismiss="modal" class="btn btn-danger btn-sm" id="confirm">Confirm
-                                    </button>
-                                    <button data-dismiss="modal" class="btn btn-default btn-sm border" id="cancel">
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                <a href="/detail/rating/seller/{{seller.id}}" target="_blank">
+                    <p class="m-1 d-inline-block"><i class="fa fa-user" style="color:darkolivegreen" aria-hidden="true"></i>
+                    {{masked seller.name}}<p
+                        class="text-primary m-0 d-inline-block">{{seller.rating}}(<i
+                        class='fa fa-star text-warning'></i>)</p>
+                </a>
             {{/if}}
             <hr style="border: 0.1px solid slategray;border-style:dashed;">
             <a class="d-block text-primary small" data-toggle="modal" data-target="#inforSeller-modal">
