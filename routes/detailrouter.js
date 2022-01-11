@@ -90,6 +90,8 @@ router.get("/:id", async function (req, res) {
   var category=await productmodel.getCategoriesID(product.category)
   category=category[0]
   category=category.name
+  var userBidProduct=await productmodel.userBidProduct(req.params.id)
+
   req.session.save(function () {
     return res.render("./detail", {
       check: a,
@@ -103,17 +105,30 @@ router.get("/:id", async function (req, res) {
       //  prepath: prepath,
       //image: image,
       //announce: announce,
-      //ratinglist: ratinglist,
+      userBidProduct,
       history: history,
       checkRating,
       checkAllow,
       checkReject,
     });
-
-
   });
 });
-
+router.get("/rating/seller/:id", async function (req, res) {
+  var sellerid=req.params.id
+  var ratinglist = await usermodel.userratinglist(sellerid);
+  for (let i=0;i<ratinglist.length;i++) ratinglist[i].stt=i+1;
+res.render("./ratingTable",{
+    ratinglist: ratinglist
+  })
+})
+router.get("/rating/bidder/:id", async function (req, res) {
+  var sellerid=req.params.id
+  var ratinglist = await usermodel.bidderratinglist(sellerid);
+  for (let i=0;i<ratinglist.length;i++) ratinglist[i].stt=i+1;
+  res.render("./ratingTable",{
+    ratinglist: ratinglist
+  })
+})
 router.post("/:id", async function (req, res) {
   // await productmodel.UpdateProduct(req.params.id);
   var product = await productmodel.detail(req.params.id);

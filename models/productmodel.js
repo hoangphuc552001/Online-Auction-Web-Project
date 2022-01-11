@@ -410,4 +410,11 @@ LIMIT ${limit} OFFSET ${offset}`;
   getCategoriesID(id) {
     return db("category").select("name").where("id",id);
   },
+  bidderHolder(id){
+    return db("product").select("product.holder").where("product.id",id)
+  },
+  userBidProduct(productid){
+    return db("history").select("user.name","user.id").where("product",productid)
+        .join("user","history.user","user.id")
+  }
 };

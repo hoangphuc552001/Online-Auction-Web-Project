@@ -60,10 +60,14 @@ router.get("/profile", auth, async function (req, res) {
   var watchlist = await productmodel.watchlist(req.session.user.id);
   // var participate = await productmodel.participate(req.session.user.id);
   // var wonlist = await productmodel.wonlist(req.session.user.id);
+  var bidHolder;
   for (let i = 0; i < participate.length; i++) {
     var user1 = await productmodel.findSellerInfor(participate[i].product);
     participate[i].sellername = user1[0].name;
     participate[i].selleremail = user1[0].email;
+    bidHolder=await productmodel.bidderHolder(participate[i].product);
+    bidHolder=bidHolder[0];
+    if (bidHolder.holder===+req.session.user.id) participate[i].holderBid=true
   }
   for (let i = 0; i < wonlist.length; i++) {
     var user2 = await productmodel.findSellerInfor(wonlist[i].id);
