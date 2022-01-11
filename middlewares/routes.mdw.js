@@ -22,6 +22,9 @@ export default function (app) {
         highestprice[i].authenticated=req.session.authenticated;
         mostbids[i].authenticated=req.session.authenticated;
         instance[i].authenticated=req.session.authenticated;
+        if (highestprice[i].holder===+req.session.user.id) highestprice[i].holderBid=true
+        if (mostbids[i].holder===+req.session.user.id) mostbids[i].holderBid=true
+        if (instance[i].holder===+req.session.user.id) instance[i].holderBid=true
         for (let j=0;j<listProductUser.length;j++){
           if (listProductUser[j].product===highestprice[i].id){
             highestprice[i].checkwl=true;

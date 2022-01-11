@@ -40,7 +40,9 @@
                             <a href="/detail/{{id}}">
                                 <img src="{{image}}" title="{{name}}" class="rounded img-fluid m-1" width="250px" height="250px" alt="image">
                                 <div class="card-body">
-                                    <h4 class="card-title">{{name}} {{{new start}}}
+                                    <h4 class="card-title">{{name}} {{{new start}}} {{#if holderBid}}
+                                        <img width="40px" height="40px" src="/public/icon/auction.png">
+                                    {{/if}}
                                     </h4>
                                     <h5 class="card-title text-danger ">Current Price: {{format_number current}}</h5>
                                     <p class="card-text">Bidder: {{masked info}}</p>

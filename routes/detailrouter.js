@@ -91,7 +91,10 @@ router.get("/:id", async function (req, res) {
   category=category[0]
   category=category.name
   var userBidProduct=await productmodel.userBidProduct(req.params.id)
-
+  if (product.holder===+req.session.user.id) product.holderBid=true
+  for (let i=0;i<related.length;i++){
+    if (related[i].holder===+req.session.user.id) related[i].holderBid=true
+  }
   req.session.save(function () {
     return res.render("./detail", {
       check: a,

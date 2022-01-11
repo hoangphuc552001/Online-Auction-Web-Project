@@ -89,7 +89,9 @@
 
         <div class="col-12 col-md-5 col-sm-7 m-0 mt-2">
             {{#with product}}
-                <h2 style="color:gray;" class="m-0 mb-2" id="name">{{name}} {{{new start}}} {{#unless
+                <h2 style="color:gray;" class="m-0 mb-2" id="name">{{name}} {{{new start}}}  {{#if holderBid}}
+                    <img width="40px" height="40px" src="../public/icon/auction.png">
+                {{/if}} {{#unless
                         (equal status "bidding")}}
                     <b>({{status}})</b>
                 {{/unless}}</h2>
@@ -124,8 +126,10 @@
                                         </p>
                                         {{#if (equal ../session.user.id ../seller.id)}}
                                             <p class="m-1" data-toggle="modal" data-target="#bidder-modal"><i class="fa fa-check-circle-o" style="color: #17a2b8"
-                                                                                                              aria-hidden="true"></i> Bidder: {{{masked ../holder.name}}} (<a
-                                                    class="text-primary">{{../holder.rating}} <i class='fa fa-star text-warning'></i></a>)</p>
+                                                                                                              aria-hidden="true"></i> Bidder:
+                                            {{#if holder}}
+                                                {{{masked ../holder.name}}} (<a
+                                                    class="text-primary">{{../holder.rating}} <i class='fa fa-star text-warning'></i></a>){{/if}}</p>
 
                                             <div class="modal fade" id="bidder-modal" role="dialog">
                                                 <div class="modal-dialog">
@@ -168,8 +172,13 @@
                                                 </div>
                                             </div>
                                         {{else}}
-                                            <p class="m-1 d-inline-block">Bidder: {{{masked ../holder.name}}} (<p class="text-primary m-0 d-inline-block">{{../holder.rating}} <i
-                                                class='fa fa-star text-warning'></i></p>)</p>
+                                            <p class="m-1 d-inline-block"><i class="fa fa-check-circle-o" style="color: #17a2b8"
+                                                                             aria-hidden="true"></i> Bidder:
+                                                {{#if holder}}
+                                                    {{{masked ../holder.name}}} (<a
+                                                        class="text-primary">{{../holder.rating}} <i class='fa fa-star text-warning'></i></a>){{/if}}</p>
+
+
                                         {{/if}}
                                         <p class="m-1"><i class="fa fa-check-circle-o" style="color: #17a2b8"
                                                           aria-hidden="true"></i> Bids: {{bids}} Times</p>
@@ -489,7 +498,9 @@
                 <div class="col-lg-2 col-sm-4 col-6 product">
                     <a href="/detail/{{id}}">
                         <img src="{{image}}" class="rounded img-fluid m-1" alt="image">
-                        <h5 class="text-center">{{name}} {{{new start}}} {{#unless (equal status "bidding")}}
+                        <h5 class="text-center">{{name}} {{{new start}}} {{#if holderBid}}
+                            <img width="40px" height="40px" src="../public/icon/auction.png">
+                        {{/if}} {{#unless (equal status "bidding")}}
                             <b>({{status}})</b>
                         {{/unless}} </h5>
                         {{#if info}}
@@ -526,12 +537,20 @@
             input = input.replaceAll(',', '.')
             input = input.replaceAll('.', '')
             input = parseFloat(input)
+
+            var checkHolderBid={{#if product.holderBid}}{{product.holderBid}}{{else}}false{{/if}}
+            var holderBid={{#if product.holder}}{{product.holder}}{{else}}false{{/if}}
             if (event.type === 'hide') {
                 if ($activeElement[0].id === "confirm") {
-                    if (input < minimum) {
+                    if (checkHolderBid==true && holderBid!==false){
+                        $('#error').html("You are holding product");
+                        $('#error-modal').modal('show');
+                    }
+                    else if (input < minimum) {
                         $('#error').html("Invalid offer!\nOffer: " + numeral(input).format("0,0") + " đ");
                         $('#error-modal').modal('show');
-                    } else if (input >= 0) {
+                    }
+                    else if (input >= 0) {
                         document.getElementById('detail').submit();
                     }
                 }
