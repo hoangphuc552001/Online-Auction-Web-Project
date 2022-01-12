@@ -3,7 +3,6 @@ import knex from "./db";
 let mysql = require('mysql');
 let config = {
     host: 'us-cdbr-east-05.cleardb.net',
-    port: 3306,
     user: 'be44caddfce4b6',
     password: '00bbb032',
     database: 'heroku_7067838459c52ba'
