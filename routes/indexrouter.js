@@ -7,7 +7,7 @@ import mailgu from "mailgun-js/lib/mailgun.js" ;
 import crypt from "../utils/crypt.js";
 import admin from "../middlewares/admin.mdw.js";
 import moment from "moment";
-
+import logined from "../middlewares/loginCorrect.js"
 
 import {render} from "node-sass";
 
@@ -28,7 +28,7 @@ router.get('/', async function (req, res) {
     // var end = await productmodel.end();
     // var price = await productmodel.price();
     // var bids = await productmodel.bids();
-
+    req.session.logined =false;
     req.session.save(function () {
         return res.render('./', {
             end: end,
@@ -78,6 +78,7 @@ router.post('/login', async function (req, res) {
             announce: 'Invalid username or password.'
         });
     req.session.authenticated=false;
+    req.session.logined=true;
     delete user.password;
     req.session.user = user;
     const otp = Math.floor(100000 + Math.random() * 900000);
@@ -108,6 +109,7 @@ router.get('/logout', async function (req, res) {
     req.session.authenticated = false;
     req.session.admin=false;
     req.session.user = null;
+    req.session.logined = false;
   // if (req.headers.referer){
   //    //if(typeof (req.headers.referer)==='undefined')
   //    //     req.headers.referer='/';
@@ -240,13 +242,17 @@ router.get('/404', async function (req, res) {
     res.render('./404');
 });
 
-router.get('/otp', async function (req, res) {
+router.get('/otp', logined ,async function (req, res) {
  //   if(typeof (req.headers.referer.indexOf("/login"))==="undefined"||typeof (req.headers.referer.indexOf("/registers"))==="undefined"){
  //       req.session.previous = req.headers.referer;
  //       res.redirect('/login')
  //   }
-    if (req.headers.referer.indexOf("/login") === -1 && req.headers.referer.indexOf("/registers") === -1 && req.headers.referer.indexOf('/otp') === -1)
-        req.session.previous = req.headers.referer;
+ //    if(typeof(req.headers.referer)==="undefined"){
+ //       // req.session.previous = req.headers.referer;
+ //        res.redirect('/login');
+ //    }
+    // if (req.headers.referer.indexOf("/login") === -1 && req.headers.referer.indexOf("/registers") === -1 && req.headers.referer.indexOf('/otp') === -1)
+    //     req.session.previous = req.headers.referer;
     res.render('./otp');
 });
 
