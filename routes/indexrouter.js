@@ -8,7 +8,7 @@ import crypt from "../utils/crypt.js";
 import admin from "../middlewares/admin.mdw.js";
 import moment from "moment";
 import logined from "../middlewares/loginCorrect.js"
-
+import auth from"../middlewares/auth.mdw.js"
 import {render} from "node-sass";
 
 
@@ -274,6 +274,7 @@ router.post('/otp',async function (req, res) {
         if (otp === target.otp) {
    //        if (req.session.previous.localeCompare("/reset") != 0) {
                 req.session.authenticated = true;
+                req.session.logined = false;
     //       }
 
             //req.session.authenticated = true;
