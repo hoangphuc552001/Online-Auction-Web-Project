@@ -83,6 +83,10 @@ router.get("/:id", async function (req, res) {
         product.checkwl = true;
       }
     }
+    if (product.holder===+req.session.user.id) product.holderBid=true
+    for (let i=0;i<related.length;i++){
+      if (related[i].holder===+req.session.user.id) related[i].holderBid=true
+    }
   }
   if ((new Date().getTime()-product.start.getTime()) < 60000*15){
     product.minute=true

@@ -47,6 +47,7 @@ app.get("/byCat/:id", async function (req, res) {
                     list[i].checkwl=true;
                 }
             }
+            if (list[i].holder===+req.session.user.id) list[i].holderBid=true
         }
     }
     res.render("productType/product", {
