@@ -5,4 +5,4 @@
 2. 19127098-Phạm Ngọc Anh
 3. 19127059-Lê Hoàng Phúc
 
-### [Deploy Link](online-auction-db.herokuapp.com)
+### Deploy Link: https://online-auction-db.herokuapp.com
